@@ -1,18 +1,61 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript/recommended',
+    "plugin:vue/essential",
+    "@vue/airbnb",
+    "@vue/typescript/recommended"
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2020
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-  },
+    indent: [
+      "error",
+      2,
+      {
+        SwitchCase: 1
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    quotes: [
+      "error",
+      "double"
+    ],
+    semi: [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-cond-assign": [
+      "error",
+      "always"
+    ],
+    "no-console": "off",
+    "global-require": "off",
+    "import/no-unresolved": "off",
+    "import/no-absolute-path": "off",
+    "no-underscore-dangle": "off",
+    "object-shorthand": "off",
+    "prefer-destructuring": "off",
+    radix: [
+      "error",
+      "as-needed"
+    ],
+    "no-plusplus": "off",
+    "max-len": "off",
+    "func-names": "off",
+    "vue/html-self-closing": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "vue-a11y/click-events-have-key-events": "off"
+  }
 };
