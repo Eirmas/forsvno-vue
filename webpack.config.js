@@ -2,11 +2,12 @@
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: {
     socialLinksVue: "./src/sociallinks.es6",
     informationBoxVue: "./src/informationbox.es6",
-    stepperVue: "./src/stepper.es6"
+    stepperVue: "./src/stepper.es6",
+    diagramVue: "./src/diagram.es6"
   },
   plugins: [
     new VueLoaderPlugin()

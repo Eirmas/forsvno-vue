@@ -26,7 +26,7 @@ Highcharts.setOptions({
   }
 });
 export default {
-  name: "ColumnChart",
+  name: "AreaChart",
   components: {
     Legend,
     highcharts: Chart
@@ -49,7 +49,7 @@ export default {
           enabled: false
         },
         chart: {
-          type: "column",
+          type: "area",
           style: {
             fontFamily: "Cera Pro, Arial, Helvetica, Verdana, sans-serif",
             fontSize: "14px"
@@ -65,15 +65,25 @@ export default {
           text: ""
         },
         plotOptions: {
-          column: {
-            borderWidth: 0,
+          area: {
             stacking: "normal",
-            pointPadding: 0.1,
-            depth: 45,
-            accessibility: {
-              enabled: true,
-              keyboardNavigation: {
-                enabled: true
+            dataLabels: {
+              enabled: false,
+              y: -5,
+              x: 0,
+              style: {
+                fontSize: "14px"
+              }
+            },
+            cursor: "pointer",
+            marker: {
+              radius: "4",
+              states: {
+                hover: {
+                  radius: "4",
+                  lineWidth: "0",
+                  lineWidthPlus: "0"
+                }
               }
             }
           }
@@ -120,7 +130,6 @@ export default {
         },
         tooltip: {
           formatter: function () {
-            const total = this.points[0].total;
             let ret;
             ret = "<div class='diagram__tooltip'>";
             ret += `  <div class="diagram__tooltip-title">${this.x}</div>`;
@@ -128,14 +137,8 @@ export default {
               ret += "  <div class=\"text-align-center diagram__tooltip-border\">";
               ret += `      <div class="diagram__tooltip-category">${this.points[i].series.name}</div>`;
               ret += `      <div class="diagram__tooltip-value">${Highcharts.numberFormat(this.points[i].y, 0, 0, " ")}</div>`;
-              ret += `      <div class="diagram__tooltip-suffix">${Highcharts.numberFormat((this.points[i].y / total) * 100, 0)}%</div>`;
               ret += "  </div>";
             }
-            ret += "  <div class=\"diagram__tooltip-box\">";
-            ret += "      <div>";
-            ret += `        <span class="diagram__tooltip-total diagram__tooltip-border">Total: ${Highcharts.numberFormat(total, 0, "0", " ")}</span>`;
-            ret += "      </div>";
-            ret += "  </div>";
             ret += "<div>";
             return ret;
           },

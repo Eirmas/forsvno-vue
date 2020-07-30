@@ -1,9 +1,9 @@
 <template>
-  <div :class="[backgroundColor, 'info-box__inner-wrapper']">
+  <div :class="['info-box__wrapper-inner', backgroundColor]">
     <div class="container">
-      <h3 class="info-box__title h3">{{ title }}</h3>
+      <h2 class="info-box__title">{{ title }}</h2>
       <div :class="['row', isImageLeft ? '' : 'info-box__reverse']">
-        <div class="col-lg-6">
+        <div class="info-box__image col-lg-6">
           <v-img :src="image"/>
         </div>
         <div class="col-lg-6" v-html="text"/>
@@ -44,13 +44,25 @@ export default {
 <style lang="scss">
 .info-box__title {
   text-align: center;
-  padding-bottom: 1em;
-  font-weight: 600;
-}
-.info-box__inner-wrapper {
-  padding: 2em 0;
+  padding-bottom: 2.75rem;
+  font-size: 2.625rem;
+  font-weight: 500;
 }
 .info-box__reverse {
   flex-direction: row-reverse;
+}
+.info-box__wrapper-inner {
+  padding: 3rem 0;
+}
+.info-box__image {
+  align-self: center;
+}
+.info-box__wrapper {
+  padding: 5rem 0;
+}
+@media (max-width: 991px) {
+  .info-box__wrapper {
+    padding: 2rem 0;
+  }
 }
 </style>

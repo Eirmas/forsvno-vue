@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     scroll: function (e) {
-      const treshold = 60;
+      const treshold = 80;
       if (e.deltaX < treshold * -1) {
         this.prevStep();
       } else if (e.deltaX > treshold) {
@@ -290,5 +290,13 @@ export default {
   -webkit-transition: width 0.5s ease-in-out;
   -o-transition: width 0.5s ease-in-out;
   -moz-transition: width 0.5s ease-in-out;
+}
+.stepper__wrapper {
+  padding: 5rem 0;
+}
+@media (max-width: 991px) {
+  .stepper__wrapper {
+    padding: 3rem 0;
+  }
 }
 </style>

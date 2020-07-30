@@ -1,26 +1,41 @@
 <template>
-  <highcharts :options="options"></highcharts>
+  <div
+    class="container"
+  >
+    <highcharts
+      :options="options"
+    />
+    <Legend
+      :data="data.series.map((v) => v.name)"
+      :colors="colors"
+    />
+  </div>
 </template>
 
 <script>
 import { Chart } from "highcharts-vue";
 import Highcharts from "highcharts";
+import accessibility from "highcharts/modules/accessibility";
+import Legend from "./Legend.vue";
 
+accessibility(Highcharts);
+Highcharts.setOptions({
+  lang: {
+    numericSymbols: [" tusen", "mill", "mrd", "tri", "P", "E"]
+  }
+});
 export default {
-  name: "Diagram",
+  name: "PieChart",
   components: {
+    Legend,
     highcharts: Chart
   },
   props: {
-    title: {
-      type: String,
-      default: ""
-    },
-    subTitle: {
-      type: String,
-      default: ""
-    },
     data: {
+      type: [Object, Boolean],
+      default: false
+    },
+    colors: {
       type: [Array, Boolean],
       default: false
     }
@@ -28,7 +43,7 @@ export default {
   computed: {
     options: function () {
       return {
-        colors: ["#0D5257", "#FF671F", "#6F91A6", "#C6B78E", "#3D7478", "#99CED3", "#4D6574", "#4D6D9A", "#F8874F", "#F9D46A"],
+        colors: this.colors,
         credits: {
           enabled: false
         },
@@ -37,59 +52,64 @@ export default {
           style: {
             fontFamily: "Cera Pro, Arial, Helvetica, Verdana, sans-serif",
             fontSize: "14px"
+          },
+          height: "500",
+          events: {
+            load: function () {
+              setTimeout(() => this.reflow(), 100);
+            }
           }
         },
         title: {
-          text: this.title,
-          margin: 20,
-          style: {
-            fontSize: "30px",
-            fontWeight: "regular"
-          }
-        },
-        subtitle: {
-          text: this.subTitle,
-          marginBottom: 50
+          text: ""
         },
         plotOptions: {
           pie: {
+            animation: {
+              duration: 800
+            },
             dataLabels: {
               style: {
                 fontSize: "14px",
                 fontWeight: "regular"
+              },
+              enabled: false
+            },
+            accessibility: {
+              enabled: true,
+              keyboardNavigation: {
+                enabled: true
               }
             }
           }
         },
         series: [
           {
-            data: this.data
+            data: this.data.series
           }
         ],
         tooltip: {
           formatter: function () {
             let ret;
-            ret = `<div style="font-size: 21px; margin: 0.5em 0; text-align: center;">${this.key}</div>`;
-            ret += "<div style=\"display: block; margin: 1em; border-top: 1px solid #e5e5e5;\">";
-            ret += "    <div style=\"color: #333; display: block; text-align: center; font-size: 16px; line-height: 1; font-weight: regular; margin: 1em 0.5em 0.5em;\">";
-            ret += `      <span style="opacity: 0.5;">Total: </span>${Highcharts.numberFormat(this.total, 0, "0", " ")}`;
-            ret += "    </div>";
-            ret += "</div>";
-            ret += "<div style=\"display: block; margin: 1em; border-top: 1px solid #e5e5e5;\">";
-            ret += `    <div style="color:${this.point.color}; display: block; text-align: center; font-size: 16px; line-height: 1; font-weight: regular; margin: 1em 0.5em 0.5em;">${this.key}</div>`;
-            ret += `    <div style="color:${this.point.color}; display: block; text-align: center; font-size: 26px; font-weight: regular; margin: 0.25em;">${Highcharts.numberFormat(this.y, 0, 0, " ")}</div>`;
-            ret += `    <div style="display: block; text-align: center; font-size: 16px; font-weight: regular; margin: 0.25em 0 0.5em; opacity: 0.6; ">${Highcharts.numberFormat(this.percentage, 0)}%</div>`;
+            ret = "<div class='diagram__tooltip'>";
+            ret += `  <div class="diagram__tooltip-title">${this.key}</div>`;
+            ret += "  <div class=\"text-align-center\">";
+            ret += `      <div class="diagram__tooltip-value">${Highcharts.numberFormat(this.y, 0, 0, " ")}</div>`;
+            ret += `      <div class="diagram__tooltip-suffix">${Highcharts.numberFormat(this.percentage, 0)}%</div>`;
+            ret += "  </div>";
+            ret += "  <div class=\"diagram__tooltip-box\">";
+            ret += "      <div>";
+            ret += `        <span class="diagram__tooltip-total diagram__tooltip-border">Total: ${Highcharts.numberFormat(this.total, 0, "0", " ")}</span>`;
+            ret += "      </div>";
+            ret += "  </div>";
             ret += "</div>";
             return ret;
           },
-          footerFormat: "",
-          shared: true,
           useHTML: true,
-          borderColor: "#e1dbcf",
+          backgroundColor: "#F5F7F8",
           shadow: false,
-          backgroundColor: "#fff",
-          followPointer: true,
-          valueSuffix: ""
+          borderColor: "#F5F7F8",
+          followPointer: true
         }
       };
     }
@@ -97,6 +117,5 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style>
 </style>
