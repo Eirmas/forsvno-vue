@@ -1,5 +1,5 @@
 import Vue from "vue";
-import page from "@/components/InformationBox.vue";
+import page from "@/components/quiz/Quiz.vue";
 import "./assets/style/main.css";
 import "@babel/polyfill";
 
@@ -8,11 +8,241 @@ Vue.config.productionTip = false;
 new Vue({
   render: (h) => h(page, {
     props: {
-      title: "Tittel",
-      text: "<p>Hello</p>",
-      isImageLeft: false,
-      image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
-      backgroundColor: "blue-light"
+      title: "Title",
+      subTitle: "Subtitle",
+      startText: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+      endText: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+      questions: [
+        {
+          isImageLeft: false,
+          text: "I hvilken kategori vil militære styrker spille en stor rolle?",
+          desc: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+          media: {
+            selected: "image",
+            image: {
+              src: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png"
+            },
+            video: {
+              src: ""
+            }
+          },
+          options: [
+            {
+              text: "Økonomisk sikkerhet",
+              isCorrect: true
+            },
+            {
+              text: "Sikkerhet for mat",
+              isCorrect: false
+            },
+            {
+              text: "Sikkerhet for helse",
+              isCorrect: false
+            },
+            {
+              text: "Omgivelsessikkerhet",
+              isCorrect: true
+            },
+            {
+              text: "Samfunnssikerhet",
+              isCorrect: true
+            },
+            {
+              text: "Politisk sikkerhet",
+              isCorrect: true
+            },
+            {
+              text: "Personlig og fysisk sikkerhet",
+              isCorrect: false
+            },
+            {
+              text: "Lokal sikkerhet",
+              isCorrect: false
+            }
+          ]
+        },
+        {
+          isImageLeft: true,
+          text: "I hvilken kategori vil militære styrker spille en stor rolle?",
+          desc: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+          media: {
+            selected: "image",
+            image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
+            video: ""
+          },
+          options: [
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            }
+          ]
+        },
+        {
+          isImageLeft: true,
+          text: "I hvilken kategori vil militære styrker spille en stor rolle?",
+          desc: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+          media: {
+            selected: "image",
+            image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
+            video: ""
+          },
+          options: [
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            }
+          ]
+        },
+        {
+          isImageLeft: true,
+          text: "I hvilken kategori vil militære styrker spille en stor rolle?",
+          desc: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+          media: {
+            selected: "image",
+            image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
+            video: ""
+          },
+          options: [
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            }
+          ]
+        },
+        {
+          isImageLeft: true,
+          text: "I hvilken kategori vil militære styrker spille en stor rolle?",
+          desc: "<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>",
+          media: {
+            selected: "image",
+            image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
+            video: ""
+          },
+          options: [
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: true
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            },
+            {
+              text: "Lorem ipsum",
+              isCorrect: false
+            }
+          ]
+        }
+      ]
+      // title: "Tittel",
+      // text: "<p>Hello</p>",
+      // isImageLeft: false,
+      // image: "https://mk0smarthusetmpuks6w.kinstacdn.com/wp-content/uploads/2020/05/placeholder-1.png",
+      // backgroundColor: "blue-light"
       // title: "Personell 2015 - 2019",
       // subTitle: "Sjøforsvaret",
       // areaData: {

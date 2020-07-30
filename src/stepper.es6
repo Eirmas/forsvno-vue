@@ -1,4 +1,4 @@
-import Stepper from "./components/Stepper.vue";
+import Stepper from "./components/stepper/Stepper.vue";
 
 import setupVue from "./setup.es6";
 

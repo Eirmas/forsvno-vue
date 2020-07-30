@@ -4,8 +4,7 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 module.exports = {
   mode: "production",
   entry: {
-    socialLinksVue: "./src/sociallinks.es6",
-    informationBoxVue: "./src/informationbox.es6",
+    quizVue: "./src/quiz.es6",
     stepperVue: "./src/stepper.es6",
     diagramVue: "./src/diagram.es6"
   },
@@ -21,10 +20,12 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        use: [
+          "vue-loader"
+        ]
       },
       {
-        test: /(\.css$|\.scss$)/,
+        test: /(\.css$|\.sass$)/,
         use: [
           "vue-style-loader",
           "css-loader",

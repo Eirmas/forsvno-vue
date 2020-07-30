@@ -1,4 +1,4 @@
-import Diagram from "./components/Diagram.vue";
+import Diagram from "./components/diagram/Diagram.vue";
 
 import setupVue from "./setup.es6";
 
