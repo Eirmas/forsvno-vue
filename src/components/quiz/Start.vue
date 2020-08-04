@@ -1,21 +1,26 @@
 <template>
-  <div>
+  <div style="text-align: center">
     <h1
-      class="quiz__feedback"
+      class="quiz__start-title quiz__feedback"
     >
       {{ title }}
     </h1>
+    <img
+      v-if="image"
+      :src="image"
+      class="quiz__image"
+    />
     <h2
-      class="quiz__text"
+      class="quiz__start-sub-title quiz__text"
     >
       {{ subTitle }}
     </h2>
     <div
-      class="quiz__text-area"
+      class="quiz__start-text quiz__text-area"
       v-html="startText"
     />
     <div
-      class="quiz__button-wrapper"
+      class="quiz__start-btn quiz__button-wrapper"
     >
       <button
         class="quiz__button"
@@ -24,7 +29,7 @@
         <span
           class="underline-draw"
         >
-          Sett i gang
+          Start quiz
         </span>
       </button>
     </div>
@@ -52,6 +57,10 @@ export default {
     startText: {
       type: String,
       default: ""
+    },
+    image: {
+      type: [String, Boolean],
+      default: false
     }
   },
   methods: {
@@ -61,3 +70,26 @@ export default {
   }
 };
 </script>
+<style>
+.quiz__start-title, .quiz__start-text {
+  text-align: left !important;
+  padding-bottom: 1rem;
+}
+.quiz__image {
+  max-width: 680px;
+  margin: 1rem auto;
+  text-align: left !important;
+}
+.quiz__start-btn {
+  max-width: 680px;
+  text-align: left !important;
+  margin: 0 auto;
+}
+.quiz__start-btn .quiz__button {
+  margin: 0;
+}
+.quiz__start-sub-title {
+  padding: 1.25rem 0 !important;
+  text-align: left !important;
+}
+</style>

@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     quizVue: "./src/quiz.es6",
     stepperVue: "./src/stepper.es6",
-    diagramVue: "./src/diagram.es6"
+    diagramVue: "./src/diagram.es6",
+    storyVue: "./src/story.es6"
   },
   plugins: [
     new VueLoaderPlugin()

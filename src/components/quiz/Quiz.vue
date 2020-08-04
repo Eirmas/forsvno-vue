@@ -23,6 +23,7 @@
               :subTitle="subTitle"
               :startText="startText"
               :id="id"
+              :image="image"
             />
           </v-stepper-content>
           <v-stepper-content
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import { uuid } from "uuidv4";
+import { v1 } from "uuid";
 import vuetify from "../../plugins/vuetify-quiz.es6";
 import Question from "./Question.vue";
 import EventBus from "../../event-bus.es6";
@@ -71,7 +72,7 @@ export default {
   },
   data: () => ({
     points: 0,
-    id: uuid(),
+    id: v1(),
     currentQuestionIndex: 0
   }),
   props: {
@@ -94,6 +95,10 @@ export default {
     startText: {
       type: String,
       default: ""
+    },
+    image: {
+      type: [String, Boolean],
+      default: false
     }
   },
   created() {
