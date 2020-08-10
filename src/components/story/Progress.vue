@@ -42,22 +42,23 @@ export default {
 };
 </script>
 
-<style>
-.story__progress {
-  margin: 6px 0 0 6px;
-  width: calc(100% - 16px);
-  height: 2px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 5px;
-}
-.story__progress-bar {
-  background: rgba(255, 255, 255, 1);
-  transition: width 125ms linear;
-  width: 100%;
-  height: 100%;
-}
-.story__progress-wrapper {
-  display: flex;
-  padding: 0 8px 0 2px;
-}
-</style>
+<!--<style>-->
+<!--.story__progress {-->
+<!--  margin: 6px 3px 0 3px;-->
+<!--  width: 100%;-->
+<!--  height: 2px;-->
+<!--  background: rgba(255, 255, 255, 0.5);-->
+<!--  border-radius: 5px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.story__progress-bar {-->
+<!--  background: rgba(255, 255, 255, 1);-->
+<!--  transition: width 125ms linear;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--}-->
+<!--.story__progress-wrapper {-->
+<!--  display: flex;-->
+<!--  padding: 0 calc(.5rem - 3px);-->
+<!--}-->
+<!--</style>-->

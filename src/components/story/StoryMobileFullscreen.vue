@@ -25,7 +25,6 @@
             <FullscreenStory
               :key="storiesIndex - 1"
               :story="stories[storiesIndex - 1]"
-              :on-story-complete="storyNext"
               :index="storiesIndex - 1"
               :id="id"
             />
@@ -38,7 +37,7 @@
             <FullscreenStory
               :key="storiesIndex"
               :story="stories[storiesIndex]"
-              :on-story-complete="storyNext"
+              :on-story-complete="storyComplete"
               :index="storiesIndex"
               :id="id"
               autoplay
@@ -52,7 +51,6 @@
             <FullscreenStory
               :key="storiesIndex + 1"
               :story="stories[storiesIndex + 1]"
-              :on-story-complete="storyNext"
               :index="storiesIndex + 1"
               :id="id"
             />
@@ -69,7 +67,9 @@ import FullscreenStory from "./FullscreenStory.vue";
 
 export default {
   name: "StoryMobileFullscreen",
-  components: { FullscreenStory },
+  components: {
+    FullscreenStory
+  },
   data: () => ({
     dimensions: {
       width: 0,
@@ -83,9 +83,6 @@ export default {
     isCooldownActive: false
   }),
   props: {
-    onStoriesComplete: {
-      type: Function
-    },
     id: {
       type: String,
       default: ""
@@ -94,38 +91,86 @@ export default {
       type: [Array, Boolean],
       default: false
     },
-    index: {
+    clickedIndex: {
       type: Number,
       default: 0
     }
   },
   created() {
-    this.storiesIndex = this.index;
+    this.storiesIndex = this.clickedIndex;
     this.updateWrapperWidth();
     window.addEventListener("mousedown", this.mouseDown);
     window.addEventListener("mousemove", this.mouseMove);
     window.addEventListener("mouseup", this.mouseUp);
-    window.addEventListener("touchstart", this.touchDown);
-    window.addEventListener("touchmove", this.touchMove);
-    window.addEventListener("touchend", this.touchUp);
+    window.addEventListener("touchstart", this.touchDown, { passive: false });
+    window.addEventListener("touchmove", this.touchMove, { passive: false });
+    window.addEventListener("touchend", this.touchUp, { passive: false });
+    window.addEventListener("touchcancel", this.touchUp, { passive: false });
     window.addEventListener("resize", this.resize);
   },
   mounted() {
     this.updateSceneWidth();
   },
   methods: {
-    updateWrapperWidth: function () {
-      if ((window.innerWidth / window.innerHeight) < (9 / 16)) {
-        this.dimensions = {
-          width: window.innerWidth,
-          height: window.innerWidth / (9 / 16)
-        };
-      } else {
-        this.dimensions = {
-          width: window.innerHeight * (9 / 16),
-          height: window.innerHeight
-        };
+    touchDown: function (e) {
+      e.preventDefault();
+      this.mouseDown({
+        pageX: e.changedTouches[0].pageX,
+        pageY: e.changedTouches[0].pageY,
+        target: e.target
+      });
+    },
+    mouseDown: function (e) {
+      if (e.preventDefault) {
+        e.preventDefault();
       }
+      if (this.checkTargetIsContainer(e)) {
+        this.dragEnabled = true;
+        this.dragData = e;
+      }
+    },
+    touchMove: function (e) {
+      e.preventDefault();
+      this.mouseMove({
+        pageX: e.changedTouches[0].pageX,
+        pageY: e.changedTouches[0].pageY
+      });
+    },
+    mouseMove: function (e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      if (this.dragEnabled) {
+        if (this.dragAxis) {
+          this[`animate${this.dragAxis}`](e);
+        } else {
+          const x = this.dragData.pageX - e.pageX;
+          const y = this.dragData.pageY - e.pageY;
+          if (Math.abs(x) + Math.abs(y) > 20 && (Math.abs(x) !== Math.abs(y))) {
+            this.dragAxis = (Math.abs(x) > Math.abs(y)) ? "X" : "Y";
+          }
+        }
+      }
+    },
+    touchUp: function (e) {
+      e.preventDefault();
+      this.mouseUp({
+        pageX: e.changedTouches[0].pageX,
+        pageY: e.changedTouches[0].pageY
+      });
+    },
+    mouseUp: function (e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      this.dragEnabled = false;
+      if (this.dragAxis) {
+        this[`finish${this.dragAxis}`](e);
+      } else {
+        this.checkClick(e);
+      }
+      this.dragAxis = undefined;
+      this.dragData = undefined;
     },
     storyNext: function () {
       if (!this.isDelayActive) {
@@ -141,7 +186,7 @@ export default {
       }
     },
     storyPrev: function () {
-      if (this.storiesIndex - 1 >= 0 && !this.isDelayActive) {
+      if (!this.isDelayActive) {
         this.isDelayActive = true;
         this.hideDummy();
         this.showDummy("story__fullscreen-right");
@@ -153,29 +198,10 @@ export default {
         }, 500);
       }
     },
-    prevSlide: function () {
-      if (this.$refs.innerScene) {
-        if (this.storiesIndex - 1 >= 0) {
-          this.$refs.innerScene.animate([
-            {
-              transform: `translateZ(-${this.sceneWidth / 2}px) rotateY(90deg)`
-            }
-          ], {
-            duration: 500,
-            easing: "ease-out"
-          });
-          setTimeout(() => {
-            this.$refs.innerScene.style.transform = `translateZ(-${this.sceneWidth / 2}px) rotateY(0deg)`;
-            this.hideDummy();
-          }, 500);
-        } else {
-          this.close();
-        }
-      }
-    },
     nextSlide: function () {
       if (this.$refs.innerScene) {
         if (this.storiesIndex + 1 < this.stories.length) {
+          EventBus.$emit("story__fs-thumbnail", { id: this.id, onMain: true });
           this.$refs.innerScene.animate([
             {
               transform: `translateZ(-${this.sceneWidth / 2}px) rotateY(-90deg)`
@@ -193,58 +219,24 @@ export default {
         }
       }
     },
-    updateSceneWidth: function () {
-      if (this.$refs.scene) {
-        this.sceneWidth = this.$refs.scene.clientWidth;
-      }
-    },
-    resize: function () {
-      this.updateWrapperWidth();
-      this.updateSceneWidth();
-    },
-    showDummy: function (className) {
+    prevSlide: function () {
       if (this.$refs.innerScene) {
-        const dummies = this.$refs.innerScene.querySelectorAll(`.${className}`);
-        dummies.forEach((v) => {
-          if (v) {
-            // eslint-disable-next-line
-            v.style.visibility = "visible";
-          }
-        });
-      }
-    },
-    hideDummy: function () {
-      if (this.$refs.innerScene) {
-        const dummies = this.$refs.innerScene.querySelectorAll(".story__fullscreen-container-dummy");
-        dummies.forEach((v) => {
-          // eslint-disable-next-line
-          v.style.visibility = "hidden";
-        });
-      }
-    },
-    touchDown: function (e) {
-      this.mouseDown({
-        pageX: e.changedTouches[0].pageX,
-        pageY: e.changedTouches[0].pageY,
-        target: e.target
-      });
-    },
-    mouseDown: function (e) {
-      if (this.checkTargetIsContainer(e)) {
-        this.dragEnabled = true;
-        this.dragData = e;
-      }
-    },
-    mouseMove: function (e) {
-      if (this.dragEnabled) {
-        if (this.dragAxis) {
-          this[`animate${this.dragAxis}`](e);
+        if (this.storiesIndex > 0) {
+          EventBus.$emit("story__fs-thumbnail", { id: this.id, onMain: true });
+          this.$refs.innerScene.animate([
+            {
+              transform: `translateZ(-${this.sceneWidth / 2}px) rotateY(90deg)`
+            }
+          ], {
+            duration: 500,
+            easing: "ease-out"
+          });
+          setTimeout(() => {
+            this.$refs.innerScene.style.transform = `translateZ(-${this.sceneWidth / 2}px) rotateY(0deg)`;
+            this.hideDummy();
+          }, 500);
         } else {
-          const x = this.dragData.pageX - e.pageX;
-          const y = this.dragData.pageY - e.pageY;
-          if (Math.abs(x) + Math.abs(y) > 0 && (Math.abs(x) !== Math.abs(y))) {
-            this.dragAxis = (Math.abs(x) > Math.abs(y)) ? "X" : "Y";
-          }
+          this.close();
         }
       }
     },
@@ -290,62 +282,13 @@ export default {
         this.$refs.fullscreen.style.opacity = `${Math.ceil((1 - (2 * (offset / window.innerHeight))) * 100)}%`;
       }
     },
-    touchMove: function (e) {
-      this.mouseMove({
-        pageX: e.changedTouches[0].pageX,
-        pageY: e.changedTouches[0].pageY
-      });
-    },
-    mouseUp: function (e) {
-      this.dragEnabled = false;
-      if (this.dragAxis) {
-        this[`finish${this.dragAxis}`](e);
-      } else {
-        this.checkClick(e);
-      }
-      this.dragAxis = undefined;
-      this.dragData = undefined;
-    },
-    checkClick: function (e) {
-      if (this.checkTargetIsContainer(e)) {
-        const target = this.$refs.container.getClientRects()[0];
-        const offsetX = e.pageX - target.left;
-        if ((offsetX / target.width) > 0.5) {
-          EventBus.$emit("story__fs-next", { id: this.id, index: this.storiesIndex });
-        } else {
-          EventBus.$emit("story__fs-prev", { id: this.id, index: this.storiesIndex });
-        }
-      }
-    },
-    checkTargetIsContainer: function (e) {
-      if (this.$refs.container) {
-        const target = this.$refs.container.getClientRects()[0];
-        const offsetX = e.pageX - target.left;
-        const offsetY = e.pageY - target.top;
-        return (offsetX > 0 && offsetX < target.width && offsetY > 0 && offsetY < target.height);
-      }
-      return false;
-    },
-    touchUp: function (e) {
-      this.mouseUp({
-        pageX: e.changedTouches[0].pageX,
-        pageY: e.changedTouches[0].pageY
-      });
-    },
-    finishY: function (e) {
-      if (e.pageY - this.dragData.pageY > (0.2 * window.innerHeight)) {
-        this.close();
-      } else {
-        this.keepOpen();
-      }
-    },
     finishX: function (e) {
       const offset = e.pageX - this.dragData.pageX;
       const total = (this.sceneWidth / 2) + (window.innerWidth / 2);
       const deg = (offset / total) * 80;
       if (deg < 0) {
         if (this.storiesIndex + 1 < this.stories.length) {
-          if (deg < -45) {
+          if (deg < -30) {
             this.storyNext();
           } else {
             this.keepOpen();
@@ -356,7 +299,7 @@ export default {
           this.close();
         }
       } else if (this.storiesIndex - 1 >= 0) {
-        if (deg > 45) {
+        if (deg > 30) {
           this.storyPrev();
         } else {
           this.keepOpen();
@@ -365,6 +308,13 @@ export default {
         this.keepOpen();
       } else {
         this.close();
+      }
+    },
+    finishY: function (e) {
+      if (e.pageY - this.dragData.pageY > (0.2 * window.innerHeight)) {
+        this.close();
+      } else {
+        this.keepOpen();
       }
     },
     close: function () {
@@ -401,10 +351,11 @@ export default {
           this.$refs.fullscreen.style.opacity = "0%";
         }
         this.hideDummy();
-        this.onStoriesComplete();
+        EventBus.$emit("story__fullscreen-close", this.id);
       }, duration);
     },
     keepOpen: function () {
+      EventBus.$emit("story__fs-thumbnail", { id: this.id, onMain: false });
       const duration = 250;
       this.$refs.scene.animate([
         {
@@ -442,11 +393,80 @@ export default {
         this.$refs.fullscreen.style.opacity = "100%";
         this.hideDummy();
       }, duration);
+    },
+    storyComplete: function (next) {
+      if (next) {
+        this.storyNext();
+      } else {
+        this.storyPrev();
+      }
+    },
+    showDummy: function (className) {
+      if (this.$refs.innerScene) {
+        const dummies = this.$refs.innerScene.querySelectorAll(`.${className}`);
+        dummies.forEach((v) => {
+          if (v) {
+            // eslint-disable-next-line
+            v.style.visibility = "visible";
+          }
+        });
+      }
+    },
+    hideDummy: function () {
+      if (this.$refs.innerScene) {
+        const dummies = this.$refs.innerScene.querySelectorAll(".story__fullscreen-container-dummy");
+        dummies.forEach((v) => {
+          // eslint-disable-next-line
+          v.style.visibility = "hidden";
+        });
+      }
+    },
+    checkClick: function (e) {
+      if (this.checkTargetIsContainer(e)) {
+        const target = this.$refs.container.getClientRects()[0];
+        const offsetX = e.pageX - target.left;
+        if ((offsetX / target.width) > 0.5) {
+          EventBus.$emit("story__fs-next", { id: this.id, index: this.storiesIndex });
+        } else {
+          EventBus.$emit("story__fs-prev", { id: this.id, index: this.storiesIndex });
+        }
+      }
+    },
+    checkTargetIsContainer: function (e) {
+      if (this.$refs.container) {
+        const target = this.$refs.container.getClientRects()[0];
+        const offsetX = e.pageX - target.left;
+        const offsetY = e.pageY - target.top;
+        return (offsetX > 0 && offsetX < target.width && offsetY > 0 && offsetY < target.height);
+      }
+      return false;
+    },
+    resize: function () {
+      this.updateWrapperWidth();
+      this.updateSceneWidth();
+    },
+    updateWrapperWidth: function () {
+      if ((window.innerWidth / window.innerHeight) < (9 / 16)) {
+        this.dimensions = {
+          width: window.innerWidth,
+          height: window.innerWidth / (9 / 16)
+        };
+      } else {
+        this.dimensions = {
+          width: window.innerHeight * (9 / 16),
+          height: window.innerHeight
+        };
+      }
+    },
+    updateSceneWidth: function () {
+      if (this.$refs.scene) {
+        this.sceneWidth = this.$refs.scene.clientWidth;
+      }
     }
   },
   watch: {
     storiesIndex: function () {
-      if (this.storiesIndex + 1 > this.stories.length) {
+      if (this.storiesIndex > this.stories.length - 1 || this.storiesIndex < 0) {
         this.close();
       }
     },
@@ -459,58 +479,62 @@ export default {
     }
   },
   beforeDestroy() {
+    EventBus.$emit("story__fullscreen-close", this.id);
     window.removeEventListener("mousedown", this.mouseDown);
     window.removeEventListener("mousemove", this.mouseMove);
     window.removeEventListener("mouseup", this.mouseUp);
     window.removeEventListener("touchstart", this.touchDown);
     window.removeEventListener("touchmove", this.touchMove);
     window.removeEventListener("touchend", this.touchUp);
+    window.removeEventListener("touchcancel", this.touchUp);
     window.removeEventListener("resize", this.resize);
   }
 };
 </script>
 
-<style scoped>
-.story__fullscreen {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: hsla(225, 14%, 11%, 0.7);
-  display: none;
-}
-.story__fullscreen-active {
-  display: block;
-}
-.story__fullscreen-wrapper {
-  position: relative;
-  margin: 0 auto;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.story__fullscreen-container-dummy {
-  visibility: hidden;
-}
-.story__fullscreen-container, .story__fullscreen-container-dummy {
-  opacity: 1;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  cursor: pointer;
-  position: absolute;
-  border-radius: 10px;
-  overflow: hidden;
-}
-.story__fullscreen-scene {
-  perspective: 1000px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.story__fullscreen-scene-wrapper {
-  transform-style: preserve-3d;
-  width: 100%;
-  height: 100%;
-}
-</style>
+<!--<style scoped>-->
+<!--.story__fullscreen {-->
+<!--  position: fixed;-->
+<!--  z-index: 10;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--  top: 0;-->
+<!--  left: 0;-->
+<!--  background-color: hsla(225, 14%, 11%, 0.7);-->
+<!--  display: none;-->
+<!--}-->
+<!--.story__fullscreen-active {-->
+<!--  display: block;-->
+<!--}-->
+<!--.story__fullscreen-wrapper {-->
+<!--  position: relative;-->
+<!--  margin: 0 auto;-->
+<!--  top: 50%;-->
+<!--  transform: translateY(-50%);-->
+<!--}-->
+<!--.story__fullscreen-container-dummy {-->
+<!--  visibility: hidden;-->
+<!--}-->
+<!--.story__fullscreen-container, .story__fullscreen-container-dummy {-->
+<!--  opacity: 1;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--  background-color: #000;-->
+<!--  cursor: pointer;-->
+<!--  position: absolute;-->
+<!--  border-radius: 10px;-->
+<!--  overflow: hidden;-->
+<!--}-->
+<!--.story__fullscreen-scene {-->
+<!--  perspective: 1000px;-->
+<!--  position: absolute;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--}-->
+<!--.story__fullscreen-scene-wrapper {-->
+<!--  transform-style: preserve-3d;-->
+<!--  -webkit-transform-style: preserve-3d;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--}-->
+<!--</style>-->

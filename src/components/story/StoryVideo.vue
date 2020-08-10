@@ -1,7 +1,14 @@
 <template>
   <div class="story__video-player-wrapper">
+    <div
+      v-if="showThumbnail"
+      :style="`width:${width}px;height:${height}px;background-image: url('${thumbnail}')`"
+      class="story__video-player-thumbnail"
+    />
     <video
+      v-if="!showThumbnail"
       ref="video"
+      playsinline
       :style="`width:${width}px;height:${height}px`"
       :src="resource.href"
       :type="resource.mimeType"
@@ -9,7 +16,7 @@
       :class="['story__video-player', (displayLoadIcon) ? 'story-video-player-loading' : '']"
     />
     <div
-      v-if="displayLoadIcon"
+      v-if="!showThumbnail && displayLoadIcon"
       :style="`width:${width}px;height:${height}px;`"
       class="story-video-player-icon-wrapper"
     >
@@ -36,7 +43,15 @@
             />
             <path
               d="M36 18c0-9.94-8.06-18-18-18"
-            />
+            >
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 18 18"
+                to="360 18 18"
+                dur="1s"
+                repeatCount="indefinite"/>
+            </path>
           </g>
         </g>
       </svg>
@@ -79,21 +94,38 @@ export default {
   },
   data: () => ({
     progressInterval: undefined,
-    displayLoadIcon: false
+    displayLoadIcon: false,
+    showThumbnail: false
   }),
+  created() {
+    if (!this.autoplay) {
+      this.showThumbnail = true;
+    }
+  },
   computed: {
     resource: function () {
       const data = this.qbrick.data;
       const resources = data.qbrick.asset.resources;
       const video = resources.filter((v) => v.type && v.type === "video");
       return video[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0].links;
+    },
+    thumbnail: function () {
+      const data = this.qbrick.data;
+      const resources = data.qbrick.asset.resources;
+      const thumbnail = resources.filter((v) => v.rel && v.rel === "thumbnail");
+      return thumbnail[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0].links.href;
     }
   },
   methods: {
+    displayThumbnail: function () {
+      this.showThumbnail = true;
+    },
     play: function () {
-      if (this.$refs.video && this.$refs.video.play) {
-        setTimeout(() => this.$refs.video.play(), 500);
-      }
+      setTimeout(() => {
+        if (this.$refs.video && this.$refs.video.play) {
+          this.$refs.video.play();
+        }
+      }, 500);
     },
     pause: function () {
       if (this.$refs.video && this.$refs.video.pause) {
@@ -107,60 +139,65 @@ export default {
     }
   },
   mounted() {
-    this.$refs.video.addEventListener("loadstart", () => {
-      if (this.autoplay) {
-        this.displayLoadIcon = true;
+    if (this.$refs.video) {
+      this.$refs.video.addEventListener("loadstart", () => {
+        if (this.autoplay) {
+          this.displayLoadIcon = true;
+        }
+      });
+      this.$refs.video.addEventListener("waiting", () => {
+        if (this.autoplay) {
+          this.displayLoadIcon = true;
+        }
+      });
+      this.$refs.video.addEventListener("playing", () => {
+        this.displayLoadIcon = false;
+      });
+      this.$refs.video.addEventListener("play", () => {
+        if (this.onPlay) {
+          this.onPlay();
+        }
+        this.progressInterval = setInterval(this.intervalFunc, 125);
+      });
+      this.$refs.video.addEventListener("pause", () => {
+        if (this.onPause) {
+          this.onPause();
+        }
+        clearInterval(this.progressInterval);
+      });
+      if (this.onPlayComplete) {
+        this.$refs.video.addEventListener("ended", this.onPlayComplete);
       }
-    });
-    this.$refs.video.addEventListener("playing", () => {
-      this.displayLoadIcon = false;
-    });
-    this.$refs.video.addEventListener("play", () => {
-      if (this.onPlay) {
-        this.onPlay();
-      }
-      this.progressInterval = setInterval(this.intervalFunc, 125);
-    });
-    this.$refs.video.addEventListener("pause", () => {
-      if (this.onPause) {
-        this.onPause();
-      }
-      clearInterval(this.progressInterval);
-    });
-    if (this.onPlayComplete) {
-      this.$refs.video.addEventListener("ended", this.onPlayComplete);
     }
   }
 };
 </script>
 
-<style>
-.story__video-player-wrapper {
-  position: relative;
-}
-.story-video-player-loading {
-  filter: brightness(70%);
-}
-.story__video-player {
-  display: block;
-  background: transparent;
-}
-.story-video-player-icon-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.story-video-player-icon-wrapper svg {
-  position: relative;
-  top: calc(50% - 19px);
-  animation: rotate 1s infinite linear;
-}
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
+<!--<style>-->
+<!--.story__video-player-wrapper {-->
+<!--  position: relative;-->
+<!--}-->
+<!--.story-video-player-loading {-->
+<!--  filter: brightness(70%);-->
+<!--}-->
+<!--.story__video-player {-->
+<!--  pointer-events: none;-->
+<!--  display: block;-->
+<!--  background: #191B21;-->
+<!--}-->
+<!--.story-video-player-icon-wrapper {-->
+<!--  position: absolute;-->
+<!--  top: 0;-->
+<!--  left: 0;-->
+<!--}-->
+<!--.story-video-player-icon-wrapper svg {-->
+<!--  position: relative;-->
+<!--  top: calc(50% - 19px);-->
+<!--}-->
+<!--.story__video-player-thumbnail {-->
+<!--  background-repeat: no-repeat;-->
+<!--  background-size: contain;-->
+<!--  background-position: center;-->
+<!--  background-color: #191B21;-->
+<!--}-->
+<!--</style>-->

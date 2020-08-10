@@ -70,26 +70,27 @@ export default {
   }
 };
 </script>
-<style>
-.quiz__start-title, .quiz__start-text {
-  text-align: left !important;
-  padding-bottom: 1rem;
-}
-.quiz__image {
-  max-width: 680px;
-  margin: 1rem auto;
-  text-align: left !important;
-}
-.quiz__start-btn {
-  max-width: 680px;
-  text-align: left !important;
-  margin: 0 auto;
-}
-.quiz__start-btn .quiz__button {
-  margin: 0;
-}
-.quiz__start-sub-title {
-  padding: 1.25rem 0 !important;
-  text-align: left !important;
-}
-</style>
+<!--<style>-->
+<!--.quiz__start-title, .quiz__start-text {-->
+<!--  text-align: left !important;-->
+<!--  padding-bottom: 1rem;-->
+<!--}-->
+<!--.quiz__image {-->
+<!--  max-width: 680px;-->
+<!--  width: 100%;-->
+<!--  margin: 1rem auto;-->
+<!--  text-align: left !important;-->
+<!--}-->
+<!--.quiz__start-btn {-->
+<!--  max-width: 680px;-->
+<!--  text-align: left !important;-->
+<!--  margin: 0 auto;-->
+<!--}-->
+<!--.quiz__start-btn .quiz__button {-->
+<!--  margin: 0;-->
+<!--}-->
+<!--.quiz__start-sub-title {-->
+<!--  padding: 1.25rem 0 !important;-->
+<!--  text-align: left !important;-->
+<!--}-->
+<!--</style>-->

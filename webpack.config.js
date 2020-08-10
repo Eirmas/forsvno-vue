@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "production",
@@ -10,7 +12,13 @@ module.exports = {
     storyVue: "./src/story.es6"
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      publicPath: "/_/asset/forsvno:[hash]/",
+      path: require("path").resolve(__dirname, "../forsvno/src/main/resources/assets"),
+      filename: "css/style.css",
+      chunkFilename: "css/style.chunk.css"
+    })
   ],
   module: {
     rules: [
@@ -26,9 +34,9 @@ module.exports = {
         ]
       },
       {
-        test: /(\.css$|\.sass$)/,
+        test: /\.s[ac]ss$/i,
         use: [
-          "vue-style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader"
         ]

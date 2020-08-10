@@ -21,7 +21,7 @@ import Legend from "./Legend.vue";
 accessibility(Highcharts);
 Highcharts.setOptions({
   lang: {
-    numericSymbols: [" tusen", "mill", "mrd", "tri", "P", "E"]
+    numericSymbols: [" tusen", "mill", "mrd", "tri", "*10^15", "*10^18"]
   }
 });
 export default {

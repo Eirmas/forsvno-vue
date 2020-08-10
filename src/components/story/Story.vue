@@ -37,8 +37,7 @@
         :key="fsKey"
         :stories="stories"
         :id="id"
-        :index="fsIndex"
-        :on-stories-complete="onStoriesComplete"
+        :clicked-index="fsIndex"
       />
     </div>
     <div class="grey-light">
@@ -94,31 +93,38 @@ export default {
   },
   created() {
     this.updateOverflow();
-    EventBus.$on("story__fullscreen-open", (obj) => {
+    EventBus.$on("story__fullscreen-open", this.open);
+    EventBus.$on("story__fullscreen-close", this.close);
+  },
+  mounted() {
+    this.updateClientWidth();
+    window.addEventListener("resize", this.onResize);
+  },
+  methods: {
+    open: function (obj) {
       if (obj.id === this.id && obj.index !== undefined) {
         this.fsIndex = obj.index;
         this.isOpen = true;
       }
-    });
-    EventBus.$on("story__fullscreen-close", (id) => {
+    },
+    close: function (id) {
       if (id === this.id) {
         this.isOpen = false;
       }
-    });
-  },
-  mounted() {
-    this.updateClientWidth();
-    window.addEventListener("resize", this.updateClientWidth);
-  },
-  methods: {
-    onStoriesComplete: function () {
-      this.isOpen = false;
+    },
+    onResize: function () {
+      this.updateClientWidth();
+      this.updateOverflow();
     },
     updateOverflow: function () {
       if (this.isOpen) {
-        document.body.style.overflowY = "hidden";
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
       } else {
-        document.body.style.overflowY = "unset";
+        document.body.style.overflow = "unset";
+        document.body.style.position = "unset";
+        document.body.style.width = "unset";
       }
     },
     updateClientWidth: function () {
@@ -128,62 +134,67 @@ export default {
     }
   },
   beforeDestroy() {
+    EventBus.$off("story__fullscreen-open", this.open);
+    EventBus.$off("story__fullscreen-close", this.close);
     this.isOpen = false;
     this.updateOverflow();
   }
 };
 </script>
 
-<style>
-.stories__wrapper-inner {
-  text-align: center;
-  padding-top: 5rem;
-  padding-bottom: 8rem;
-  position: relative;
-  margin-bottom: 2em;
-}
-.stories__wrapper-inner h2 {
-  font-size: 2rem;
-  margin-bottom: 6rem;
-  font-weight: 500;
-  max-width: 42rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-.stories__list {
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(180deg, transparent 50%, #f5f7f8 50%);
-}
-.stories__title {
-  width: 252px;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-  margin: 1.5rem;
-  font-weight: 500;
-  font-size: 1.125rem;
-  line-height: 1.4;
-}
-.stories__title-wrapper {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 5rem;
-}
-@media (max-width: 991px) {
-  .stories__title {
-    width: 90px;
-    margin: 1rem;
-    margin-top: .6rem;
-    font-size: .875rem;
-    line-height: 1.4;
-  }
-}
-@media (max-width: 366px) {
-  .stories__title {
-    margin: .25rem;
-  }
-}
-</style>
+<!--<style>-->
+<!--.stories__wrapper-inner {-->
+<!--  text-align: center;-->
+<!--  padding: 5rem 0;-->
+<!--  position: relative;-->
+<!--}-->
+<!--.stories__wrapper-inner h2 {-->
+<!--  font-size: 2rem;-->
+<!--  margin-bottom: 6rem;-->
+<!--  font-weight: 500;-->
+<!--  max-width: 42rem;-->
+<!--  margin-left: auto;-->
+<!--  margin-right: auto;-->
+<!--}-->
+<!--.stories__list {-->
+<!--  display: flex;-->
+<!--  justify-content: center;-->
+<!--  background: linear-gradient(180deg, transparent 50%, #f5f7f8 50%);-->
+<!--}-->
+<!--.stories__title {-->
+<!--  width: 252px;-->
+<!--  overflow-wrap: break-word;-->
+<!--  word-break: break-word;-->
+<!--  -webkit-hyphens: auto;-->
+<!--  -ms-hyphens: auto;-->
+<!--  hyphens: auto;-->
+<!--  margin: 1.5rem;-->
+<!--  font-weight: 500;-->
+<!--  font-size: 1.125rem;-->
+<!--  line-height: 1.4;-->
+<!--}-->
+<!--.stories__title-wrapper {-->
+<!--  display: flex;-->
+<!--  justify-content: center;-->
+<!--  padding-bottom: 5rem;-->
+<!--}-->
+<!--@media (max-width: 991px) {-->
+<!--  .stories__title {-->
+<!--    width: 90px;-->
+<!--    margin: 1rem;-->
+<!--    margin-top: .6rem;-->
+<!--    font-size: .875rem;-->
+<!--    line-height: 1.4;-->
+<!--  }-->
+<!--}-->
+<!--@media (max-width: 767px) {-->
+<!--  .stories__wrapper-inner {-->
+<!--    padding: 2rem 0;-->
+<!--  }-->
+<!--}-->
+<!--@media (max-width: 366px) {-->
+<!--  .stories__title {-->
+<!--    margin: .25rem;-->
+<!--  }-->
+<!--}-->
+<!--</style>-->

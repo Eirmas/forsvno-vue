@@ -28,6 +28,7 @@
         <button
           ref="close"
           class="story__user-close"
+          tabindex="-1"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -128,50 +129,61 @@ export default {
     }
   },
   created() {
-    EventBus.$on("story__fs-toggle", (obj) => {
-      if (this.story && this.story.storyItems && obj.id === this.id && obj.index === this.index) {
-        if (this.story.storyItems[this.storyIndex].type === "video" && this.$refs.video) {
-          if (obj.pause) {
-            if (this.$refs.video.pause) {
-              this.$refs.video.pause();
-            }
-          } else if (this.$refs.video.play) {
-            this.$refs.video.play();
-          }
-        } else if (this.story.storyItems[this.storyIndex].type === "image") {
-          if (obj.pause) {
-            if (this.$refs.image.pause) {
-              this.$refs.image.pause();
-            }
-          } else if (this.$refs.image.play) {
-            this.$refs.image.play();
-          }
-        }
-      }
-    });
     if (this.autoplay) {
       EventBus.$emit("story__fs-seen", { id: this.id, index: this.index });
+      EventBus.$on("story__fs-toggle", this.togglePlay);
+      EventBus.$on("story__fs-next", this.checkEmitNext);
+      EventBus.$on("story__fs-prev", this.checkEmitPrev);
+      window.addEventListener("click", this.checkClose);
+      window.addEventListener("touchend", this.checkCloseTouch);
     }
+    EventBus.$on("story__fs-thumbnail", this.switchVideoToThumbnail);
     window.addEventListener("resize", this.updateWidth);
-    window.addEventListener("click", this.checkClose);
   },
   mounted() {
-    EventBus.$on("story__fs-next", (obj) => {
-      if (obj.id === this.id && obj.index === this.index) {
-        this.playNext();
-      }
-    });
-    EventBus.$on("story__fs-prev", (obj) => {
-      if (obj.id === this.id && obj.index === this.index) {
-        this.playPrev();
-      }
-    });
     this.updateWidth();
     if (this.$refs.wrapper) {
       new ResizeObserver(this.updateWidth).observe(this.$refs.wrapper);
     }
   },
   methods: {
+    checkEmitNext: function (obj) {
+      if (obj.id === this.id && obj.index === this.index) {
+        this.playNext();
+      }
+    },
+    checkEmitPrev: function (obj) {
+      if (obj.id === this.id && obj.index === this.index) {
+        this.playPrev();
+      }
+    },
+    togglePlay: function (obj) {
+      if (this.story && this.story.storyItems && obj.id === this.id && obj.index === this.index) {
+        if (this.story.storyItems[this.storyIndex].type === "video" && this.$refs.video) {
+          if (obj.pause) {
+            if (this.$refs.video && this.$refs.video.pause) {
+              this.$refs.video.pause();
+            }
+          } else if (this.$refs.video && this.$refs.video.play) {
+            this.$refs.video.play();
+          }
+        } else if (this.story.storyItems[this.storyIndex].type === "image") {
+          if (obj.pause) {
+            if (this.$refs.image && this.$refs.image.pause) {
+              this.$refs.image.pause();
+            }
+          } else if (this.$refs.image && this.$refs.image.play) {
+            this.$refs.image.play();
+          }
+        }
+      }
+    },
+    checkCloseTouch: function (e) {
+      this.checkClose({
+        pageX: e.changedTouches[0].pageX,
+        pageY: e.changedTouches[0].pageY
+      });
+    },
     checkClose: function (e) {
       if (this.$refs.close && this.checkTargetIsClose(e)) {
         EventBus.$emit("story__fullscreen-close", (this.id));
@@ -179,10 +191,11 @@ export default {
     },
     checkTargetIsClose: function (e) {
       if (this.$refs.close) {
+        const hitRegionMargin = 10;
         const target = this.$refs.close.getClientRects()[0];
-        const offsetX = e.pageX - target.left;
-        const offsetY = e.pageY - target.top;
-        return (offsetX > 0 && offsetX < target.width && offsetY > 0 && offsetY < target.height);
+        const offsetX = e.pageX - (target.left - hitRegionMargin);
+        const offsetY = e.pageY - (target.top - hitRegionMargin);
+        return (offsetX > 0 && offsetX < (target.width + hitRegionMargin) && offsetY > 0 && offsetY < (target.height + hitRegionMargin));
       }
       return false;
     },
@@ -198,7 +211,7 @@ export default {
         if (this.story && this.story.storyItems && this.storyIndex + 1 < this.story.storyItems.length) {
           this.storyIndex++;
         } else {
-          this.storyComplete();
+          this.storyComplete(true);
         }
         this.storyItemProgress = 0;
         setTimeout(() => { this.isDelayActive = false; }, 500);
@@ -207,8 +220,10 @@ export default {
     playPrev: function () {
       if (!this.isDelayActive) {
         this.isDelayActive = true;
-        if (this.storyIndex - 1 >= 0) {
+        if (this.story && this.story.storyItems && this.storyIndex > 0) {
           this.storyIndex--;
+        } else if (this.index > 0) {
+          this.storyComplete(false);
         } else {
           this.renderKey++;
         }
@@ -219,37 +234,51 @@ export default {
     progress: function (progress) {
       this.storyItemProgress = progress;
     },
-    storyComplete: function () {
+    storyComplete: function (bool) {
       if (this.onStoryComplete) {
-        this.onStoryComplete();
+        this.onStoryComplete(bool);
+      }
+    },
+    switchVideoToThumbnail: function (obj) {
+      if (obj.id === this.id && this.autoplay === obj.onMain) {
+        if (this.story && this.story.storyItems && this.story.storyItems[this.storyIndex].type === "video") {
+          if (this.$refs.video && this.$refs.video.displayThumbnail) {
+            this.$refs.video.displayThumbnail();
+          }
+        }
       }
     }
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.updateWidth);
     window.removeEventListener("click", this.checkClose);
+    window.removeEventListener("touchend", this.checkClose);
+    EventBus.$off("story__fs-thumbnail", this.switchVideoToThumbnail);
+    EventBus.$off("story__fs-toggle", this.togglePlay);
+    EventBus.$off("story__fs-next", this.checkEmitNext);
+    EventBus.$off("story__fs-prev", this.checkEmitPrev);
   }
 };
 </script>
 
-<style>
-.story__fs-wrapper {
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-}
-.story__fs-qbrick video {
-  pointer-events: none;
-  z-index: 0;
-}
-.story__fs-wrapper .story__header {
-  pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.story__fs-wrapper .story__header {
-  padding-top: .25rem;
-}
-</style>
+<!--<style>-->
+<!--.story__fs-wrapper {-->
+<!--  pointer-events: none;-->
+<!--  width: 100%;-->
+<!--  height: 100%;-->
+<!--}-->
+<!--.story__fs-qbrick video {-->
+<!--  pointer-events: none;-->
+<!--  z-index: 0;-->
+<!--}-->
+<!--.story__fs-wrapper .story__header {-->
+<!--  pointer-events: none;-->
+<!--  -webkit-user-select: none;-->
+<!--  -moz-user-select: none;-->
+<!--  -ms-user-select: none;-->
+<!--  user-select: none;-->
+<!--}-->
+<!--.story__fs-wrapper .story__header {-->
+<!--  padding-top: .25rem;-->
+<!--}-->
+<!--</style>-->
