@@ -1,14 +1,14 @@
 <template>
   <div
     ref="wrapper"
-    class="stories__wrapper-inner"
+    :class="['stories__wrapper-inner', (background.color && !background.twoTone) ? background.color : '']"
   >
     <div class="container">
       <h2>{{ title }}</h2>
     </div>
     <div
       v-if="clientWidth > 991"
-      class="stories__list"
+      :class="['stories__list', (background.color && background.twoTone) ? `stories__list-two-tone-${background.color}` : '']"
     >
       <StoryDesktop
         v-for="(story, i) in stories"
@@ -34,13 +34,13 @@
       />
       <StoryMobileFullscreen
         v-if="isOpen"
-        :key="fsKey"
+        :key="renderKey"
         :stories="stories"
         :id="id"
-        :clicked-index="fsIndex"
+        :clicked-index="clickedIndex"
       />
     </div>
-    <div class="grey-light">
+    <div :class="(background.color && background.twoTone) ? background.color : ''">
       <div class="stories__title-wrapper">
         <div
           v-for="(story, i) in stories"
@@ -71,6 +71,10 @@ export default {
     title: {
       type: String,
       default: ""
+    },
+    background: {
+      type: [Object, Boolean],
+      default: false
     }
   },
   components: {
@@ -82,13 +86,13 @@ export default {
     clientWidth: false,
     isOpen: false,
     id: v1(),
-    fsIndex: 0,
-    fsKey: 1000
+    clickedIndex: 0,
+    renderKey: 1000
   }),
   watch: {
     isOpen: function () {
       this.updateOverflow();
-      this.fsKey++;
+      this.renderKey++;
     }
   },
   created() {
@@ -103,7 +107,7 @@ export default {
   methods: {
     open: function (obj) {
       if (obj.id === this.id && obj.index !== undefined) {
-        this.fsIndex = obj.index;
+        this.clickedIndex = obj.index;
         this.isOpen = true;
       }
     },
@@ -141,60 +145,3 @@ export default {
   }
 };
 </script>
-
-<!--<style>-->
-<!--.stories__wrapper-inner {-->
-<!--  text-align: center;-->
-<!--  padding: 5rem 0;-->
-<!--  position: relative;-->
-<!--}-->
-<!--.stories__wrapper-inner h2 {-->
-<!--  font-size: 2rem;-->
-<!--  margin-bottom: 6rem;-->
-<!--  font-weight: 500;-->
-<!--  max-width: 42rem;-->
-<!--  margin-left: auto;-->
-<!--  margin-right: auto;-->
-<!--}-->
-<!--.stories__list {-->
-<!--  display: flex;-->
-<!--  justify-content: center;-->
-<!--  background: linear-gradient(180deg, transparent 50%, #f5f7f8 50%);-->
-<!--}-->
-<!--.stories__title {-->
-<!--  width: 252px;-->
-<!--  overflow-wrap: break-word;-->
-<!--  word-break: break-word;-->
-<!--  -webkit-hyphens: auto;-->
-<!--  -ms-hyphens: auto;-->
-<!--  hyphens: auto;-->
-<!--  margin: 1.5rem;-->
-<!--  font-weight: 500;-->
-<!--  font-size: 1.125rem;-->
-<!--  line-height: 1.4;-->
-<!--}-->
-<!--.stories__title-wrapper {-->
-<!--  display: flex;-->
-<!--  justify-content: center;-->
-<!--  padding-bottom: 5rem;-->
-<!--}-->
-<!--@media (max-width: 991px) {-->
-<!--  .stories__title {-->
-<!--    width: 90px;-->
-<!--    margin: 1rem;-->
-<!--    margin-top: .6rem;-->
-<!--    font-size: .875rem;-->
-<!--    line-height: 1.4;-->
-<!--  }-->
-<!--}-->
-<!--@media (max-width: 767px) {-->
-<!--  .stories__wrapper-inner {-->
-<!--    padding: 2rem 0;-->
-<!--  }-->
-<!--}-->
-<!--@media (max-width: 366px) {-->
-<!--  .stories__title {-->
-<!--    margin: .25rem;-->
-<!--  }-->
-<!--}-->
-<!--</style>-->

@@ -2,17 +2,31 @@
   <div
     ref="wrapper"
     style="width:100%;"
-    class="qbrick__player-wrapper"
   >
     <div
       ref="player"
-      :style="`width:${calcWidth}px;height:${calcHeight}`"
     />
+    <div
+      v-if="!play"
+      class="quiz__video-thumbnail"
+      @click="onPlayButtonClick"
+    >
+      <img
+        ref="thumbnail"
+        :src="thumbnail"
+        style="width: 100%"
+        alt="thumbnail"
+      />
+      <div
+        class="quiz__video-thumbnail-play"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { v1 } from "uuid";
+import EventBus from "../../event-bus.es6";
 
 export default {
   name: "QBrick",
@@ -21,176 +35,85 @@ export default {
       type: [String, Boolean],
       default: false
     },
-    height: {
-      type: [Number, Boolean],
-      default: false
-    },
-    width: {
-      type: [Number, Boolean],
-      default: false
-    },
-    onPlay: {
-      type: Function
-    },
-    onPause: {
-      type: Function
-    },
-    onPlayComplete: {
-      type: Function
-    },
-    onProgress: {
-      type: Function
-    },
-    onReady: {
-      type: Function
-    },
-    onSeeked: {
-      type: Function
-    },
-    onLoaded: {
-      type: Function
-    },
-    onSeeking: {
-      type: Function
-    },
-    onQueueItemChanged: {
-      type: Function
-    },
-    onInitialized: {
-      type: Function
-    },
     qbrick: {
       type: [Object, Boolean],
-      default: false
-    },
-    autoplay: {
-      type: Boolean,
       default: false
     }
   },
   data: () => ({
-    widget: undefined
+    widget: undefined,
+    play: false,
+    width: 0
   }),
   mounted() {
+    EventBus.$on("quiz__next", this.onResize);
     window.addEventListener("resize", this.onResize);
-    if (this.embedSettings) {
-      this.create();
-    }
-  },
-  watch: {
-    height: function () {
-      this.reload();
-    },
-    width: function () {
-      this.reload();
-    }
   },
   methods: {
     onResize: function () {
-      this.$forceUpdate();
+      this.play = false;
+      if (this.widget) {
+        this.widget.pause();
+        this.widget.destroy();
+      }
+      if (this.$refs.player) {
+        this.$refs.player.innerHTML = "";
+      }
+      this.widget = undefined;
+    },
+    onPlayButtonClick: function () {
+      this.width = this.$refs.thumbnail.clientWidth;
+      this.play = true;
+      this.create();
     },
     create: function () {
       // eslint-disable-next-line
-        this.widget = GoBrain.create(this.$refs.player, this.embedSettings)
-      this.hookUpEventListeners();
+      this.widget = GoBrain.create(this.$refs.player, this.embedSettings)
     },
-    play: function () {
-      if (this.widget && this.widget.play) {
-        this.widget.play();
-      }
-    },
-    pause: function () {
-      if (this.widget) {
-        this.widget.pause();
-      }
-    },
-    reload: function () {
-      if (this.widget) {
-        this.$refs.player.innerHTML = "";
-        this.widget.destroy();
-        this.create();
-      }
-    },
-    hookUpEventListeners: function () {
-      if (this.widget) {
-        if (this.onInitialized) {
-          this.widget.on("initialized", this.onInitialized);
-        }
-        if (this.onLoaded) {
-          this.widget.on("loaded", this.onLoaded);
-        }
-        if (this.onPause) {
-          this.widget.on("pause", this.onPause);
-        }
-        if (this.onPlay) {
-          this.widget.on("play", this.onPlay);
-        }
-        if (this.onPlayComplete) {
-          this.widget.on("playComplete", this.onPlayComplete);
-        }
-        if (this.onProgress) {
-          this.widget.on("position", (time) => {
-            const videoData = this.qbrick.data.qbrick.asset.resources.filter((v) => v.type === "video");
-            if (videoData[0] && videoData[0].renditions[0]) {
-              const duration = videoData[0].renditions[0].videos.duration;
-              const percentage = time / duration;
-              this.onProgress(percentage);
-            }
-          });
-        }
-        if (this.onReady) {
-          this.widget.on("ready", this.onReady);
-        }
-        if (this.onSeeked) {
-          this.widget.on("seeked", this.onSeeked);
-        }
-        if (this.onSeeking) {
-          this.widget.on("seeking", this.onSeeking);
-        }
-        if (this.onQueueItemChanged) {
-          this.widget.on("queueItemChanged", this.onQueueItemChanged);
-        }
-      }
-    }
-  },
-  computed: {
-    calcWidth: function () {
-      if (this.width) {
-        return this.width;
-      }
-      if (this.$refs.wrapper) {
-        return this.$refs.wrapper.clientWidth;
-      }
-      return 0;
-    },
-    calcHeight: function () {
-      if (this.height) {
-        return this.height;
-      }
+    getFormat: function () {
       const data = this.qbrick.data;
       const resources = data.qbrick.asset.resources;
       const video = resources.filter((v) => v.type && v.type === "video");
       if (video.length > 0 && video[0].renditions.length > 0) {
         const videoData = video[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0].videos;
         if (videoData && videoData.height && videoData.width) {
-          return this.calcWidth * (videoData.height / videoData.width);
+          return {
+            width: videoData.width,
+            height: videoData.height
+          };
         }
       }
-      return 0;
+      return {
+        width: 448,
+        height: 252
+      };
+    }
+  },
+  computed: {
+    thumbnail: function () {
+      const data = this.qbrick.data;
+      const resources = data.qbrick.asset.resources;
+      const image = resources.filter((v) => v.rel && v.rel === "thumbnail");
+      if (image.length > 0 && image[0].renditions.length > 0) {
+        const imageData = image[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0];
+        return imageData.links.href;
+      }
+      return "";
     },
     embedSettings: function () {
       return {
-        autoplay: this.autoplay,
+        autoplay: true,
         widgetId: v1(),
         config: this.config || this.qbrick.data.qbrick.html["data-gobrain-config"],
         data: this.qbrick.data.qbrick.html["data-gobrain-data"],
         width: this.width,
-        height: (this.height) ? this.height : this.calcHeight,
+        height: this.width * (this.getFormat().height / this.getFormat().width),
         repeat: false
       };
     }
   },
   beforeDestroy() {
+    EventBus.$off("quiz__next", this.onResize);
     window.removeEventListener("resize", this.onResize);
     if (this.widget) {
       this.widget.pause();

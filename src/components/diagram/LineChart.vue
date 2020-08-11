@@ -86,6 +86,13 @@ export default {
         legend: {
           enabled: false
         },
+        plotOptions: {
+          line: {
+            accessibility: {
+              description: "Du kan benytte tab og piltaster for å navigere gjennom diagrammet."
+            }
+          }
+        },
         yAxis: {
           title: {
             text: this.data.yText,

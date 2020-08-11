@@ -13,11 +13,12 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    // Bad workaround for treeshaking vuetify css
     new MiniCssExtractPlugin({
       publicPath: "/_/asset/forsvno:[hash]/",
-      path: require("path").resolve(__dirname, "../forsvno/src/main/resources/assets"),
-      filename: "css/style.css",
-      chunkFilename: "css/style.chunk.css"
+      path: require("path").resolve(__dirname, "/dist/css/"),
+      filename: "style.css",
+      chunkFilename: "styleChunk.css"
     })
   ],
   module: {

@@ -260,25 +260,3 @@ export default {
   }
 };
 </script>
-
-<!--<style>-->
-<!--.story__fs-wrapper {-->
-<!--  pointer-events: none;-->
-<!--  width: 100%;-->
-<!--  height: 100%;-->
-<!--}-->
-<!--.story__fs-qbrick video {-->
-<!--  pointer-events: none;-->
-<!--  z-index: 0;-->
-<!--}-->
-<!--.story__fs-wrapper .story__header {-->
-<!--  pointer-events: none;-->
-<!--  -webkit-user-select: none;-->
-<!--  -moz-user-select: none;-->
-<!--  -ms-user-select: none;-->
-<!--  user-select: none;-->
-<!--}-->
-<!--.story__fs-wrapper .story__header {-->
-<!--  padding-top: .25rem;-->
-<!--}-->
-<!--</style>-->

@@ -77,6 +77,7 @@ export default {
             },
             accessibility: {
               enabled: true,
+              description: "Du kan benytte tab og piltaster for å navigere gjennom diagrammet.",
               keyboardNavigation: {
                 enabled: true
               }

@@ -76,12 +76,3 @@ export default {
   }
 };
 </script>
-
-<!--<style scoped>-->
-<!--.story__image {-->
-<!--  background-position: center;-->
-<!--  background-size: contain;-->
-<!--  background-repeat: no-repeat;-->
-<!--  background-color: #191B21;-->
-<!--}-->
-<!--</style>-->

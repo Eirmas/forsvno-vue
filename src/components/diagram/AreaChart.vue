@@ -66,6 +66,9 @@ export default {
         },
         plotOptions: {
           area: {
+            accessibility: {
+              description: "Du kan benytte tab og piltaster for å navigere gjennom diagrammet."
+            },
             stacking: "normal",
             dataLabels: {
               enabled: false,

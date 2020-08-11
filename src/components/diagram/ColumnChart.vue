@@ -71,6 +71,7 @@ export default {
             pointPadding: 0.1,
             depth: 45,
             accessibility: {
+              description: "Du kan benytte tab og piltaster for å navigere gjennom diagrammet.",
               enabled: true,
               keyboardNavigation: {
                 enabled: true

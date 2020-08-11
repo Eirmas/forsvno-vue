@@ -172,32 +172,3 @@ export default {
   }
 };
 </script>
-
-<!--<style>-->
-<!--.story__video-player-wrapper {-->
-<!--  position: relative;-->
-<!--}-->
-<!--.story-video-player-loading {-->
-<!--  filter: brightness(70%);-->
-<!--}-->
-<!--.story__video-player {-->
-<!--  pointer-events: none;-->
-<!--  display: block;-->
-<!--  background: #191B21;-->
-<!--}-->
-<!--.story-video-player-icon-wrapper {-->
-<!--  position: absolute;-->
-<!--  top: 0;-->
-<!--  left: 0;-->
-<!--}-->
-<!--.story-video-player-icon-wrapper svg {-->
-<!--  position: relative;-->
-<!--  top: calc(50% - 19px);-->
-<!--}-->
-<!--.story__video-player-thumbnail {-->
-<!--  background-repeat: no-repeat;-->
-<!--  background-size: contain;-->
-<!--  background-position: center;-->
-<!--  background-color: #191B21;-->
-<!--}-->
-<!--</style>-->
