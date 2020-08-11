@@ -11,6 +11,11 @@
           v-if="question.media.selected === 'image'"
           :src="question.media.image.src"
         />
+        <QBrick
+          v-else-if="question.media.selected === 'video'"
+          :qbrick="question.media.video"
+          config="http://video.qbrick.com/play2/api/v1/accounts/AcctIaRI6GYGUWLBk6zITyt2A/configurations/default"
+        />
       </div>
       <div
         class="quiz__question-header-info col-lg-6"
@@ -90,13 +95,22 @@
 <script>
 import vuetify from "../../plugins/vuetify-quiz.es6";
 import EventBus from "../../event-bus.es6";
+import QBrick from "./QBrick.vue";
 
 export default {
   name: "Question",
   vuetify: vuetify,
+  components: {
+    QBrick
+  },
   data: () => ({
     selected: [],
-    isNextQuestionDisabled: true
+    isNextQuestionDisabled: true,
+    media: {
+      dimensions: {
+        width: 0
+      }
+    }
   }),
   props: {
     question: {
@@ -190,6 +204,7 @@ export default {
 <!--  transition: background-color .1s ease-in-out;-->
 <!--  background-color: #e2e6e9;-->
 <!--  border-radius: 0;-->
+<!--  border: none;-->
 <!--  width: calc(50% - 1rem - 6px);-->
 <!--  padding: 1.5em 3em;-->
 <!--  margin: 1rem 1rem 1rem 3px;-->

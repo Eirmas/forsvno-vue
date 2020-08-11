@@ -23,7 +23,7 @@
               :subTitle="subTitle"
               :startText="startText"
               :id="id"
-              :image="image"
+              :media="media"
             />
           </v-stepper-content>
           <v-stepper-content
@@ -96,8 +96,8 @@ export default {
       type: String,
       default: ""
     },
-    image: {
-      type: [String, Boolean],
+    media: {
+      type: [Object, Boolean],
       default: false
     }
   },

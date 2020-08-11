@@ -5,10 +5,16 @@
     >
       {{ title }}
     </h1>
-    <img
-      v-if="image"
-      :src="image"
+    <v-img
+      v-if="media.selected === 'image'"
+      :src="media.image.src"
       class="quiz__image"
+    />
+    <QBrick
+      v-else-if="media.selected === 'video'"
+      :qbrick="media.video"
+      class="quiz__image"
+      config="http://video.qbrick.com/play2/api/v1/accounts/AcctIaRI6GYGUWLBk6zITyt2A/configurations/default"
     />
     <h2
       class="quiz__start-sub-title quiz__text"
@@ -38,9 +44,11 @@
 
 <script>
 import EventBus from "../../event-bus.es6";
+import QBrick from "./QBrick.vue";
 
 export default {
   name: "Start",
+  components: { QBrick },
   props: {
     id: {
       type: String,
@@ -58,8 +66,8 @@ export default {
       type: String,
       default: ""
     },
-    image: {
-      type: [String, Boolean],
+    media: {
+      type: [Object, Boolean],
       default: false
     }
   },
@@ -76,7 +84,7 @@ export default {
 <!--  padding-bottom: 1rem;-->
 <!--}-->
 <!--.quiz__image {-->
-<!--  max-width: 680px;-->
+<!--  max-width: 680px !important;-->
 <!--  width: 100%;-->
 <!--  margin: 1rem auto;-->
 <!--  text-align: left !important;-->

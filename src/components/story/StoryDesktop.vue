@@ -203,6 +203,7 @@ export default {
 <!--  background-size: contain;-->
 <!--  background-position: center;-->
 <!--  background-color: #191B21;-->
+<!--  background-repeat: no-repeat;-->
 <!--  margin: 0 1.5rem;-->
 <!--}-->
 <!--.story__wrapper .gobrain-play {-->
