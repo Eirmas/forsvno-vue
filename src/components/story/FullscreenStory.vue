@@ -58,6 +58,7 @@
           :key="storyIndex"
           :height="height"
           :width="width"
+          :autoplay="autoplay"
           :on-progress="progress"
           :on-play-complete="playNext"
           :image="story.storyItems[storyIndex].image"

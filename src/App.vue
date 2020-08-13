@@ -47,7 +47,7 @@
         :line-data="lineData"
       />
     </div>
-    <div>
+    <div class="stepper__wrapper">
       <Stepper
         :data="stepperData"
       />

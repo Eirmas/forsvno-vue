@@ -33,10 +33,16 @@ export default {
     },
     onPlayComplete: {
       type: Function
+    },
+    autoplay: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
-    this.play();
+    if (this.autoplay) {
+      this.play();
+    }
   },
   methods: {
     play: function () {
