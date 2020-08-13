@@ -152,7 +152,7 @@ export default {
       if (this.isHorizontal === undefined) {
         const x = Math.abs(this.swipePosition.x - e.changedTouches[0].clientX);
         const y = Math.abs(this.swipePosition.y - e.changedTouches[0].clientY);
-        this.isHorizontal = x > y;
+        this.isHorizontal = x + 1 > y;
       }
       if (this.isHorizontal === true) {
         e.preventDefault();
