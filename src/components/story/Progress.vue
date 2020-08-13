@@ -2,7 +2,7 @@
   <div class="story__progress-wrapper">
     <div
       ref="progress"
-      v-for="(item, i) in total"
+      v-for="(_item, i) in total"
       :key="i"
       class="story__progress"
     >

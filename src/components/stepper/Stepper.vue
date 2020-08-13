@@ -48,13 +48,13 @@
       </div>
     </div>
     <div
-      class="stepper__inner-wrapper"
       ref="wrapper"
+      class="stepper__inner-wrapper"
       @scroll.prevent
-      @wheel.prevent="scroll"
-      @touchstart.prevent="touch($event, true)"
-      @touchmove.prevent
-      @touchend.prevent="touch($event, false)"
+      @wheel="scroll"
+      @touchstart="touch($event, true)"
+      @touchmove="touchMove"
+      @touchend="touch($event, false)"
     >
       <div
         :style="isOverflowing ? `left: calc(50% - ${112.5 + ((currentStep * lineWidth) + (currentStep * 16))}px)` : ''"
@@ -78,7 +78,7 @@
           <div
             v-else-if="i < computedData.length - 1"
             :key="i"
-            :class="['stepper__line', (i < (step * 2)) ? 'stepper__line-normal' : 'stepper__line-dash']"
+            :class="['stepper__line', (i < (lastActiveStep * 2)) ? 'stepper__line-normal' : 'stepper__line-dash']"
           />
         </template>
       </div>
@@ -103,7 +103,11 @@
 export default {
   name: "Stepper",
   data: () => ({
-    swipePosition: 0,
+    swipePosition: {
+      x: 0,
+      y: 0
+    },
+    isHorizontal: undefined,
     isTransitioning: false,
     lineWidth: 225,
     currentStep: 0,
@@ -116,7 +120,7 @@ export default {
     }
   },
   computed: {
-    step: function () {
+    lastActiveStep: function () {
       let lastActiveKey = 0;
       for (let i = 0; i < this.data.length; i++) {
         lastActiveKey = (this.data[i].active) ? i : lastActiveKey;
@@ -134,6 +138,9 @@ export default {
   },
   methods: {
     scroll: function (e) {
+      if (e.deltaX !== 0) {
+        e.preventDefault();
+      }
       const treshold = 80;
       if (e.deltaX < treshold * -1) {
         this.prevStep();
@@ -141,13 +148,31 @@ export default {
         this.nextStep();
       }
     },
+    touchMove: function (e) {
+      if (this.isHorizontal === undefined) {
+        const x = Math.abs(this.swipePosition.x - e.changedTouches[0].clientX);
+        const y = Math.abs(this.swipePosition.y - e.changedTouches[0].clientY);
+        this.isHorizontal = x > y;
+      }
+      if (this.isHorizontal === true) {
+        e.preventDefault();
+      }
+    },
     touch: function (e, swipeStart) {
       if (swipeStart) {
-        this.swipePosition = e.changedTouches[0].clientX;
-      } else if ((this.swipePosition - e.changedTouches[0].clientX) < 0) {
-        this.prevStep();
+        this.swipePosition = {
+          x: e.changedTouches[0].clientX,
+          y: e.changedTouches[0].clientY
+        };
       } else {
-        this.nextStep();
+        if (this.isHorizontal === true) {
+          if ((this.swipePosition.x - e.changedTouches[0].clientX) < 0) {
+            this.prevStep();
+          } else {
+            this.nextStep();
+          }
+        }
+        this.isHorizontal = undefined;
       }
     },
     updateLineWidth: function () {

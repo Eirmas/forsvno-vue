@@ -14,7 +14,6 @@
       v-else-if="media.selected === 'video'"
       :qbrick="media.video"
       class="quiz__image"
-      config="http://video.qbrick.com/play2/api/v1/accounts/AcctIaRI6GYGUWLBk6zITyt2A/configurations/default"
     />
     <h2
       class="quiz__start-sub-title quiz__text"
@@ -48,7 +47,9 @@ import QBrick from "./QBrick.vue";
 
 export default {
   name: "Start",
-  components: { QBrick },
+  components: {
+    QBrick
+  },
   props: {
     id: {
       type: String,

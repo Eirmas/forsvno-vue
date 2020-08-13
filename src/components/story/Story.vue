@@ -45,7 +45,7 @@
         <div
           v-for="(story, i) in stories"
           :key="i"
-          class="stories__title"
+          :class="['stories__title',(clientWidth < 991) ? 'stories__title-break' : '']"
         >
           {{ story.title }}
         </div>
@@ -121,15 +121,9 @@ export default {
       this.updateOverflow();
     },
     updateOverflow: function () {
-      if (this.isOpen) {
-        document.body.style.overflow = "hidden";
-        document.body.style.position = "fixed";
-        document.body.style.width = "100%";
-      } else {
-        document.body.style.overflow = "unset";
-        document.body.style.position = "unset";
-        document.body.style.width = "unset";
-      }
+      document.body.style.overflow = (this.isOpen) ? "hidden" : "unset";
+      document.body.style.position = (this.isOpen) ? "fixed" : "unset";
+      document.body.style.width = (this.isOpen) ? "100%" : "unset";
     },
     updateClientWidth: function () {
       if (this.$refs.wrapper) {

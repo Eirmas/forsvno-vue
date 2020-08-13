@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>
+    <div
+      class="stories__wrapper"
+    >
       <Story
         title="Instagram Story"
         :stories="stories"
@@ -8,23 +10,27 @@
     </div>
     <div class="container">
       <div class="row layout-2-col">
-        <div class="col-lg-6" >
-          <Diagram
-            title="Forsvarets totale kostnader"
-            sub-title="For året 2019"
-            :pie-data="pieData"
-          />
+        <div class="col-lg-6">
+          <div class="diagram__wrapper">
+            <Diagram
+              title="Forsvarets totale kostnader"
+              sub-title="For året 2019"
+              :pie-data="pieData"
+            />
+          </div>
         </div>
         <div class="col-lg-6">
-          <Diagram
-            title="Fullført ordinær førstegangstjeneste"
-            sub-title="Fordelt på kjønn"
-            :column-data="columnData"
-          />
+          <div class="diagram__wrapper">
+            <Diagram
+              title="Fullført ordinær førstegangstjeneste"
+              sub-title="Fordelt på kjønn"
+              :column-data="columnData"
+            />
+          </div>
         </div>
       </div>
     </div>
-    <div>
+    <div class="quiz__wrapper">
       <Quiz
         title="Er du klar for sesjon?"
         sub-title="Sesjon består ikke bare av fysisk testing"
@@ -34,7 +40,7 @@
         :questions="questions"
       />
     </div>
-    <div>
+    <div class="diagram__wrapper">
       <Diagram
         title="Personell 2015 - 2019"
         sub-title="Sjøforsvaret"
@@ -46,7 +52,7 @@
         :data="stepperData"
       />
     </div>
-    <div>
+    <div class="diagram__wrapper">
       <Diagram
         title="Distribusjon av kostnader"
         sub-title="På avdelinger"

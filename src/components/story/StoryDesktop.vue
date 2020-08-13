@@ -4,11 +4,23 @@
     :class="(isSeen) ? 'story__wrapper-seen story__wrapper' : 'story__wrapper'"
   >
     <div
+      v-if="currentIndex === -1"
+      :style="`width:${width}px;height:${height}px;`"
+      class="story__thumbnail"
+    >
+      <button
+        :class="isSeen ? 'story__replay' : 'story__play'"
+        @click="storyPlay()"
+      >
+        <ReplayIcon v-if="isSeen"/>
+      </button>
+    </div>
+    <div
       v-show="isPlaying"
       class="story__header"
     >
       <template
-        v-for="(item, i) in storyItems"
+        v-for="(_item, i) in storyItems"
       >
         <Progress
           v-if="i === currentIndex"
@@ -30,26 +42,7 @@
           class="story__user-close"
           @click="storyStop"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="3.5 3.5 17 17"
-            style="vertical-align: top;"
-          >
-            <line
-              style="fill:none;stroke:#FFFFFF;stroke-width:1;stroke-miterlimit:10;"
-              x1="7"
-              y1="7"
-              x2="17"
-              y2="17"
-            />
-            <line
-              style="fill:none;stroke:#FFFFFF;stroke-width:1;stroke-miterlimit:10;"
-              x1="7"
-              y1="17"
-              x2="17"
-              y2="7"
-            />
-          </svg>
+          <CloseIcon />
         </button>
       </div>
     </div>
@@ -66,20 +59,8 @@
         @click="playNext"
       />
     </div>
-    <div
-      v-if="currentIndex === -1"
-      :style="`width:${width}px;height:${height}px;`"
-      class="story__thumbnail"
-    >
-      <button
-        :class="isSeen ? 'story__replay' : 'story__play'"
-        @click="storyPlay()"
-      >
-        <ReplayIcon v-if="isSeen"/>
-      </button>
-    </div>
     <Video
-      v-else-if="storyItems[currentIndex].type === 'video'"
+      v-if="currentIndex !== -1 && storyItems[currentIndex].type === 'video'"
       ref="qbrick"
       :key="renderKey"
       :qbrick="storyItems[currentIndex].qbrick"
@@ -90,7 +71,7 @@
       :width="width"
     />
     <StoryImage
-      v-else-if="storyItems[currentIndex].type === 'image'"
+      v-if="currentIndex !== -1 && storyItems[currentIndex].type === 'image'"
       ref="image"
       :key="renderKey"
       :height="height"
@@ -106,6 +87,7 @@
 import Video from "./StoryVideo.vue";
 import StoryImage from "./StoryImage.vue";
 import ReplayIcon from "./ReplayIcon.vue";
+import CloseIcon from "./CloseIcon.vue";
 import Progress from "./Progress.vue";
 
 export default {
@@ -141,7 +123,8 @@ export default {
     Progress,
     Video,
     StoryImage,
-    ReplayIcon
+    ReplayIcon,
+    CloseIcon
   },
   methods: {
     storyPlay: function () {

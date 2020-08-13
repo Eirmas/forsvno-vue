@@ -46,6 +46,7 @@
               :total="questions.length"
               :endText="endText"
               :id="id"
+              :feedback="feedback"
             />
           </v-stepper-content>
         </v-stepper-items>
@@ -97,6 +98,10 @@ export default {
       default: ""
     },
     media: {
+      type: [Object, Boolean],
+      default: false
+    },
+    feedback: {
       type: [Object, Boolean],
       default: false
     }

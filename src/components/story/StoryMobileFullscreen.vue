@@ -5,7 +5,7 @@
   >
     <div
       ref="wrapper"
-      :style="`width:${dimensions.width || 252}px;height:${dimensions.height || 448}px`"
+      :style="`width:${dimensions.width}px;height:${dimensions.height}px`"
       class="story__fullscreen-wrapper"
     >
       <div

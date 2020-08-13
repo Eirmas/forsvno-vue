@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      :class="['quiz__question-header row', !question.isImageLeft ? 'quiz__question-header-reverse' : '']"
+      :class="['quiz__question-header row', question.isImageLeft ? '' : 'quiz__question-header-reverse']"
     >
       <div
         v-if="question.media"
@@ -14,7 +14,6 @@
         <QBrick
           v-else-if="question.media.selected === 'video'"
           :qbrick="question.media.video"
-          config="http://video.qbrick.com/play2/api/v1/accounts/AcctIaRI6GYGUWLBk6zITyt2A/configurations/default"
         />
       </div>
       <div
@@ -48,7 +47,7 @@
             'quiz__question-option',
              selected.includes(i) ? 'quiz__question-option-active' : '',
              (!isNextQuestionDisabled) ? determineClass(i) : ''
-             ]"
+           ]"
           :disabled="!isNextQuestionDisabled"
           @click="toggle(i)"
         >
@@ -67,9 +66,9 @@
       class="quiz__question-footer"
     >
       <button
-        @click="checkAnswer"
         :disabled="!isNextQuestionDisabled"
         class="quiz__question-button"
+        @click="checkAnswer"
       >
         <span
           :class="[isNextQuestionDisabled ? 'underline-draw' : '']"
@@ -78,9 +77,9 @@
         </span>
       </button>
       <button
-        @click="nextQuestion"
         :disabled="isNextQuestionDisabled"
         class="quiz__question-button"
+        @click="nextQuestion"
       >
         <span
           :class="[!isNextQuestionDisabled ? 'underline-draw' : '']"
