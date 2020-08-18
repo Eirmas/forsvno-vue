@@ -59,11 +59,6 @@
         :area-data="areaData"
       />
     </div>
-    <div class="list-small-links__wrapper">
-      <Links
-        :links="links"
-      />
-    </div>
   </div>
 </template>
 
@@ -72,7 +67,6 @@ import Story from "./components/story/Story.vue";
 import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
-import Links from "./components/links/Links.vue";
 
 export default {
   name: "App",
@@ -80,46 +74,9 @@ export default {
     Story,
     Quiz,
     Stepper,
-    Diagram,
-    Links
+    Diagram
   },
   data: () => ({
-    links: [
-      [
-        {
-          title: "Link 1",
-          icon: require("@/assets/images/internal.svg"),
-          href: "https://google.com",
-          newTab: false
-        },
-        {
-          title: "Link 2",
-          icon: require("@/assets/images/external.svg"),
-          href: "https://google.com",
-          newTab: false
-        },
-        {
-          title: "Link 3",
-          icon: require("@/assets/images/internal.svg"),
-          href: "https://google.com",
-          newTab: false
-        }
-      ],
-      [
-        {
-          title: "Link 4",
-          icon: require("@/assets/images/external.svg"),
-          href: "https://google.com",
-          newTab: false
-        },
-        {
-          title: "Link 5",
-          icon: require("@/assets/images/internal.svg"),
-          href: "https://google.com",
-          newTab: false
-        }
-      ]
-    ],
     stories: [
       {
         title: "Hæren",

@@ -77,6 +77,7 @@
       :height="height"
       :width="width"
       :on-progress="progress"
+      :autoplay="true"
       :on-play-complete="playComplete"
       :image="storyItems[currentIndex].image"
     />
