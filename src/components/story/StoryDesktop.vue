@@ -161,6 +161,9 @@ export default {
     },
     storyComplete: function () {
       this.storyStop();
+    },
+    sortFunc: function (a, b) {
+      return a.size < b.size ? 1 : -1;
     }
   },
   computed: {
@@ -169,10 +172,9 @@ export default {
         return this.thumbnailOverride;
       }
       if (this.storyItems[0].type === "video") {
-        const data = this.storyItems[0].qbrick.data;
-        const resources = data.qbrick.asset.resources;
+        const resources = this.storyItems[0].qbrick.data.qbrick.asset.resources;
         const thumbnail = resources.filter((v) => v.rel && v.rel === "thumbnail");
-        return thumbnail[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0].links.href;
+        return thumbnail[0].renditions.sort(this.sortFunc)[0].links.href;
       }
       return this.storyItems[0].image;
     }
