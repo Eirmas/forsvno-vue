@@ -37,6 +37,9 @@
 </template>
 
 <script>
+/**
+ * Loading icon component.
+ */
 export default {
   name: "LoadingIcon"
 };

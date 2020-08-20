@@ -22,6 +22,9 @@
 </template>
 
 <script>
+/**
+ * Close icon component.
+ */
 export default {
   name: "CloseIcon"
 };

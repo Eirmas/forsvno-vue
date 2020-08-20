@@ -31,45 +31,85 @@
 <script>
 import LoadingIcon from "./LoadingIcon.vue";
 
+/**
+ * Wrapper for displaying a video in the mobile story.
+ */
 export default {
   name: "Video",
   components: {
     LoadingIcon
   },
   props: {
+    /**
+     * Height of the video.
+     */
     height: {
       type: [Number, Boolean],
       default: false
     },
+    /**
+     * Width of the video.
+     */
     width: {
       type: [Number, Boolean],
       default: false
     },
+    /**
+     * Callback function on play.
+     */
     onPlay: {
       type: Function
     },
+    /**
+     * Callback function on pause.
+     */
     onPause: {
       type: Function
     },
+    /**
+     * Callback function on complete.
+     */
     onPlayComplete: {
       type: Function
     },
+    /**
+     * Callback function on progress.
+     */
     onProgress: {
       type: Function
     },
+    /**
+     * QBrick data object. Holds all video details.
+     */
     qbrick: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Determines weather to play video on mounted or not.
+     */
     autoplay: {
       type: Boolean,
       default: false
     }
   },
   data: () => ({
+    /**
+     * Holds an interval function when playing.
+     * We store it here to be able to clear it.
+     */
     progressInterval: undefined,
+    /**
+     * Determines weather to display the loading icon.
+     */
     displayLoadIcon: false,
+    /**
+     * Determines weather to show the thumbnail.
+     */
     showThumbnail: false,
+    /**
+     * The render key is used to re-render components properly.
+     */
     renderKey: 0
   }),
   created() {
@@ -78,6 +118,10 @@ export default {
     }
   },
   watch: {
+    /**
+     * When the autoplay variable changes, we can make the video start playing without
+     * having to re-render the whole component thanks to the render key.
+     */
     autoplay: function () {
       if (this.autoplay) {
         this.renderKey++;
@@ -85,12 +129,22 @@ export default {
     }
   },
   computed: {
+    /**
+     * Returns string with url to video.
+     *
+     * @returns { href: string; mimeType: string; }
+     */
     resource: function () {
       const data = this.qbrick.data;
       const resources = data.qbrick.asset.resources;
       const video = resources.filter((v) => v.type && v.type === "video");
       return video[0].renditions.sort((a, b) => (a.size < b.size ? 1 : -1))[0].links;
     },
+    /**
+     * Returns string with url to the video thumbnail.
+     *
+     * @returns string
+     */
     thumbnail: function () {
       const data = this.qbrick.data;
       const resources = data.qbrick.asset.resources;
@@ -99,9 +153,15 @@ export default {
     }
   },
   methods: {
+    /**
+     * Displays the thumbnail
+     */
     displayThumbnail: function () {
       this.showThumbnail = true;
     },
+    /**
+     * Starts playing the video from current time.
+     */
     play: function () {
       setTimeout(() => {
         if (this.$refs.video && this.$refs.video.play) {
@@ -109,11 +169,17 @@ export default {
         }
       }, 500);
     },
+    /**
+     * Pauses the video.
+     */
     pause: function () {
       if (this.$refs.video && this.$refs.video.pause) {
         this.$refs.video.pause();
       }
     },
+    /**
+     * The interval function used to trigger the onProgress callback function when video progresses.
+     */
     intervalFunc: function () {
       if (this.onProgress && this.$refs.video) {
         this.onProgress(this.$refs.video.currentTime / this.$refs.video.duration);
@@ -121,6 +187,9 @@ export default {
     }
   },
   mounted() {
+    /**
+     * Created video event listeners
+     */
     if (this.$refs.video) {
       this.$refs.video.addEventListener("loadstart", () => {
         if (this.autoplay) {

@@ -6,6 +6,9 @@
 </template>
 
 <script>
+/**
+ * Replay icon component
+ */
 export default {
   name: "ReplayIcon"
 };

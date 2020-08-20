@@ -65,32 +65,77 @@
 import EventBus from "../../event-bus.es6";
 import FullscreenStory from "./FullscreenStory.vue";
 
+/**
+ * The modal component for mobile stories.
+ * This components makes swiping and clicking possible with cool 3D effects.
+ * The components has 3 "slides" where we can insert stories.
+ */
 export default {
   name: "StoryMobileFullscreen",
   components: {
     FullscreenStory
   },
   data: () => ({
+    /**
+     * The calculated dimensions of the containers.
+     * The dimensions will always be in 9:16 format.
+     */
     dimensions: {
       width: 0,
       height: 0
     },
+    /**
+     * Determines weather the user is currently interacting with the modal.
+     * (This in the form of mouseMove events)
+     */
     dragEnabled: false,
+    /**
+     * Here we store the MouseEvent data
+     * It is undefined when user is not interacting with the modal.
+     * @type: MouseEvent
+     */
     dragData: undefined,
+    /**
+     * Determines which direction the user is draging.
+     *
+     * @type: String | undefined // String is either "X" or "Y"
+     */
     dragAxis: undefined,
+    /**
+     *  The width of the scene. (this.$refs.scene)
+     *  The scene is the container for a single slide.
+     */
     sceneWidth: 0,
+    /**
+     * The number representing the current story displayed. (Not the story item index)
+     */
     storiesIndex: 0,
+    /**
+     * Determines weather a interaction cooldown is active.
+     * When true the user cant interact much with the modal.
+     * Is used to prevent user from interacting when animations are happening.
+     */
     isCooldownActive: false
   }),
   props: {
+    /**
+     * ID of the story part.
+     */
     id: {
       type: String,
       default: ""
     },
+    /**
+     * The stories to display.
+     */
     stories: {
       type: [Array, Boolean],
       default: false
     },
+    /**
+     * The index of the clicked story before opening the modal.
+     * We use this to play the story the user clicked.
+     */
     clickedIndex: {
       type: Number,
       default: 0
@@ -112,6 +157,11 @@ export default {
     this.updateSceneWidth();
   },
   methods: {
+    /**
+     * Function for the touchDown event
+     * This functions soul purpose is to translate the TouchEvent into the data we need from MouseEvent
+     * @param e: TouchEvent
+     */
     touchDown: function (e) {
       e.preventDefault();
       this.mouseDown({
@@ -120,6 +170,10 @@ export default {
         target: e.target
       });
     },
+    /**
+     * MouseDown event function. Also used by the touchDown function.
+     * @param e: MouseEvent | { pageX: number; pageY: number; target: Element | undefined }
+     */
     mouseDown: function (e) {
       if (e.preventDefault) {
         e.preventDefault();
@@ -129,6 +183,11 @@ export default {
         this.dragData = e;
       }
     },
+    /**
+     * Function for the touchMove event
+     * This functions soul purpose is to translate the TouchEvent into the data we need from MouseEvent
+     * @param e: TouchEvent
+     */
     touchMove: function (e) {
       e.preventDefault();
       this.mouseMove({
@@ -136,6 +195,10 @@ export default {
         pageY: e.changedTouches[0].pageY
       });
     },
+    /**
+     * MouseMove event function. Also used by the touchMove function.
+     * @param e: MouseEvent | { pageX: number; pageY: number; }
+     */
     mouseMove: function (e) {
       if (e.preventDefault) {
         e.preventDefault();
@@ -152,6 +215,11 @@ export default {
         }
       }
     },
+    /**
+     * Function for the touchUp event
+     * This functions soul purpose is to translate the TouchEvent into the data we need from MouseEvent
+     * @param e: TouchEvent
+     */
     touchUp: function (e) {
       e.preventDefault();
       this.mouseUp({
@@ -159,6 +227,10 @@ export default {
         pageY: e.changedTouches[0].pageY
       });
     },
+    /**
+     * MouseUp event function. Also used by the touchUp function.
+     * @param e: MouseEvent | { pageX: number; pageY: number; }
+     */
     mouseUp: function (e) {
       if (e.preventDefault) {
         e.preventDefault();
@@ -172,6 +244,10 @@ export default {
       this.dragAxis = undefined;
       this.dragData = undefined;
     },
+    /**
+     * Function to play the next story.
+     * It also handles animations.
+     */
     storyNext: function () {
       if (!this.isDelayActive) {
         this.isDelayActive = true;
@@ -185,6 +261,10 @@ export default {
         }, 500);
       }
     },
+    /**
+     * Function to play the previous story.
+     * It also handles animations.
+     */
     storyPrev: function () {
       if (!this.isDelayActive) {
         this.isDelayActive = true;
@@ -198,6 +278,10 @@ export default {
         }, 500);
       }
     },
+    /**
+     * Function responsible for animating to the next slide.
+     * If there is no next slide, it will close the modal.
+     */
     nextSlide: function () {
       if (this.$refs.innerScene) {
         if (this.storiesIndex + 1 < this.stories.length) {
@@ -219,6 +303,10 @@ export default {
         }
       }
     },
+    /**
+     * Function responsible for animating to the previous slide.
+     * If there is no previous slide, it will close the modal.
+     */
     prevSlide: function () {
       if (this.$refs.innerScene) {
         if (this.storiesIndex > 0) {
@@ -240,6 +328,12 @@ export default {
         }
       }
     },
+    /**
+     * This function makes the slides look like a 3D cube when swiping the x-axis.
+     * It will only trigger through the mouseMove function when the user is interacting with the modal.
+     *
+     * @param e: MouseEvent | { pageX: number }
+     */
     animateX: function (e) {
       if (this.$refs.innerScene && this.$refs.fullscreen) {
         const offset = e.pageX - this.dragData.pageX;
@@ -269,6 +363,12 @@ export default {
         }
       }
     },
+    /**
+     * This function makes the modals opacity fade and move in the Y-axis.
+     * It will only trigger through the mouseMove function when the user is interacting with the modal.
+     *
+     * @param e: MouseEvent | { pageY: number }
+     */
     animateY: function (e) {
       if (this.$refs.innerScene && this.$refs.fullscreen) {
         this.hideDummy();
@@ -282,6 +382,14 @@ export default {
         this.$refs.fullscreen.style.opacity = `${Math.ceil((1 - (2 * (offset / window.innerHeight))) * 100)}%`;
       }
     },
+    /**
+     * This function triggers when the user lets go after interacting with the modal for the X-axis.
+     * It determines what should happen and animates to modal to either go to next/previous slide or
+     * stay on the current one.
+     * If it determines to go to next/previous slide but there is none - it will close.
+     *
+     * @param e: MouseEvent | { pageX: number }
+     */
     finishX: function (e) {
       const offset = e.pageX - this.dragData.pageX;
       const total = (this.sceneWidth / 2) + (window.innerWidth / 2);
@@ -310,6 +418,12 @@ export default {
         this.close();
       }
     },
+    /**
+     * This function triggers when the user lets go after interacting with the modal for the Y-axis.
+     * It determines what should happen and animates to modal to either close or stay open.
+     *
+     * @param e: MouseEvent | { pageY: number }
+     */
     finishY: function (e) {
       if (e.pageY - this.dragData.pageY > (0.2 * window.innerHeight)) {
         this.close();
@@ -317,6 +431,9 @@ export default {
         this.keepOpen();
       }
     },
+    /**
+     * Closes the modal with awesome animations.
+     */
     close: function () {
       const duration = 250;
       if (this.$refs.scene) {
@@ -354,6 +471,9 @@ export default {
         EventBus.$emit("story__fullscreen-close", this.id);
       }, duration);
     },
+    /**
+     * Keeps the modal open and on the current slide with awesome animations.
+     */
     keepOpen: function () {
       EventBus.$emit("story__fs-thumbnail", { id: this.id, onMain: false });
       const duration = 250;
@@ -394,6 +514,13 @@ export default {
         this.hideDummy();
       }, duration);
     },
+    /**
+     * The callback function when a story is complete.
+     * We also use this function as a callback if a user clicks on the left side of the
+     * story to go to the previous story. If so -> next parameter will be false.
+     *
+     * @param next: Boolean
+     */
     storyComplete: function (next) {
       if (next) {
         this.storyNext();
@@ -401,6 +528,13 @@ export default {
         this.storyPrev();
       }
     },
+    /**
+     * A dummy is one of the two sides of the 3D cube. They dont have to be visible at all times
+     * so we have the ability to show and hide them.
+     * We can choose which one of the dummies to display by passing the dummys classname.
+     *
+     * @param className: String // "story__fullscreen-left" | "story__fullscreen-right"
+     */
     showDummy: function (className) {
       if (this.$refs.innerScene) {
         const dummies = this.$refs.innerScene.querySelectorAll(`.${className}`);
@@ -412,6 +546,11 @@ export default {
         });
       }
     },
+    /**
+     * A dummy is one of the two sides of the 3D cube. They dont have to be visible at all times
+     * so we have the ability to show and hide them.
+     * This functions hides all dummies. Must have class ".story__fullscreen-container-dummy"
+     */
     hideDummy: function () {
       if (this.$refs.innerScene) {
         const dummies = this.$refs.innerScene.querySelectorAll(".story__fullscreen-container-dummy");
@@ -421,6 +560,12 @@ export default {
         });
       }
     },
+    /**
+     * When clicking on the slide we check if the user clicked on the left or right side of the slide.
+     * We do this to determine weather to go to the next or previous story item.
+     *
+     * @param e: MouseEvent
+     */
     checkClick: function (e) {
       if (this.checkTargetIsContainer(e)) {
         const target = this.$refs.container.getClientRects()[0];
@@ -432,6 +577,12 @@ export default {
         }
       }
     },
+    /**
+     * Checks if the user clicked inside the container (this.$refs.container)
+     *
+     * @param e: MouseEvent
+     * @returns Boolean
+     */
     checkTargetIsContainer: function (e) {
       if (this.$refs.container) {
         const target = this.$refs.container.getClientRects()[0];
@@ -441,10 +592,16 @@ export default {
       }
       return false;
     },
+    /**
+     * Function triggered for resize events.
+     */
     resize: function () {
       this.updateWrapperWidth();
       this.updateSceneWidth();
     },
+    /**
+     * Updates the dimensions object.
+     */
     updateWrapperWidth: function () {
       if ((window.innerWidth / window.innerHeight) < (9 / 16)) {
         this.dimensions = {
@@ -458,6 +615,9 @@ export default {
         };
       }
     },
+    /**
+     * Updates the scene width variable.
+     */
     updateSceneWidth: function () {
       if (this.$refs.scene) {
         this.sceneWidth = this.$refs.scene.clientWidth;
@@ -465,11 +625,19 @@ export default {
     }
   },
   watch: {
+    /**
+     * Checks if the storiesIndex variable is invalid.
+     * If so -> close the modal.
+     */
     storiesIndex: function () {
       if (this.storiesIndex > this.stories.length - 1 || this.storiesIndex < 0) {
         this.close();
       }
     },
+    /**
+     * When the user interacts with the modal and the code has determined which axis user is
+     * draging, it will tell the current story to toggle pause or play.
+     */
     dragAxis: function () {
       EventBus.$emit("story__fs-toggle", {
         pause: this.dragAxis !== undefined,
