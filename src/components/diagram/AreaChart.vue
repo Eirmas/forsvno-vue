@@ -32,16 +32,36 @@ export default {
     highcharts: Chart
   },
   props: {
+    /**
+     * Area chart data. See https://api.highcharts.com/highcharts/ for detailed documentation.
+     *
+     * @values {
+     *   categories: String[];
+     *   series: {
+     *     name: string;
+     *     data: number;
+     *   }
+     *   xText: string;
+     *   yText: string;
+     * }
+     */
     data: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Array of colors.
+     * @values String[]
+     */
     colors: {
       type: [Array, Boolean],
       default: false
     }
   },
   computed: {
+    /**
+     * HighChart options
+     */
     options: function () {
       return {
         colors: this.colors || [],

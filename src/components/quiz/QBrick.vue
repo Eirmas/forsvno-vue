@@ -19,12 +19,19 @@ import { v1 } from "uuid";
 export default {
   name: "QBrick",
   props: {
+    /**
+     * QBrick object
+     */
     qbrick: {
       type: [Object, Boolean],
       default: false
     }
   },
   methods: {
+    /**
+     * Returns uuid for the GoBrain widget.
+     * @returns {*}
+     */
     getId: function () {
       return v1();
     }

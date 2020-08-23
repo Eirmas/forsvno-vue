@@ -14,7 +14,7 @@
         v-for="(story, i) in stories"
         :key="i"
         :title="story.title"
-        :thumbnail-override="story.thumbnail"
+        :thumbnail-override="story.thumbnailOverride"
         :profile-pic="story.profilePic"
         :story-items="story.storyItems"
       />

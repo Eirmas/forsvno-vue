@@ -25,10 +25,18 @@
 export default {
   name: "Legend",
   props: {
+    /**
+     * Array of category names.
+     * @values String[]
+     */
     data: {
       type: [Array, Boolean],
       default: false
     },
+    /**
+     * Array of colors.
+     * @values String[]
+     */
     colors: {
       type: [Array, Boolean],
       default: false

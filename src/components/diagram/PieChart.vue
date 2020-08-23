@@ -31,16 +31,31 @@ export default {
     highcharts: Chart
   },
   props: {
+    /**
+     * @values {
+     *   series: {
+     *     name: string;
+     *     y: number;
+     *   }[]
+     * }
+     */
     data: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Array of colors.
+     * @values String[]
+     */
     colors: {
       type: [Array, Boolean],
       default: false
     }
   },
   computed: {
+    /**
+     * HighChart options
+     */
     options: function () {
       return {
         colors: this.colors,

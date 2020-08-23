@@ -72,35 +72,80 @@ export default {
     Start
   },
   data: () => ({
+    /**
+     * Number of points.
+     */
     points: 0,
+    /**
+     * ID of the quiz part.
+     */
     id: v1(),
+    /**
+     * The current question index.
+     */
     currentQuestionIndex: 0
   }),
   props: {
+    /**
+     * @values {
+     *   text: string;
+     *   desc: string;
+     *   media: {
+     *     selected: string;
+     *     image: {
+     *       src: string;
+     *     };
+     *     video: QBrick object;
+     *   }
+     *   isImageLeft: Boolean;
+     *   options: {
+     *     text: string;
+     *     isCorrect: Boolean;
+     *   }
+     * }[] || Boolean
+     */
     questions: {
       type: [Array, Boolean],
       default: false
     },
+    /**
+     * A descriptive text displayed at the end when quiz is finished.
+     */
     endText: {
       type: String,
       default: ""
     },
+    /**
+     * Title of the quiz.
+     */
     title: {
       type: String,
       default: ""
     },
+    /**
+     * Sub title of the quiz.
+     */
     subTitle: {
       type: String,
       default: ""
     },
+    /**
+     * A descriptive text about the quiz. Displayed before quiz is started.
+     */
     startText: {
       type: String,
       default: ""
     },
+    /**
+     * Optional image or video to display before quiz is taken.
+     */
     media: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Optional object that holds feedback messages.
+     */
     feedback: {
       type: [Object, Boolean],
       default: false
@@ -117,6 +162,9 @@ export default {
     });
   },
   methods: {
+    /**
+     * Goes to the next slide.
+     */
     next: function () {
       if (this.currentQuestionIndex <= this.questions.length) {
         this.currentQuestionIndex++;

@@ -51,28 +51,46 @@ export default {
     QBrick
   },
   props: {
+    /**
+     * ID of the quiz part.
+     */
     id: {
       type: String,
       default: ""
     },
+    /**
+     * Title of the quiz.
+     */
     title: {
       type: String,
       default: ""
     },
+    /**
+     * Sub title of the quiz.
+     */
     subTitle: {
       type: String,
       default: ""
     },
+    /**
+     * A descriptive text of the quiz.
+     */
     startText: {
       type: String,
       default: ""
     },
+    /**
+     * Optional picture or video.
+     */
     media: {
       type: [Object, Boolean],
       default: false
     }
   },
   methods: {
+    /**
+     * Tells parent to go to next slide.
+     */
     start: function () {
       EventBus.$emit("quiz__next", this.id);
     }

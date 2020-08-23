@@ -37,22 +37,37 @@ import EventBus from "../../event-bus.es6";
 export default {
   name: "Results",
   props: {
+    /**
+     * Users result points.
+     */
     points: {
       type: Number,
       default: 0
     },
+    /**
+     * The number of questions in the quiz. (Also the maximum number of points)
+     */
     total: {
       type: Number,
       default: 0
     },
+    /**
+     * A descriptive text displayed after quiz is taken.
+     */
     endText: {
       type: String,
       default: ""
     },
+    /**
+     * ID of the quiz.
+     */
     id: {
       type: String,
       default: ""
     },
+    /**
+     * Optional feedback override. Editor can choose to write own custom feedback messages.
+     */
     feedback: {
       type: [Object, Boolean],
       default: false
@@ -64,6 +79,10 @@ export default {
     }
   },
   computed: {
+    /**
+     * Returns the result message.
+     * @returns string
+     */
     getMessage: function () {
       const percentage = (this.points / this.total) * 100;
       if (percentage === 0) {

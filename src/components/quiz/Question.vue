@@ -103,27 +103,57 @@ export default {
     QBrick
   },
   data: () => ({
+    /**
+     * Array that holds users selected answers.
+     * It stores the answers index.
+     */
     selected: [],
-    isNextQuestionDisabled: true,
-    media: {
-      dimensions: {
-        width: 0
-      }
-    }
+    /**
+     * Boolean to tell if user is able to go to the next question.
+     */
+    isNextQuestionDisabled: true
   }),
   props: {
+    /**
+     * @values {
+     *   text: string;
+     *   desc: string;
+     *   media: {
+     *     selected: string;
+     *     image: {
+     *       src: string;
+     *     };
+     *     video: QBrick object;
+     *   }
+     *   isImageLeft: Boolean;
+     *   options: {
+     *     text: string;
+     *     isCorrect: Boolean;
+     *   }
+     * }
+     */
     question: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Index of the current question.
+     */
     index: {
       type: Number,
       default: 0
     },
+    /**
+     * Total number of questions in the quiz. Used to determine weather to show "Neste oppgave"
+     * or "Resultat" on the button.
+     */
     total: {
       type: Number,
       default: 0
     },
+    /**
+     * ID of the quiz part.
+     */
     id: {
       type: String,
       default: ""
@@ -138,6 +168,10 @@ export default {
     });
   },
   methods: {
+    /**
+     * Toggles the selected answer option.
+     * @param i: number
+     */
     toggle: function (i) {
       if (this.isNextQuestionDisabled) {
         if (this.selected.includes(i)) {
@@ -147,6 +181,10 @@ export default {
         }
       }
     },
+    /**
+     * Checks if user got the question correct or wrong.
+     * If correct -> tell parent to add one point.
+     */
     checkAnswer: function () {
       this.isNextQuestionDisabled = false;
       if (this.selected.length === this.question.options.filter((v) => v.isCorrect).length) {
@@ -159,11 +197,21 @@ export default {
         }
       }
     },
+    /**
+     * Tell parent to go to next slide.
+     */
     nextQuestion: function () {
       if (!this.isNextQuestionDisabled) {
         EventBus.$emit("quiz__next", this.id);
       }
     },
+    /**
+     * Used to determine class of the answer options.
+     * Is shown after user has clicked "Sjekk svaret".
+     *
+     * @param i: index
+     * @returns {string}
+     */
     determineClass: function (i) {
       const correctAnswers = this.question.options.map((v, index) => ({
         index: index,
