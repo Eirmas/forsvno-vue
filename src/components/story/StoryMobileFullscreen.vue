@@ -14,6 +14,7 @@
       >
         <div
           ref="innerScene"
+          :key="renderKey"
           :style="`transform: translateZ(-${sceneWidth / 2}px) rotateY(0deg)`"
           class="story__fullscreen-scene-wrapper"
         >
@@ -23,7 +24,6 @@
             class="story__fullscreen-container-dummy story__fullscreen-right"
           >
             <FullscreenStory
-              :key="storiesIndex - 1"
               :story="stories[storiesIndex - 1]"
               :index="storiesIndex - 1"
               :id="id"
@@ -49,7 +49,6 @@
             class="story__fullscreen-container-dummy story__fullscreen-left"
           >
             <FullscreenStory
-              :key="storiesIndex + 1"
               :story="stories[storiesIndex + 1]"
               :index="storiesIndex + 1"
               :id="id"
@@ -76,6 +75,10 @@ export default {
     FullscreenStory
   },
   data: () => ({
+    /**
+     * Render Key. Used to update components
+     */
+    renderKey: 0,
     /**
      * The calculated dimensions of the containers.
      * The dimensions will always be in 9:16 format.
@@ -552,7 +555,7 @@ export default {
      * This functions hides all dummies. Must have class ".story__fullscreen-container-dummy"
      */
     hideDummy: function () {
-      if (this.$refs.innerScene) {
+      if (this.$refs.innerScene && this.$refs.container) {
         const dummies = this.$refs.innerScene.querySelectorAll(".story__fullscreen-container-dummy");
         dummies.forEach((v) => {
           // eslint-disable-next-line
@@ -630,6 +633,7 @@ export default {
      * If so -> close the modal.
      */
     storiesIndex: function () {
+      this.renderKey++;
       if (this.storiesIndex > this.stories.length - 1 || this.storiesIndex < 0) {
         this.close();
       }

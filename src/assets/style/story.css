@@ -104,6 +104,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 .stories__wrapper .story__header {
+    background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(25,27,33,0.8) 100%);
     position: absolute;
     z-index: 1;
     width: 100%;
