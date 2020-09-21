@@ -13,7 +13,7 @@
       ref="sound"
       class="story__video-player-sound"
     >
-      <img :src="isMuted ? sound.off : sound.on">
+      <img :src="isMuted ? soundIcons.off : soundIcons.on">
     </div>
     <video
       v-if="!showThumbnail"
@@ -48,6 +48,17 @@ export default {
     LoadingIcon
   },
   props: {
+    /**
+     * src to sounds icon
+     * @values {
+     *   off: string;
+     *   on: string;
+     * }
+     */
+    soundIcons: {
+      type: [Object, Boolean],
+      default: false
+    },
     /**
      * Height of the video.
      */

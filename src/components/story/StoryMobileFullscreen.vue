@@ -27,6 +27,7 @@
               :story="stories[storiesIndex - 1]"
               :index="storiesIndex - 1"
               :id="id"
+              :sound-icons="soundIcons"
             />
           </div>
           <div
@@ -36,12 +37,13 @@
           >
             <FullscreenStory
               ref="main"
+              autoplay
               :key="storiesIndex"
               :story="stories[storiesIndex]"
               :on-story-complete="storyComplete"
               :index="storiesIndex"
               :id="id"
-              autoplay
+              :sound-icons="soundIcons"
             />
           </div>
           <div
@@ -53,6 +55,7 @@
               :story="stories[storiesIndex + 1]"
               :index="storiesIndex + 1"
               :id="id"
+              :sound-icons="soundIcons"
             />
           </div>
         </div>
@@ -122,6 +125,17 @@ export default {
     isCooldownActive: false
   }),
   props: {
+    /**
+     * src to sounds icon
+     * @values {
+     *   off: string;
+     *   on: string;
+     * }
+     */
+    soundIcons: {
+      type: [Object, Boolean],
+      default: false
+    },
     /**
      * ID of the story part.
      */

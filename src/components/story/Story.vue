@@ -38,6 +38,7 @@
         :stories="stories"
         :id="id"
         :clicked-index="clickedIndex"
+        :sound-icons="soundIcons"
       />
     </div>
     <div :class="(background.color && background.twoTone) ? background.color : ''">
@@ -100,6 +101,17 @@ export default {
      * @values { color: string; twoTone: boolean } || Boolean
      */
     background: {
+      type: [Object, Boolean],
+      default: false
+    },
+    /**
+     * src to sounds icon
+     * @values {
+     *   off: string;
+     *   on: string;
+     * }
+     */
+    soundIcons: {
       type: [Object, Boolean],
       default: false
     }

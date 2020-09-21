@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "build-vue": "vue-cli-service build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

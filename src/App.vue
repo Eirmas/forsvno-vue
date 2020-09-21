@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div class="promocard-horizontal__wrapper">
+      <Promocard
+        title="Promocard Horizontal"
+        :items="promocards"
+      />
+    </div>
     <div
       class="stories__wrapper"
     >
@@ -67,6 +73,7 @@ import Story from "./components/story/Story.vue";
 import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
+import Promocard from "./components/promocard-horizontal/Promocard.vue";
 
 export default {
   name: "App",
@@ -74,9 +81,34 @@ export default {
     Story,
     Quiz,
     Stepper,
-    Diagram
+    Diagram,
+    Promocard
   },
   data: () => ({
+    promocards: [
+      {
+        title: "2011",
+        decoration: {
+          icon: {
+            src: require("@/assets/images/medalje.svg")
+          },
+          caption: "Post Mortem"
+        },
+        text: "Trond André Bolle"
+      },
+      {
+        title: "02",
+        text: "De fleste konflikter krever territoriell kontroll ved nærvær av soldater på bakken og her har Hæren den viktigste rollen."
+      },
+      {
+        title: "03",
+        text: "De fleste konflikter krever territoriell kontroll ved nærvær av soldater på bakken og her har Hæren den viktigste rollen."
+      }
+    ],
+    soundIcons: {
+      off: require("@/assets/images/sound-off.svg"),
+      on: require("@/assets/images/sound-on.svg")
+    },
     stories: [
       {
         title: "Hæren",

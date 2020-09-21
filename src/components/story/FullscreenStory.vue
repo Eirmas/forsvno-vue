@@ -42,6 +42,8 @@
         <StoryVideo
           v-if="story.storyItems[storyItemIndex].type === 'video'"
           ref="video"
+          class="story__fs-qbrick"
+          config="http://video.qbrick.com/play2/api/v1/accounts/AccWzaGx1BsU0Cuf79OGAqVpQ/configurations/htmlOverlayNoControls"
           :key="storyItemIndex"
           :qbrick="story.storyItems[storyItemIndex].qbrick"
           :on-progress="progress"
@@ -49,8 +51,7 @@
           :height="height"
           :autoplay="autoplay"
           :width="width"
-          class="story__fs-qbrick"
-          config="http://video.qbrick.com/play2/api/v1/accounts/AccWzaGx1BsU0Cuf79OGAqVpQ/configurations/htmlOverlayNoControls"
+          :sound-icons="soundIcons"
         />
         <StoryImage
           v-else-if="story.storyItems[storyItemIndex].type === 'image'"
@@ -115,6 +116,17 @@ export default {
     isDelayActive: false
   }),
   props: {
+    /**
+     * src to sounds icon
+     * @values {
+     *   off: string;
+     *   on: string;
+     * }
+     */
+    soundIcons: {
+      type: [Object, Boolean],
+      default: false
+    },
     /**
      * Determines weather to play the story on mounted.
      */
