@@ -35,6 +35,7 @@
             class="story__fullscreen-container story__fullscreen-front"
           >
             <FullscreenStory
+              ref="main"
               :key="storiesIndex"
               :story="stories[storiesIndex]"
               :on-story-complete="storyComplete"
@@ -555,7 +556,7 @@ export default {
      * This functions hides all dummies. Must have class ".story__fullscreen-container-dummy"
      */
     hideDummy: function () {
-      if (this.$refs.innerScene && this.$refs.container) {
+      if (this.$refs.innerScene) {
         const dummies = this.$refs.innerScene.querySelectorAll(".story__fullscreen-container-dummy");
         dummies.forEach((v) => {
           // eslint-disable-next-line
@@ -573,12 +574,20 @@ export default {
       if (this.checkTargetIsContainer(e)) {
         const target = this.$refs.container.getClientRects()[0];
         const offsetX = e.pageX - target.left;
+        const offsetY = e.pageY - target.top;
+        if (target.width - offsetX > 0 && target.width - offsetX < (64) && target.height - offsetY > 0 && target.height - offsetY < (64)) {
+          if (this.$refs.main && this.$refs.main.$refs.video && this.$refs.main.$refs.video.toggleMute) {
+            this.$refs.main.$refs.video.toggleMute();
+            return false;
+          }
+        }
         if ((offsetX / target.width) > 0.5) {
           EventBus.$emit("story__fs-next", { id: this.id, index: this.storiesIndex });
         } else {
           EventBus.$emit("story__fs-prev", { id: this.id, index: this.storiesIndex });
         }
       }
+      return true;
     },
     /**
      * Checks if the user clicked inside the container (this.$refs.container)

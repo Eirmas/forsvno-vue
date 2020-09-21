@@ -8,10 +8,18 @@
       :style="`width:${width}px;height:${height}px;background-image: url('${thumbnail}')`"
       class="story__video-player-thumbnail"
     />
+    <div
+      v-if="!showThumbnail"
+      ref="sound"
+      class="story__video-player-sound"
+    >
+      <img :src="isMuted ? sound.off : sound.on">
+    </div>
     <video
       v-if="!showThumbnail"
       ref="video"
       playsinline
+      :muted="isMuted"
       :style="`width:${width}px;height:${height}px`"
       :src="resource.href"
       :type="resource.mimeType"
@@ -95,6 +103,17 @@ export default {
   },
   data: () => ({
     /**
+     * Sound icons
+     */
+    sound: {
+      off: require("../../assets/images/sound-off.svg"),
+      on: require("../../assets/images/sound-on.svg")
+    },
+    /**
+     * Determines weather to mute video audio or not
+     */
+    isMuted: true,
+    /**
      * Holds an interval function when playing.
      * We store it here to be able to clear it.
      */
@@ -153,6 +172,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * Toggles the mute
+     */
+    toggleMute: function () {
+      this.isMuted = !this.isMuted;
+    },
     /**
      * Displays the thumbnail
      */
