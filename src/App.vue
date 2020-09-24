@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <main>
+    <div class="slang-words__wrapper">
+      <Words
+        header="Militære forkortelser"
+        subheader="Noe"
+        inputPlaceholder="Noe"
+        table1Header="Noe"
+        table2Header="Noe"
+        :paginationIndex="30"
+        :paginationLimit="15"
+        :items="words" />
+    </div>
     <div class="promocard-horizontal__wrapper">
       <Promocard
         title="Promocard Horizontal"
@@ -65,7 +76,7 @@
         :area-data="areaData"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -74,6 +85,7 @@ import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
+import Words from "./components/slang-words/Words.vue";
 
 export default {
   name: "App",
@@ -82,9 +94,168 @@ export default {
     Quiz,
     Stepper,
     Diagram,
-    Promocard
+    Promocard,
+    Words
   },
   data: () => ({
+    words: [
+      { word: "1. linje", description: "Angir hva slags bekledning og utstyr man skal ha. Kun uniform" },
+      { word: "2. linje", description: "Angir hva slags bekledning og utstyr man skal ha. 1. linje + stridsvest og våpen" },
+      { word: "3. linje", description: "Angir hva slags bekledning og utstyr man skal ha. 2. linje + stridssekk med relevant utstyr for 24 timer (mat, teltduk, ekstra bekledning etc.)" },
+      { word: "4. linje", description: "Angir hva slags bekledning og utstyr man skal ha. 3. linje + utstyr relevant for lengre oppdrag (én uke). Mer mat, utstyr og bekledning. Pakkes i storsekk" },
+      { word: "5. linje", description: "Angir hva slags bekledning og utstyr man skal ha. Alt utstyr som hver enkelt soldat har fått utdelt" },
+      { word: "1. MR", description: "1. Minerydderskvadron" },
+      { word: "2. Bn", description: "2. Bataljon" },
+      { word: "5.0", description: "Godkjent patruljehund og/eller hundefører" },
+      { word: "9-8", description: "Melding til alle på gitte sambandsfrekvens" },
+      { word: "A/C", description: "Aircraft" },
+      { word: "AAW", description: "Anti-Air Warfare" },
+      { word: "ABC", description: "Atomic, Biological, Chemical" },
+      { word: "ABCDE", description: "Airways, Breathing, Circulation, Disability, Expose/Exam/Environmental Control. Huskeregel for livreddende førstehjelp" },
+      { word: "ABM", description: "Anti-ballistic missile" },
+      { word: "ABP ", description: "Afghan Border Police" },
+      { word: "ACCS", description: "Air Command & Control System" },
+      { word: "ACE", description: "Allied Command Europe" },
+      { word: "ACLANT", description: "Allied Command Atlantic" },
+      { word: "ACO", description: "Air Coordination Order" },
+      { word: "ACO", description: "Allied Command Operations" },
+      { word: "ACT", description: "Allied Command Transformation" },
+      { word: "ACU", description: "Air Control Unit" },
+      { word: "ADJ", description: "Adjutant" },
+      { word: "ADM", description: "Admiral" },
+      { word: "AdmAss", description: "Administrasjonsassistent" },
+      { word: "ADMOFF", description: "Administrasjonsoffiser" },
+      { word: "ADR", description: "Air Defence Radar" },
+      { word: "ADSAM", description: "Adskillelse og Sammensetting av våpen" },
+      { word: "AE", description: "Armed elements" },
+      { word: "AET", description: "Agency Establishment Team" },
+      { word: "AEW", description: "Airborne Early Warning" },
+      { word: "AF", description: "Avløsningsfører" },
+      { word: "AFA", description: "Administrerende forvaltende avdeling" },
+      { word: "AFCENT", description: "Allied Forces Central Europe" },
+      { word: "AFNORTH", description: "Allied Forces North Europe" },
+      { word: "AFNORTH-WEST", description: "Allied Forces Northwestern Europe" },
+      { word: "AFSOUTH", description: "Allied Forces Southern Europe" },
+      { word: "AFG", description: "Afghan(s)" },
+      { word: "AFS", description: "Aktiv feltsikkerhet" },
+      { word: "AG", description: "Automatgevær" },
+      { word: "AG-3", description: "Automatgevær 3" },
+      { word: "AGS", description: "Alliance Ground Surveillance" },
+      { word: "Al", description: "Air interdiction" },
+      { word: "Air MEDEVAC", description: "Air Medical evacuation" },
+      { word: "AKOV", description: "Alliert Kompetansesenter for Operasjoner under vinterforhold" },
+      { word: "AKP", description: "Adgangskontrollpost" },
+      { word: "AKS", description: "Analyse og kommandosentral" },
+      { word: "AK-47", description: "Automat Kalasjnikova 1947" },
+      { word: "ALCM", description: "Air-launched cruise missile" },
+      { word: "ALF", description: "Avløsningsfører" },
+      { word: "ALF", description: "Avdeling for luftoperativ fagutdanning" },
+      { word: "ALIS", description: "Avdeling for ledelse og internasjonalt samarbeid" },
+      { word: "ALMT", description: "Avdeling for luftmakt og teknologi" },
+      { word: "ALO", description: "Air Liaison Officer" },
+      { word: "ALT", description: "Avdeling for teknolgibasert læring" },
+      { word: "AMB", description: "Ambulanse" },
+      { word: "AMF", description: "Allied Command Europe Mobile Force" },
+      { word: "AMIB", description: "Allied Military Intelligence Battaliona" },
+      { word: "AMM", description: "Ammunisjon" },
+      { word: "Ammo", description: "Ammunisjon" },
+      { word: "Amo", description: "Aeromedical officer" },
+      { word: "Amr", description: "Amerikansk" },
+      { word: "AMRAAM", description: "Advanced Medium Range Air-to-Air Missile. Avansert luft-til-luft-missil med middels rekkevidde. Siden 1995 har Norge brukt dette som et bakke-til-luft-missil i det norskproduserte luftvernsystemet NASAMS." },
+      { word: "AMU", description: "Ammunisjon, målangivelse, utførelse" },
+      { word: "AMU", description: "Arbeidsmiljøutvalg" },
+      { word: "AN/PRC", description: "Army/Navy, Portable, Radio, Communication" },
+      { word: "Anf", description: "Anført" },
+      { word: "AO", description: "Administrativt område" },
+      { word: "AO", description: "Area of operations" },
+      { word: "AO", description: "Artilleriobservatør" },
+      { word: "AO", description: "Ansvarsområde" },
+      { word: "AOB", description: "Any Other Business. Blir sagt på slutten av ordremøter" },
+      { word: "AOB", description: "Air Order of Battle" },
+      { word: "AOO", description: "Area of operations" },
+      { word: "APC", description: "Armoured personnel carrier" },
+      { word: "ARBC", description: "Atom-/kjernefysiske, radiologiske, biologiske og kjemiske stridsmidler" },
+      { word: "ARS", description: "Air Control Centre. Recognized air picture production centre and sensor fusion post" },
+      { word: "Art", description: "Artilleri. Artilleri er opprinnelig maskineri for å kaste prosjektiler, slik som beleiringsmaskiner og kanoner. I moderne militær sammenheng betyr det også våpenarten som består av soldater som er utrustet med slike våpen" },
+      { word: "Art-Off", description: "Artillerioffiser" },
+      { word: "ARTBN", description: "Artilleribataljonen" },
+      { word: "Artjeg", description: "Artillerijeger. Jegere som har som mål å ta seg dypt inn bak fiendens linjer og bedriver etterretning og ildledelse" },
+      { word: "ArtOp", description: "Artilleri observasjonspost" },
+      { word: "ARTOT", description: "Avstand, Retning, Terreng, Oppfang, Tid" },
+      { word: "ASAP", description: "As soon as possible / Så raskt som mulig" },
+      { word: "ASBM", description: "Air-to-surface-ballistic-missile" },
+      { word: "ASIC", description: "All Source Intelligence Cell" },
+      { word: "ASM", description: "Air-to-surface-missile" },
+      { word: "ASO", description: "Avdelingssikkerhetsoffiser" },
+      { word: "ASOC", description: "Air Support Operation Center" },
+      { word: "ASP", description: "Aspirant" },
+      { word: "ASRAAM", description: "Advanced short-range air-to-air missile / Avansert luft-til-luft missil med kort rekkeviddea" },
+      { word: "Ass", description: "Assistent" },
+      { word: "ASUW", description: "Anti-Surface Warfare" },
+      { word: "ASW", description: "Anti-submarine warfare / Anti-ubåt krigføring" },
+      { word: "ASWC", description: "Anti-Submarine Warfare Commander" },
+      { word: "AT", description: "Arrestasjonsteknikk" },
+      { word: "AT", description: "Anti-tank" },
+      { word: "ATF", description: "Arbeidstidsbestemmelser for Forsvaret" },
+      { word: "ATJ", description: "Arkivtjenesten. Ansvarlig for Forsvarets rutiner innen arkivering, saksbehandling og dokumentasjon" },
+      { word: "ATO", description: "Air Task Order " },
+      { word: "ATS/N", description: "Alliert treningssenter nord" },
+      { word: "ATS/S", description: "Alliert treningssenter sør" },
+      { word: "ATTK", description: "Attack / Angrep" },
+      { word: "ATV", description: "Avdelingstillitsvalgt" },
+      { word: "ATV", description: "All Terrain Vehicle" },
+      { word: "Aut", description: "Autorisert" },
+      { word: "AUV", description: "Autonom undervannsfarkost" },
+      { word: "AWACS", description: "Airborne Warning and Control System / Luftbårent varslings - og kontrollsystem" },
+      { word: "AWOL", description: "Absent Without Official Leave. Desertering (eller faneflukt) betyr å trekke seg fra en tjeneste eller oppgave, som oftest i forbindelse med militære konflikter der en soldat nekter å kjempe eller rømmer fra militærtjenesten" },
+      { word: "AWWC", description: "Anti-Air Warfare Commander" },
+      { word: "AXP", description: "Ambulance Exchange Point" },
+      { word: "BAJO", description: "Bajonett" },
+      { word: "Ball", description: "Ballistikk" },
+      { word: "BAS", description: "Bataljonssjef" },
+      { word: "BAS", description: "Brigadens Artillerisjef" },
+      { word: "BASS", description: "Bataljonsstabssersjant" },
+      { word: "BattOff", description: "Batterioffiser" },
+      { word: "Bb", description: "Babord" },
+      { word: "BB", description: "Basis båndenhet" },
+      { word: "BC", description: "Bæsj & Carry / Mobilt toalett" },
+      { word: "BDA", description: "Bomb Damage Assessment / Oppsummering av skadeomfang fra felten" },
+      { word: "BDA", description: "Battle Damage Assessment / Oppsummering av skadeomfang fra felten" },
+      { word: "BDA", description: "Battle Damage Report" },
+      { word: "BDR", description: "Battle Damage Repair" },
+      { word: "BF", description: "Baseforsvar" },
+      { word: "BFF", description: "Beredskapssystemet for Forsvaret" },
+      { word: "BFO", description: "Befalets Fellesorganisasjon" },
+      { word: "BFSG", description: "Baseforsvar Stridsgruppe" },
+      { word: "BFTS", description: "Baseforsvarstaktisk Skole" },
+      { word: "BHT", description: "Bedriftshelsetjeneste" },
+      { word: "BIP", description: "Blow in place / Ofte brukt i sammenheng med å sprenge IED-er der de ligger for å unngå risikoen av å flytte dem" },
+      { word: "BK", description: "Bombekaster / En bombekaster er et lett krumbaneskyts som skyter granater i høy bane mot fienden" },
+      { word: "BKI", description: "Avdeling for beskyttelse av kritisk infrastruktur / Avdelingen bidrar til å beskytte Forsvarets infrastruktur gjennom støtte til analyse av sårbarheter, ondsinnet kode og angrep mot Forsvarets systemer. Avdelingen har deployerbare elementer og mulighet til å bistå med rådgivning og liaisonering ved håndtering av trusler og angrep mot norsk infrastruktur ute og hjemme" },
+      { word: "BKM", description: "Bærbar kommunikasjonsmodul" },
+      { word: "BKP", description: "Bombekaster pansret" },
+      { word: "BLUFOR", description: "Blue Forces" },
+      { word: "BM", description: "Balansert målstyring / Balansert målstyring er det norske begrepet for strategi og ytelsesmålingsverktøyet Balanced scorecard" },
+      { word: "BMF", description: "Bestemmelser for materiellforvaltning i Forsvaret" },
+      { word: "BMP", description: "Bamsemumspatrulje / Kjøpe godteri på øvelse" },
+      { word: "BMS", description: "Battle management system" },
+      { word: "BN", description: "Bataljon / Bataljon (av fransk: batalje) er en taktisk militær enhet. I Norge er den normalt delt opp i tre til fem kompanier. En norsk infanteribataljon består av ca. 500-800 personer. Bataljonssjefen er normalt en offiser med oberstløytnants grad" },
+      { word: "BnAss", description: "Bataljonsassistent" },
+      { word: "BO", description: "Batterioffiser" },
+      { word: "BOS", description: "Bakkeoperativ skvadron" },
+      { word: "BRIG", description: "Brigade" },
+      { word: "Brig N", description: "Brigaden i Nord-Norge / Brig N var en norsk hæravdeling dannet da Tysklandsbrigaden ble trukket hjem i 1953. Brigaden var i mange år en hovedkomponent i landforsvaret, spesielt invasjonsforsvaret mønstret mot Sovjetunionen. Avdelingen ble lagt ned i 1995. Ikke til å forveksle med dagens Brigade Nord" },
+      { word: "BRP", description: "Brann-, rednings- og plasstjeneste" },
+      { word: "BS", description: "Beredskapsstilling" },
+      { word: "BSA", description: "Brigade Support Area" },
+      { word: "Btt", description: "Artilleribatteri / Et batteri er en militær enhet innen artilleri, på nivå med kompani og eskadron i andre våpenarter. Et batteri består typisk av to til tre tropper samt et lite hovedkvarter for ledelse og logistikk. Flere batterier dannet et regiment eller en bataljon" },
+      { word: "BttO", description: "Batteri Olga / Ett av tre kanonbatterier i Artilleribataljonen" },
+      { word: "BTV", description: "Bataljontillitsvalgt" },
+      { word: "BUFS", description: "Befal uten fast stilling" },
+      { word: "BUS", description: "Befal Uten Stilling" },
+      { word: "BV", description: "Beltevogn / Lett terrenggående beltekjøretøy" },
+      { word: "BVR", description: "Beyond Visual Range" }
+    ],
     promocards: [
       {
         title: "2011",
