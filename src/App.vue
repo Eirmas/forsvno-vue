@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <div class="promocard-horizontal__wrapper">
       <Promocard
         title="Promocard Horizontal"
@@ -65,7 +65,7 @@
         :area-data="areaData"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
