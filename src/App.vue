@@ -24,6 +24,7 @@
       <Story
         title="Instagram Story"
         :stories="stories"
+        :sound-icons="soundIcons"
       />
     </div>
     <div class="container">

@@ -69,6 +69,7 @@
       :autoplay="true"
       :height="height"
       :width="width"
+      :sound-icons="soundIcons"
     />
     <StoryImage
       v-if="currentIndex !== -1 && storyItems[currentIndex].type === 'image'"
@@ -133,6 +134,17 @@ export default {
     isSeen: false
   }),
   props: {
+    /**
+     * src to sounds icon
+     * @values {
+     *   off: string;
+     *   on: string;
+     * }
+     */
+    soundIcons: {
+      type: [Object, Boolean],
+      default: false
+    },
     /**
      * String that appears underneath the story frame.
      */
