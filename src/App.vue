@@ -1,5 +1,10 @@
 <template>
   <main>
+    <div class="contact-form__wrapper">
+      <ContactForm
+        :options="departmentOptions"
+      />
+    </div>
     <div class="promocard-horizontal__wrapper">
       <Promocard
         title="Promocard Horizontal"
@@ -75,6 +80,7 @@ import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
+import ContactForm from "./components/contact-form/Form.vue";
 
 export default {
   name: "App",
@@ -83,9 +89,40 @@ export default {
     Quiz,
     Stepper,
     Diagram,
-    Promocard
+    Promocard,
+    ContactForm
   },
   data: () => ({
+    departmentOptions: [
+      {
+        value: "desk@fms.mil.no",
+        text: "Forsvarets mediesenter"
+      },
+      {
+        value: "desk@cyb.mil.no",
+        text: "Cyberforsvaret"
+      },
+      {
+        value: "desk@sjo.mil.no",
+        text: "Sjøseksjoen"
+      },
+      {
+        value: "desk@har.mil.no",
+        text: "Hæren"
+      },
+      {
+        value: "desk@fft.mil.no",
+        text: "FFT"
+      },
+      {
+        value: "desk@vet.mil.no",
+        text: "Veteranene"
+      },
+      {
+        value: "desk@luft.mil.no",
+        text: "Luftseksjonen"
+      }
+    ],
     promocards: [
       {
         title: "2011",
