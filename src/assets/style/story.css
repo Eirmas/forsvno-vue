@@ -1,7 +1,3 @@
-.story__fullscreen-open {
-    height: 100vh;
-    overflow-y: hidden;
-}
 .stories__wrapper .stories__list-two-tone-grey-light {
     background: linear-gradient(180deg, transparent 50%, #f5f7f8 50%);
 }

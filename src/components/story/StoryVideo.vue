@@ -219,16 +219,7 @@ export default {
   mounted() {
     if (this.autoplay) {
       try {
-        const videoPromise = this.$refs.video.play();
-        videoPromise.then(() => {
-          this.$refs.video.play();
-          this.$nextTick(() => {
-            if (this.$refs.video.paused) {
-              this.isMuted = false;
-              this.play();
-            }
-          });
-        });
+        this.$refs.video.play();
       } catch (err) {
         this.isMuted = true;
         this.play();
