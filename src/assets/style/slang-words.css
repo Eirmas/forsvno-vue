@@ -12,6 +12,7 @@
     border: 0;
     border-radius: 25px;
     outline: none;
+    margin-left: 1rem;
   }
   .slang-words__wrapper .hug-top p {
     padding-bottom: 1.5rem;
@@ -19,7 +20,8 @@
   }
   .slang-words__wrapper .hug-top div .slang-words__search-icon {
     width: 15px;
-    margin-left: -2.2rem;
+    position: relative;
+    right: 2rem;
   }
   .slang-words__wrapper .slang-words__list {
     padding: 2rem;
@@ -39,14 +41,15 @@
   .slang-words__wrapper .slang-words__list table tbody tr td {
     width: 50%;
     padding: 1rem;
+    overflow-x: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
+  .slang-words__wrapper .slang-words__list table tbody tr td::-webkit-scrollbar {
+    width: 0px; /* For Chrome, Safari, and Opera */
   }
   .slang-words__wrapper .slang-words__list p {
     text-align: center;
-  }
-  @media (min-width: 768px) {
-    .slang-words__wrapper .slang-words__list table {
-      width: 650px;
-    }
   }
   .slang-words__wrapper .slang-words__pagination {
     margin-top: 4rem;
@@ -72,4 +75,13 @@
     width: 0;
     position: relative;
   }
-  
+  @media (min-width: 900px) {
+    .slang-words__wrapper .slang-words__list table {
+      width: 650px;
+    }
+  }
+  @media (max-width: 450px) {
+    .slang-words__wrapper .hug-top input {
+      width: 85%;
+    }
+  }
