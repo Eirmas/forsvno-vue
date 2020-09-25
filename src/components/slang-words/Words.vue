@@ -2,7 +2,7 @@
     <div class="slang-words__wrapper">
         <div class="page-top__wrapper hug-top bg bg-beige-light">
             <h1>{{ header }}</h1>
-            <p>{{ subheader }}</p>
+            <p v-html="subheader"></p>
             <div>
                 <input type="text" name="search-words" id="" :placeholder="inputPlaceholder" v-model="searchTerm">
                 <MagGlassIcon class="slang-words__search-icon"/>
@@ -11,7 +11,7 @@
         </div>
         <div class="slang-words__list">
             <table>
-                <thead>
+                <thead v-if="paginatedResults.length != 0">
                     <th>{{ table1Header }}</th>
                     <th>{{ table2Header }}</th>
                 </thead>
@@ -22,6 +22,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p v-if="paginatedResults.length == 0">Ingen resultater</p>
             <div class="slang-words__pagination" v-if="searchResults.length > index">
                 <p>Viser {{ paginatedResults.length }} av {{ items.length }} resultater</p>
                     <div class="slang-words__progress-bar">
