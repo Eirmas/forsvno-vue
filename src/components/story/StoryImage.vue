@@ -171,16 +171,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-  .story__image {
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-</style>

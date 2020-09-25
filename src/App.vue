@@ -10,7 +10,7 @@
       class="stories__wrapper"
     >
       <Story
-        title="Instagram Story!"
+        title="Instagram Story"
         :stories="stories"
         :sound-icons="soundIcons"
       />
