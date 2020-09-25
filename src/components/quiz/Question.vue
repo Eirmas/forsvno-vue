@@ -10,6 +10,7 @@
         <v-img
           v-if="question.media.selected === 'image'"
           :src="question.media.image.src"
+          :lazy-src="question.media.image.src"
         />
         <QBrick
           v-else-if="question.media.selected === 'video'"

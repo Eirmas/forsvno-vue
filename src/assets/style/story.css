@@ -1,3 +1,7 @@
+.story__fullscreen-open {
+    height: 100vh;
+    overflow-y: hidden;
+}
 .stories__wrapper .stories__list-two-tone-grey-light {
     background: linear-gradient(180deg, transparent 50%, #f5f7f8 50%);
 }
@@ -198,8 +202,8 @@
     display: flex;
     z-index: 1;
     width: 100%;
-    height: calc(100% - 50px);
-    margin-top: 50px;
+    height: calc(100% - 100px);
+    margin: 50px 0;
 }
 .stories__wrapper .story__controller-left, .stories__wrapper .story__controller-right {
     width: 50%;
@@ -340,6 +344,7 @@
     margin: 1rem;
     background-color: rgba(25, 27, 33, 0.5);
     border-radius: 100%;
+    cursor: pointer;
 }
 .stories__wrapper .story__video-player-sound img {
     width: 18px;
