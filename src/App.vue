@@ -10,7 +10,7 @@
       class="stories__wrapper"
     >
       <Story
-        title="Instagram Story"
+        title="Instagram Story!"
         :stories="stories"
         :sound-icons="soundIcons"
       />
@@ -117,7 +117,7 @@ export default {
         storyItems: [
           {
             type: "image",
-            image: "https://images.unsplash.com/photo-1587390307784-d2769f6457e9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80"
+            image: "https://lovdata.no/static/image/637/forsvaret_slitensoldat.jpg"
           }
         ]
       },
