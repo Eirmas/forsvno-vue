@@ -3,22 +3,22 @@
         <form action="">
             <label for="department-options">Hvem ønsker du å kontakte?*</label>
             <div class="contact-form__options">
-                <div class="contact-form__select" id="contact-form__select">
+                <div class="contact-form__select" id="select">
                     <div @keyup.enter="toggleOptions()" @click="toggleOptions()" tabindex="0" class="contact-form__clickbox"></div>
-                    <h6 id="contact-form__selected">Velg avdeling</h6>
+                    <h6 ref="selected">Velg avdeling</h6>
                     <!-- <select name="department-options">
                         <option v-for="option in options" v-bind:key="option.value" :value="option.value">{{ option.text }}</option>
                     </select> -->
-                    <div class="contact-form__options bg bg-grey-light" id="contact-form__options" style="display: none;">
+                    <div class="contact-form__options bg bg-grey-light" ref="options" style="display: none;">
                         <div v-for="option in options" v-bind:key="option.value" :id="option.value" class="contact-form__options-inner">
                             <label @keyup.space="selectOption(option.value, option.text, $event)" tabindex="0">
-                                <input @click="selectOption(option.value, option.text)" :value="option.value" type="radio" name="department">
+                                <input @click="selectOption(option.value, option.text, $event)" :value="option.value" type="radio" name="department">
                                 {{ option.text }}
                             </label>
                         </div>
                     </div>
                 </div>
-                <ChevronDown id="contact-form__chevron"/>
+                <ChevronDown ref="chevron"/>
             </div>
             <label for="message">Melding*</label>
             <textarea name="message" id="" cols="30" rows="10"></textarea>
@@ -56,22 +56,22 @@ export default {
   },
   methods: {
     selectOption(value, text, event) {
-      event.preventDefault();
+      if (event.type === "keyup") event.preventDefault();
       document.getElementsByClassName("contact-form__options-inner").forEach((input) => {
         input.classList[input.id === value ? "add" : "remove"]("contact-form__active");
       });
-      const dropdown = document.getElementById("contact-form__options");
+      const dropdown = this.$refs.options;
       dropdown.style.display = "none";
-      const chevron = document.getElementById("contact-form__chevron");
+      const chevron = this.$refs.chevron.$el;
       chevron.style.transform = "rotate(0deg)";
-      const selected = document.getElementById("contact-form__selected");
+      const selected = this.$refs.selected;
       selected.innerHTML = text;
       this.optionsOpen = false;
     },
     toggleOptions() {
-      const dropdown = document.getElementById("contact-form__options");
+      const dropdown = this.$refs.options;
       dropdown.style.display = (this.optionsOpen ? "none" : "block");
-      const chevron = document.getElementById("contact-form__chevron");
+      const chevron = this.$refs.chevron.$el;
       chevron.style.transform = (this.optionsOpen ? "rotate(0deg)" : "rotate(180deg)");
       this.optionsOpen = !this.optionsOpen;
     }
