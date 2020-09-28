@@ -11,22 +11,29 @@
       class="promocard-horizontal__card-body"
     >
       <div
-        v-if="card.decoration"
-        class="promocard-horizontal__card-decoration"
+        class="promocard-horizontal__card-body-wrapper"
       >
-        <img
-          :src="card.decoration.icon.src"
-          alt="ikon"
-        >
         <div
-          v-if="card.decoration.caption"
-          class="promocard-horizontal__card-decoration-caption"
+          v-if="card.decoration"
+          class="promocard-horizontal__card-decoration"
         >
-          <span>{{ card.decoration.caption }}</span>
+          <img
+            :src="card.decoration.icon.src"
+            alt="ikon"
+          >
+          <div
+            v-if="card.decoration.caption"
+            class="promocard-horizontal__card-decoration-caption"
+          >
+            <span>{{ card.decoration.caption }}</span>
+          </div>
         </div>
+        <span>{{ card.text }}</span>
       </div>
-      <span>{{ card.text }}</span>
     </div>
+    <div
+      class="promocard-horizontal__card-footer"
+    />
   </li>
 </template>
 

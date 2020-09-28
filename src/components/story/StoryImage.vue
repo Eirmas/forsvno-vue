@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import LoadingIcon from "@/components/story/LoadingIcon.vue";
+import LoadingIcon from "./LoadingIcon.vue";
 
 /**
  * This component displays a story item in the form of an image.
