@@ -62,11 +62,11 @@
         @touchmove="onMouseMove({ clientX: $event.changedTouches[0].clientX, clientY: $event.changedTouches[0].clientY }, $event)"
         @touchend="onMouseUp"
       >
-        <Card :card="items[items.length - 2]" />
-        <Card :card="items[items.length - 1]" />
-        <Card v-for="(item, i) in items" :card="item" :key="i"/>
-        <Card :card="items[0]" />
-        <Card :card="items[1]" />
+        <Card :card="items[items.length - 2]" aria-hidden="true"/>
+        <Card :card="items[items.length - 1]" aria-hidden="true"/>
+        <Card v-for="(item, i) in items" :card="item" :key="i" aria-hidden="false"/>
+        <Card :card="items[0]" aria-hidden="true"/>
+        <Card :card="items[1]" aria-hidden="true"/>
       </ol>
     </div>
     <div
@@ -77,7 +77,7 @@
       >
         <div
           ref="progress"
-          :style="`width: calc(100% / ${this.items.length}); left: calc(${this.currentStep} * (100% / ${this.items.length}))`"
+          :style="`width: calc(100% / ${this.items.length}); left: ${100 * (this.progressLeft / this.items.length)}%`"
           class="promocard-horizontal__progress-bar-inner"
         />
       </div>
@@ -94,6 +94,10 @@ export default {
     Card
   },
   data: () => ({
+    /**
+     * Progressbar left offset
+     */
+    progressLeft: 0,
     /**
      * Animation duration
      */
@@ -188,9 +192,9 @@ export default {
             this.$refs.carousel.style.transform = `translateX(-${newOffset}px)`;
           }
           this.startPosition.x = e.clientX;
-        }
-        if (this.$refs.progress) {
-          this.$refs.progress.style.left = `calc(${this.findClosest()} * (100% / ${this.items.length}))`;
+          if (this.$refs.progress) {
+            this.progressLeft = this.findClosest();
+          }
         }
       }
     },
@@ -207,11 +211,25 @@ export default {
     },
     /**
      * Finds the closest cards index by the current offset.
+     * Swiping from current card to a neighbour requires less dragging.
+     *
      * @returns {number}
      */
     findClosest: function () {
       const x = this.getWidths();
-      return Math.floor(0.5 + ((x.currentOffset - x.start) / (x.end - x.start)) * this.items.length) % this.items.length;
+      const float = (0.5 + ((x.currentOffset - x.start) / (x.end - x.start)) * this.items.length) % this.items.length;
+      const threshold = 0.1;
+      if (Math.floor(float) === this.currentStep) {
+        if (float > this.currentStep + (0.5 + threshold)) {
+          const index = Math.floor(float) + 1;
+          return (index > this.items.length - 1) ? 0 : index;
+        }
+        if (float < this.currentStep + (0.5 - threshold)) {
+          const index = Math.floor(float) - 1;
+          return (index < 0) ? this.items.length - 1 : index;
+        }
+      }
+      return Math.floor(float);
     },
     /**
      * To prevent the animation from looping weirdly when going to another card
@@ -247,9 +265,9 @@ export default {
      * Goes to the next card.
      */
     nextCard: function () {
-      const x = this.getWidths();
       this.currentStep = (this.currentStep + 1 >= this.items.length) ? 0 : this.currentStep + 1;
       this.goToCurrent(-1);
+      const x = this.getWidths();
       this.$refs.carousel.animate([
         {
           transform: `translateX(${-1 * (x.currentOffset + x.cardWidth)}px)`
@@ -266,10 +284,9 @@ export default {
      * Goes to the previous card
      */
     prevCard: function () {
-      const x = this.getWidths();
-      this.currentStep = (this.currentStep - 1 >= 0) ? this.currentStep - 1 : this.items.length - 1;
+      this.currentStep = (this.currentStep > 0) ? this.currentStep - 1 : this.items.length - 1;
       this.goToCurrent(1);
-      this.handleExceptionBugs();
+      const x = this.getWidths();
       this.$refs.carousel.animate([
         {
           transform: `translateX(${-1 * (x.currentOffset - x.cardWidth)}px)`
