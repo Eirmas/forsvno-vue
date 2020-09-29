@@ -49,12 +49,12 @@ export default {
       axios.post(this.serviceUrl, {
         data: data
       })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error){
-        console.log(error);
-      });
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 };
