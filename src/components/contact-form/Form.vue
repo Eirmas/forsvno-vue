@@ -45,7 +45,6 @@ export default {
           data[element.name] = element.value;
         }
       });
-      console.log(data);
       axios.post(this.serviceUrl, {
         data: data
       })
