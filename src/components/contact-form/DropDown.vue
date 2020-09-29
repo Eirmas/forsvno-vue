@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown align">
-        <button ref="contact_email" name="contact_email" @click="toggleOptions()" aria-controls="dropdown-menu-options" type="button" class="dropdown__toggle">
+        <button ref="contact_email" @click="toggleOptions()" name="contact_email"  aria-controls="dropdown-menu-options" type="button" class="dropdown__toggle">
             <div ref="dropdown__label" class="dropdown__label">
                 Velg avdeling
             </div>

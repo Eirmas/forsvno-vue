@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     submitForm: function (e) {
-      console.log(e.target.elements);
       const data = {};
       e.target.elements.forEach((element) => {
         if (element.name) {
