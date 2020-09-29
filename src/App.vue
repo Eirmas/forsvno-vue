@@ -2,7 +2,7 @@
   <main>
     <div class="contact-form__wrapper">
       <ContactForm
-        :options="departmentOptions"
+        :data="fields"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -93,34 +93,39 @@ export default {
     ContactForm
   },
   data: () => ({
-    departmentOptions: [
+    fields: [
       {
-        value: "desk@fms.mil.no",
-        text: "Forsvarets mediesenter"
+        _selected: "dropdown",
+        inputHeading: "Hvem ønsker du å kontakte?",
+        required: true,
+        inputId: "receiver_email",
+        inputType: "",
+        options: [
+          {
+            text: "FMS",
+            value: "andreastraautkilen@gmail.com"
+          },
+          {
+            text: "Sjø",
+            value: "sjo@sjo.no"
+          }
+        ]
       },
       {
-        value: "desk@cyb.mil.no",
-        text: "Cyberforsvaret"
+        _selected: "text",
+        inputHeading: "Navn",
+        required: true,
+        inputId: "name",
+        inputType: "text",
+        options: []
       },
       {
-        value: "desk@sjo.mil.no",
-        text: "Sjøseksjoen"
-      },
-      {
-        value: "desk@har.mil.no",
-        text: "Hæren"
-      },
-      {
-        value: "desk@fft.mil.no",
-        text: "FFT"
-      },
-      {
-        value: "desk@vet.mil.no",
-        text: "Veteranene"
-      },
-      {
-        value: "desk@luft.mil.no",
-        text: "Luftseksjonen"
+        _selected: "textarea",
+        inputHeading: "Melding",
+        required: true,
+        inputId: "message",
+        inputType: "",
+        options: []
       }
     ],
     promocards: [
