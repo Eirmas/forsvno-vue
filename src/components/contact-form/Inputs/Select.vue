@@ -58,9 +58,7 @@
                       class="dropdown__item"
                       tabindex="0"
                       @mousedown="selectOption(option, $event)"
-                      @keyup.space.prevent="selectOption(option)"
                       @keyup.enter.prevent="selectOption(option)"
-                      @keydown.space.prevent
                       @keydown.enter.prevent
                   >
                       <span>{{ option.text }}</span>
@@ -95,6 +93,10 @@ export default {
       type: String,
       default: ""
     },
+    required: {
+      type: Boolean,
+      default: false
+    },
     options: {
       value: {
         type: String,
@@ -104,10 +106,6 @@ export default {
         type: String,
         default: ""
       }
-    },
-    refName: {
-      type: [String, Boolean],
-      default: false
     },
     id: {
       type: [String, Boolean],

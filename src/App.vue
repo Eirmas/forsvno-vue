@@ -6,6 +6,7 @@
         :fields="contactData.fields"
         :chosenEmail="contactData.chosenEmail"
         :caret="contactData.caret"
+        :close="contactData.close"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -99,6 +100,7 @@ export default {
     contactData: {
       id: "1",
       caret: require("@/assets/images/caret.svg"),
+      close: require("@/assets/images/close.svg"),
       chosenEmail: {
         inputHeading: "Hvem ønsker du å kontakte?",
         options: [
@@ -113,6 +115,38 @@ export default {
         ]
       },
       fields: [
+        {
+          _selected: "attachment",
+          inputHeading: "Last opp vedlegg",
+          required: false
+        },
+        {
+          _selected: "checkbox",
+          inputHeading: "Velg interesser",
+          required: false,
+          options: [
+            {
+              text: "Friluftsliv",
+              value: "Friluftsliv"
+            },
+            {
+              text: "Trening",
+              value: "Trening"
+            },
+            {
+              text: "Hund",
+              value: "Hund"
+            },
+            {
+              text: "Jakt",
+              value: "Jakt"
+            },
+            {
+              text: "Fiske",
+              value: "Fiske"
+            }
+          ]
+        },
         {
           _selected: "select",
           inputHeading: "Hva gjelder det?",

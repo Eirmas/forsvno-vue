@@ -11,6 +11,7 @@
             :id="id"
             :index="-1"
             :caret="caret"
+            :required="true"
             :options="chosenEmail.options"
             :input-heading="chosenEmail.inputHeading"
           />
@@ -25,6 +26,7 @@
               :options="field.options"
               :id="id"
               :index="i"
+              :required="field.required"
               :caret="caret"
               :inputHeading="field.inputHeading"
             />
@@ -32,8 +34,9 @@
               v-if="field._selected === 'textarea'"
               :id="id"
               :index="i"
-              :inputHeading="field.inputHeading"
               :required="field.required"
+              :inputHeading="field.inputHeading"
+              :options="field.options"
             />
             <Input
               v-if="field._selected === 'text'"
@@ -43,7 +46,24 @@
               :inputType="field.inputType"
               :required="field.required"
             />
+            <Checkbox
+              v-if="field._selected === 'checkbox'"
+              :id="id"
+              :index="i"
+              :inputHeading="field.inputHeading"
+              :options="field.options"
+              :required="field.required"
+            />
+            <Attachment
+              v-if="field._selected === 'attachment'"
+              :id="id"
+              :index="i"
+              :close="close"
+              :inputHeading="field.inputHeading"
+              :required="field.required"
+            />
         </div>
+        <Divider />
         <h6>
           <span>Felt markert med * må fylles ut.</span>
         </h6>
@@ -60,15 +80,25 @@ import axios from "axios";
 import Select from "./Inputs/Select.vue";
 import Input from "./Inputs/Input.vue";
 import Textarea from "./Inputs/Textarea.vue";
+import Checkbox from "./Inputs/Checkbox.vue";
+import Divider from "./Inputs/Divider.vue";
+import Attachment from "./Inputs/Attachment.vue";
 
 export default {
   name: "Form",
   components: {
     Select,
     Input,
-    Textarea
+    Textarea,
+    Checkbox,
+    Divider,
+    Attachment
   },
   props: {
+    close: {
+      type: [String, Boolean],
+      default: false
+    },
     caret: {
       type: [String, Boolean],
       default: false
@@ -117,7 +147,7 @@ export default {
         if (el.name) {
           data[el.name] = {
             text: el.getAttribute("data-text"),
-            value: el.value
+            value: el[(el.files) ? "files" : "value"]
           };
         }
       });
