@@ -1,11 +1,31 @@
 <template>
-    <div class="contact-form__form-element">
+    <div 
+      class="contact-form__form-element"
+    >
         <label>{{ inputHeading }}</label>
-        <div class="radiobutton__wrapper">
-          <label v-for="option in options" :key="option.value" for="et_fornuftig_men_unikt_name" class="radiobutton__container" tabindex="-1">
+        <div 
+          class="radiobutton__wrapper"
+        >
+          <label 
+            v-for="option in options"
+            :key="option.value"
+            for="et_fornuftig_men_unikt_name"
+            class="radiobutton__container"
+            tabindex="-1"
+          >
             {{ option.text }}
-            <input @focus="blurOthers" type="radio" :id="option.value" name="et_fornuftig_men_unikt_name" :value="option.value" tabindex="0">
-            <span class="radiobutton__checkmark"></span>
+            <input
+              :id="option.value"
+              :value="option.value"
+              type="radio"
+              name="et_fornuftig_men_unikt_name"
+              tabindex="0"
+              @focus="blurOthers"
+            >
+            <span 
+              class="radiobutton__checkmark"
+            >
+            </span>
           </label>
         </div>
     </div>
