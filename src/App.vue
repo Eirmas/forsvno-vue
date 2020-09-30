@@ -2,7 +2,8 @@
   <main>
     <div class="contact-form__wrapper">
       <ContactForm
-        :data="fields"
+        :fields="contactData.fields"
+        :chosenEmail="contactData.chosenEmail"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -93,41 +94,47 @@ export default {
     ContactForm
   },
   data: () => ({
-    fields: [
-      {
-        _selected: "dropdown",
+    contactData: {
+      id: "1",
+      chosenEmail: {
         inputHeading: "Hvem ønsker du å kontakte?",
-        required: true,
-        inputId: "receiver_email",
-        inputType: "",
         options: [
           {
             text: "FMS",
-            value: "andreastraautkilen@gmail.com"
+            value: "fms@fms.no"
           },
           {
-            text: "Sjø",
-            value: "sjo@sjo.no"
+            text: "Luft",
+            value: "luft@mil.no"
           }
         ]
       },
-      {
-        _selected: "text",
-        inputHeading: "Navn",
-        required: true,
-        inputId: "name",
-        inputType: "text",
-        options: []
-      },
-      {
-        _selected: "textarea",
-        inputHeading: "Melding",
-        required: true,
-        inputId: "message",
-        inputType: "",
-        options: []
-      }
-    ],
+      fields: [
+        {
+          _selected: "dropdown",
+          inputHeading: "Hva gjelder det?",
+          required: true,
+          inputType: "dropdown",
+          options: [
+            {
+              text: "Ting",
+              value: "Ting"
+            },
+            {
+              text: "Tang",
+              value: "Tang"
+            }
+          ]
+        },
+        {
+          _selected: "text",
+          inputHeading: "Navn",
+          required: true,
+          inputType: "text"
+        }
+      ],
+      reciever: "noen@mil.no"
+    },
     promocards: [
       {
         title: "2011",

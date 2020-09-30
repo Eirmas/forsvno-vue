@@ -1,20 +1,12 @@
 <template>
     <form @submit.prevent="submitForm" name="contact-form">
-        <div v-for="field in data" :key="field.inputId" class="contact-form__form-inner">
-            <div v-if="field._selected === 'dropdown'" class="contact-form__form-element">
-                <label for="department-options">{{ field.inputHeading }}</label>
-                <div class="contact-form__options">
-                    <DropDown :options="field.options" />
-                </div>
-            </div>
-            <div v-if="field._selected === 'textarea'" class="contact-form__form-element">
-                <label :for="field.inputId">{{ field.inputHeading }}</label>
-                <textarea :name="field.inputId" cols="30" rows="10"></textarea>
-            </div>
-            <div v-if="field._selected === 'text'" class="contact-form__form-element">
-                <label :for="field.inputId">{{ field.inputHeading }}</label>
-                <input :name="field.inputId" :type="field.inputType" :required="field.required">
-            </div>
+        <div class="contact-form__form-inner">
+          <Select v-if="chosenEmail" :options="chosenEmail.options" :id="id" refName="contact_email" />
+        </div>
+        <div v-for="(field, index) in fields" :key="index" class="contact-form__form-inner">
+            <Select v-if="field._selected === 'Select'" :options="field.options" :id="id" :inputHeading="field.inputHeading" :refName="field.inputHeading.replace(' ', '-')"/>
+            <Textarea v-if="field._selected === 'textarea'" :id="id" :inputHeading="field.inputHeading" :required="field.required"/>
+            <Input v-if="field._selected === 'text'" :id="id" :inputHeading="field.inputHeading" :inputType="field.inputType" :required="field.required" />
         </div>
         <h6>Felt markert med * må fylles ut.</h6>
         <button type="submit" class="btn-square negative">Send inn</button>
@@ -22,19 +14,25 @@
 </template>
 <script>
 import axios from "axios";
-import DropDown from "./DropDown.vue";
+import Select from "./Inputs/Select.vue";
+import Input from "./Inputs/Input.vue";
+import Textarea from "./Inputs/Textarea.vue";
 
 export default {
   name: "Form",
   components: {
-    DropDown
+    Select,
+    Input,
+    Textarea
   },
   props: {
-    data: {
+    chosenEmail: {},
+    fields: {
       inputHeading: String,
       inputType: String,
       required: Boolean
     },
+    id: String,
     serviceUrl: String
   },
   methods: {
