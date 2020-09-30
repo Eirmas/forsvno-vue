@@ -111,10 +111,42 @@ export default {
       },
       fields: [
         {
+          _selected: "attachment",
+          inputHeading: "Last opp vedlegg",
+          required: true
+        },
+        {
+          _selected: "checkbox",
+          inputHeading: "Velg interesser",
+          required: true,
+          options: [
+            {
+              text: "Friluftsliv",
+              value: "Friluftsliv"
+            },
+            {
+              text: "Trening",
+              value: "Trening"
+            },
+            {
+              text: "Hund",
+              value: "Hund"
+            },
+            {
+              text: "Jakt",
+              value: "Jakt"
+            },
+            {
+              text: "Fiske",
+              value: "Fiske"
+            }
+          ]
+        },
+        {
           _selected: "dropdown",
           inputHeading: "Hva gjelder det?",
           required: true,
-          inputType: "dropdown",
+          inputType: "",
           options: [
             {
               text: "Ting",
