@@ -1,30 +1,69 @@
 <template>
-  <div class="contact-form__form-element">
-    <label for="department-options">{{ inputHeading }}</label>
-    <div class="contact-form__options">
-      <div v-click-outside="hide" class="dropdown align">
-          <button :value="value" @focus="blurOthers" @click="optionsOpen = !optionsOpen" name="contact_email"  aria-controls="dropdown-menu-options" type="button" class="dropdown__toggle">
-              <div ref="dropdown__label" class="dropdown__label">
-                  {{ text }}
+  <div
+    v-if="index !== undefined"
+    class="contact-form__form-element"
+  >
+    <label>{{ inputHeading }}</label>
+    <div
+      class="contact-form__options"
+    >
+      <div
+        v-click-outside="hide"
+        class="dropdown align"
+      >
+          <button
+            :value="value"
+            :data-text="inputHeading"
+            :name="index"
+            aria-controls="dropdown-menu-options"
+            type="button"
+            class="dropdown__toggle"
+            @focus="blurOthers"
+            @click="optionsOpen = !optionsOpen"
+          >
+              <div
+                ref="label"
+                class="dropdown__label"
+              >
+                  <span>{{ text }}</span>
               </div>
-              <div class="dropdown__caret">
-                  <svg ref="caret" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="10" alt="">
-                      <path d="M16.3934 0.87561L8.99999 8.50908L1.60655 0.87561" stroke="#191B21" stroke-width="2" stroke-miterlimit="10">
-                      </path>
-                  </svg>
+              <div
+                v-if="caret"
+                class="dropdown__caret"
+              >
+                  <img
+                    ref="caret"
+                    :src="caret"
+                    alt="Caret"
+                  >
               </div>
           </button>
-          <div ref="options" class="dropdown__menu" style="display: none;">
-              <ul ref="optionsList" tabindex="-1" role="listbox" aria-labelledby="filter-Avdeling" class="dropdown__options">
+          <div
+            ref="options"
+            class="dropdown__menu"
+          >
+              <ul
+                ref="list"
+                tabindex="-1"
+                role="listbox"
+                aria-labelledby="filter-Avdeling"
+                class="dropdown__options"
+              >
                   <li
-                      v-for="(option, index) in options"
+                      v-for="(option, i) in options"
                       :key="option.value"
-                      :id="index"
+                      :id="i"
+                      aria-selected="false"
+                      role="option"
+                      class="dropdown__item"
+                      tabindex="0"
                       @mousedown="selectOption(option, $event)"
                       @keyup.space.prevent="selectOption(option)"
+                      @keyup.enter.prevent="selectOption(option)"
                       @keydown.space.prevent
-                      aria-selected="false" role="option" class="dropdown__item" tabindex="0">
-                      {{ option.text }}
+                      @keydown.enter.prevent
+                  >
+                      <span>{{ option.text }}</span>
                   </li>
               </ul>
           </div>
@@ -32,27 +71,48 @@
     </div>
   </div>
 </template>
-<script lang="es6">
+<script>
 import ClickOutside from "vue-click-outside";
 import EventBus from "../../../event-bus.es6";
 
 export default {
   name: "Select",
-  components: {
-  },
   data: () => ({
     optionsOpen: false,
     text: "Velg",
     value: ""
   }),
   props: {
-    inputHeading: String,
-    options: {
-      value: String,
-      text: String
+    index: {
+      type: [Number, Boolean],
+      default: false
     },
-    refName: String,
-    id: String
+    caret: {
+      type: [String, Boolean],
+      default: false
+    },
+    inputHeading: {
+      type: String,
+      default: ""
+    },
+    options: {
+      value: {
+        type: String,
+        default: ""
+      },
+      text: {
+        type: String,
+        default: ""
+      }
+    },
+    refName: {
+      type: [String, Boolean],
+      default: false
+    },
+    id: {
+      type: [String, Boolean],
+      default: false
+    }
   },
   created() {
     EventBus.$on("blur", (id) => {
@@ -61,30 +121,26 @@ export default {
   },
   methods: {
     selectOption(option) {
-      console.log("select");
-      this.$refs.optionsList.children.forEach((item) => item.setAttribute("aria-selected", item.id === option.value));
-      this.value = option.value;
-      this.text = option.text;
-      const dropdownLabel = this.$refs.dropdown__label;
-      dropdownLabel.innerHTML = option.text;
-      this.optionsOpen = false;
+      if (this.$refs.list && this.$refs.label) {
+        this.$refs.list.children.forEach((item) => item.setAttribute("aria-selected", item.id === option.value));
+        this.value = option.value;
+        this.text = this.$refs.label.innerHTML = option.text;
+        this.hide();
+      }
     },
     hide() {
       this.optionsOpen = false;
     },
     blurOthers() {
       EventBus.$emit("blur", this.id);
-    },
-    print(e) {
-      console.log(e);
     }
   },
   watch: {
     optionsOpen: function () {
-      const dropdown = this.$refs.options;
-      dropdown.style.display = (this.optionsOpen ? "block" : "none");
-      const caret = this.$refs.caret;
-      caret.style.transform = (this.optionsOpen ? "rotate(180deg)" : "rotate(0deg)");
+      if (this.$refs.options && this.$refs.caret) {
+        this.$refs.options.style.display = (this.optionsOpen) ? "block" : "none";
+        this.$refs.caret.style.transform = (this.optionsOpen) ? "rotate(180deg)" : "rotate(0deg)";
+      }
     }
   },
   directives: {

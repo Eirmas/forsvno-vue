@@ -39,7 +39,7 @@
 .contact-form__form-element .contact-form__options {
     position: relative;
 }
-.contact-form__form-element .contact-form__options svg {
+.contact-form__form-element .contact-form__options img {
     height: 8px;
     position: absolute;
     right: 1rem;
@@ -78,6 +78,7 @@
     top: inherit;
     left: 0;
     right: 0;
+    display: none;
 }
 .dropdown__options {
     list-style: none;
@@ -86,8 +87,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: scroll;
     max-height: 20.6rem;
+    overflow: auto;
 }
 .dropdown__item[aria-selected=true] {
     background: #e6e8e9;
