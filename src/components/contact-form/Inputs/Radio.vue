@@ -1,11 +1,11 @@
 <template>
     <div class="contact-form__form-element">
         <label>{{ inputHeading }}</label>
-        <div class="checkbox__wrapper">
-          <label v-for="option in options" :key="option.value" :for="option.value" class="checkbox__container">
+        <div class="radiobutton__wrapper">
+          <label v-for="option in options" :key="option.value" for="et_fornuftig_men_unikt_name" class="radiobutton__container" tabindex="-1">
             {{ option.text }}
-            <input @focus="blurOthers" type="checkbox" :id="option.value" :name="option.text" :value="option.value" tabindex="-1">
-            <span @keydown.space.prevent="select(option.value)" class="checkbox__checkmark" tabindex="0"></span>
+            <input @focus="blurOthers" type="radio" :id="option.value" name="et_fornuftig_men_unikt_name" :value="option.value" tabindex="0">
+            <span class="radiobutton__checkmark"></span>
           </label>
         </div>
     </div>
@@ -14,7 +14,7 @@
 import EventBus from "../../../event-bus.es6";
 
 export default {
-  name: "Checkbox",
+  name: "Radiobutton",
   components: {
   },
   props: {
@@ -25,9 +25,6 @@ export default {
     }
   },
   methods: {
-    select(id) {
-      document.getElementById(id).checked = !document.getElementById(id).checked;
-    },
     blurOthers() {
       EventBus.$emit("blur", this.id);
     }
@@ -36,10 +33,10 @@ export default {
 };
 </script>
 <style lang="scss">
-.checkbox__wrapper {
+.radiobutton__wrapper {
   display: flex;
   flex-direction: column;
-  .checkbox__container {
+  .radiobutton__container {
     position: relative;
     display: block;
     cursor: pointer;
@@ -52,36 +49,48 @@ export default {
       position: absolute;
       opacity: 0;
       cursor: pointer;
-      height: 0;
       width: 0;
+      height: 0;
+      pointer-events: none;
     }
-    .checkbox__checkmark {
+    input:checked ~ .radiobutton__checkmark:after{
+      display: block;
+      background: #191B21 !important;
+    }
+    input:focus ~ .radiobutton__checkmark:after {
+      display: block;
+      background: #191B2180;
+    }
+    .radiobutton__checkmark {
       position: absolute;
       top: 50%;
       left: 0;
       height: 20px;
       width: 20px;
       border: 2px solid #191B21;
+      border-radius: 50%;
       transform: translateY(-50%)
     }
-    .checkbox__checkmark:after {
+    .radiobutton__checkmark:after {
       content: "";
       position: absolute;
       display: none;
     }
-    input:checked ~ .checkbox__checkmark:after {
+    input:checked ~ .radiobutton__checkmark:after {
       display: block;
     }
-    .checkbox__checkmark:after {
+    .radiobutton__checkmark:after {
       left: 3px;
       top: 3px;
       width: 10px;
       height: 10px;
+      border-radius: 50%;
       background: #191B21;
     }
   }
-  .checkbox__container:hover input ~ .checkbox__checkmark:after {
+  .radiobutton__container:hover input ~ .radiobutton__checkmark:after {
     display: block;
+    background: #191B2180;
   }
 }
 </style>

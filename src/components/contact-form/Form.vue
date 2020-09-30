@@ -34,6 +34,11 @@
               :inputHeading="field.inputHeading"
               :options="field.options"
             />
+            <Radio
+              v-if="field._selected === 'radio'"
+              :inputHeading="field.inputHeading"
+              :options="field.options"
+            />
         </div>
         <div class="contact-form__form-inner">
         </div>
@@ -50,6 +55,7 @@ import Textarea from "./Inputs/Textarea.vue";
 import Checkbox from "./Inputs/Checkbox.vue";
 import Divider from "./Inputs/Divider.vue";
 import Attachment from "./Inputs/Attachment.vue";
+import Radio from "./Inputs/Radio.vue";
 
 export default {
   name: "Form",
@@ -59,7 +65,8 @@ export default {
     Textarea,
     Checkbox,
     Divider,
-    Attachment
+    Attachment,
+    Radio
   },
   props: {
     chosenEmail: {},
