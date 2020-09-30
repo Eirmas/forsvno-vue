@@ -1,33 +1,69 @@
 <template>
-    <div class="contact-form__form-element">
+    <div
+      class="contact-form__form-element"
+    >
         <label>{{ inputHeading }}</label>
         <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
-        <div class="attachment__wrapper">
+        <div
+          class="attachment__wrapper"
+        >
           <label class="attachment__file-input">
             <span>Velg fil</span>
-            <input @focus="blurOthers" type="file" :required="required" hidden>
+            <input
+              :name="index"
+              :data-text="inputHeading"
+              :required="required"
+              type="file"
+              hidden
+              @focus="blurOthers"
+            >
           </label>
-          <div class="attachment__info">
-            <button>⤫</button>
+          <div
+            class="attachment__info"
+          >
+            <button>
+              <img
+                v-if="close"
+                :src="close"
+                alt="Fjern vedlagt fil(er)"
+              >
+            </button>
             <span>Bilde (3MB)</span>
           </div>
         </div>
     </div>
 </template>
-<script lang="es6">
+<script>
 import EventBus from "../../../event-bus.es6";
 
 export default {
   name: "Attachment",
   props: {
-    inputHeading: String,
-    required: Boolean
+    close: {
+      type: [String, Boolean],
+      default: false
+    },
+    id: {
+      type: [String, Boolean],
+      default: false
+    },
+    index: {
+      type: [Number, Boolean],
+      default: false
+    },
+    inputHeading: {
+      type: String,
+      default: ""
+    },
+    required: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     blurOthers() {
       EventBus.$emit("blur", this.id);
     }
-
   }
 };
 </script>

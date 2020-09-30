@@ -1,11 +1,41 @@
 <template>
-    <div class="contact-form__form-element">
+    <div
+      :name="index"
+      :value="data.join(', ')"
+      :data-text="inputHeading"
+      class="contact-form__form-element"
+    >
+      <input
+        :name="index"
+        :value="data.join(', ')"
+        :data-text="inputHeading"
+        type="hidden"
+      />
         <label>{{ inputHeading }}</label>
-        <div class="checkbox__wrapper">
-          <label v-for="option in options" :key="option.value" :for="option.value" class="checkbox__container">
-            {{ option.text }}
-            <input @focus="blurOthers" type="checkbox" :id="option.value" :name="option.text" :value="option.value" tabindex="-1">
-            <span @keydown.space.prevent="select(option.value)" class="checkbox__checkmark" tabindex="0"></span>
+        <div
+          class="checkbox__wrapper"
+        >
+          <label
+            v-for="option in options"
+            :key="option.value"
+            :for="`contact-form__checkbox-${option.value}`"
+            class="checkbox__container"
+          >
+            <span>{{ option.text }}</span>
+            <input
+              v-model="data"
+              :id="`contact-form__checkbox-${option.value}`"
+              :data-text="inputHeading"
+              :value="option.value"
+              tabindex="-1"
+              type="checkbox"
+              @focus="blurOthers"
+            >
+            <span
+              @keyup.enter.prevent="select(option.value)"
+              class="checkbox__checkmark"
+              tabindex="0"
+            />
           </label>
         </div>
     </div>
@@ -15,13 +45,31 @@ import EventBus from "../../../event-bus.es6";
 
 export default {
   name: "Checkbox",
-  components: {
-  },
+  data: () => ({
+    data: []
+  }),
   props: {
-    inputHeading: String,
+    id: {
+      type: [String, Boolean],
+      default: false
+    },
+    index: {
+      type: [Number, Boolean],
+      default: false
+    },
+    inputHeading: {
+      type: String,
+      default: ""
+    },
     options: {
-      value: String,
-      text: String
+      value: {
+        type: String,
+        default: ""
+      },
+      text: {
+        type: String,
+        default: ""
+      }
     }
   },
   methods: {
@@ -31,7 +79,6 @@ export default {
     blurOthers() {
       EventBus.$emit("blur", this.id);
     }
-
   }
 };
 </script>

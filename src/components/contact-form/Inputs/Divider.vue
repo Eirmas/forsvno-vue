@@ -1,6 +1,6 @@
 <template>
     <div class="contact-form__form-element">
-        <div class="contact-form__divider"></div>
+        <div class="contact-form__divider" />
     </div>
 </template>
 <script lang="es6">

@@ -2,8 +2,11 @@
   <main>
     <div class="contact-form__wrapper">
       <ContactForm
+        :id="contactData.id"
         :fields="contactData.fields"
         :chosenEmail="contactData.chosenEmail"
+        :caret="contactData.caret"
+        :close="contactData.close"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -96,6 +99,8 @@ export default {
   data: () => ({
     contactData: {
       id: "1",
+      caret: require("@/assets/images/caret.svg"),
+      close: require("@/assets/images/close.svg"),
       chosenEmail: {
         inputHeading: "Hvem ønsker du å kontakte?",
         options: [
@@ -140,12 +145,12 @@ export default {
         {
           _selected: "attachment",
           inputHeading: "Last opp vedlegg",
-          required: true
+          required: false
         },
         {
           _selected: "checkbox",
           inputHeading: "Velg interesser",
-          required: true,
+          required: false,
           options: [
             {
               text: "Friluftsliv",
@@ -170,10 +175,9 @@ export default {
           ]
         },
         {
-          _selected: "dropdown",
+          _selected: "select",
           inputHeading: "Hva gjelder det?",
           required: true,
-          inputType: "",
           options: [
             {
               text: "Ting",
@@ -190,6 +194,11 @@ export default {
           inputHeading: "Navn",
           required: true,
           inputType: "text"
+        },
+        {
+          _selected: "textarea",
+          inputHeading: "Kommentar",
+          required: false
         }
       ],
       reciever: "noen@mil.no"

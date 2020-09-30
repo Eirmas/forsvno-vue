@@ -1,38 +1,66 @@
 <template>
-    <form @submit.prevent="submitForm" name="contact-form">
-        <div class="contact-form__form-inner">
-          <Select v-if="chosenEmail" :options="chosenEmail.options" :id="id" refName="contact_email" />
+    <form
+      name="contact-form"
+      @submit.prevent="submitForm"
+    >
+        <div
+          class="contact-form__form-inner"
+        >
+          <Select
+            v-if="chosenEmail"
+            :id="id"
+            :index="-1"
+            :caret="caret"
+            :required="true"
+            :options="chosenEmail.options"
+            :input-heading="chosenEmail.inputHeading"
+          />
         </div>
-        <div v-for="(field, index) in fields" :key="index" class="contact-form__form-inner">
+        <div
+          v-for="(field, i) in fields"
+          :key="i"
+          class="contact-form__form-inner"
+        >
             <Select
-              v-if="field._selected === 'Select'"
+              v-if="field._selected === 'select'"
               :options="field.options"
               :id="id"
+              :index="i"
+              :required="field.required"
+              :caret="caret"
               :inputHeading="field.inputHeading"
-              :refName="field.inputHeading.replace(' ', '-')"
             />
             <Textarea
               v-if="field._selected === 'textarea'"
               :id="id"
-              :inputHeading="field.inputHeading"
+              :index="i"
               :required="field.required"
+              :inputHeading="field.inputHeading"
+              :options="field.options"
             />
             <Input
               v-if="field._selected === 'text'"
               :id="id"
+              :index="i"
               :inputHeading="field.inputHeading"
               :inputType="field.inputType"
               :required="field.required"
             />
-            <Attachment
-              v-if="field._selected == 'attachment'"
-              :inputHeading="field.inputHeading"
-              :required="field.required"
-            />
             <Checkbox
               v-if="field._selected === 'checkbox'"
+              :id="id"
+              :index="i"
               :inputHeading="field.inputHeading"
               :options="field.options"
+              :required="field.required"  
+            />
+            <Attachment
+              v-if="field._selected === 'attachment'"
+              :id="id"
+              :index="i"
+              :close="close"
+              :inputHeading="field.inputHeading"
+              :required="field.required"
             />
             <Radio
               v-if="field._selected === 'radio'"
@@ -43,8 +71,15 @@
         <div class="contact-form__form-inner">
         </div>
         <Divider />
-        <h6>Felt markert med * må fylles ut.</h6>
-        <button type="submit" class="btn-square negative">Send inn</button>
+        <h6>
+          <span>Felt markert med * må fylles ut.</span>
+        </h6>
+        <button
+          type="submit"
+          class="btn-square negative"
+        >
+          <span>Send inn</span>
+        </button>
     </form>
 </template>
 <script>
@@ -69,23 +104,63 @@ export default {
     Radio
   },
   props: {
-    chosenEmail: {},
-    fields: {
-      inputHeading: String,
-      inputType: String,
-      required: Boolean
+    close: {
+      type: [String, Boolean],
+      default: false
     },
-    id: String,
-    serviceUrl: String
+    caret: {
+      type: [String, Boolean],
+      default: false
+    },
+    chosenEmail: {
+      inputHeading: {
+        type: String,
+        default: ""
+      },
+      options: {
+        type: [Array, Boolean],
+        default: false
+      }
+    },
+    fields: {
+      inputHeading: {
+        type: String,
+        default: ""
+      },
+      inputType: {
+        type: [String, Boolean],
+        default: false
+      },
+      required: {
+        type: Boolean,
+        default: false
+      },
+      _selected: {
+        type: [String, Boolean],
+        default: false
+      }
+    },
+    id: {
+      type: [String, Boolean],
+      default: false
+    },
+    serviceUrl: {
+      type: [String, Boolean],
+      default: false
+    }
   },
   methods: {
     submitForm: function (e) {
       const data = {};
-      e.target.elements.forEach((element) => {
-        if (element.name) {
-          data[element.name] = element.value;
+      e.target.elements.forEach((el) => {
+        if (el.name) {
+          data[el.name] = {
+            text: el.getAttribute("data-text"),
+            value: el[(el.files) ? "files" : "value"]
+          };
         }
       });
+      console.log(data);
       axios.post(this.serviceUrl, {
         data: data
       })

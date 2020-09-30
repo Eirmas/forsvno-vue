@@ -39,6 +39,7 @@ module.exports = {
       "error",
       "always"
     ],
+    "no-multi-assign": "off",
     "no-console": "off",
     "global-require": "off",
     "import/no-unresolved": "off",
