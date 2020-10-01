@@ -1,14 +1,14 @@
 <template>
     <div
-      v-if="index !== undefined"
+      v-if="data.index !== undefined"
       class="contact-form__form-element"
     >
-        <label>{{ inputHeading }}</label>
+        <label>{{ data.inputHeading }}</label>
         <input
-          :name="index"
-          :data-text="inputHeading"
-          :type="inputType"
-          :required="required"
+          :name="data.index"
+          :data-text="data.inputHeading"
+          :type="data.inputType"
+          :required="data.required"
           @focus="blurOthers"
         >
     </div>
@@ -19,40 +19,32 @@ import EventBus from "../../../event-bus.es6";
 export default {
   name: "Input",
   props: {
-    index: {
-      type: [Number, Boolean],
-      default: false
-    },
-    inputHeading: {
-      type: String,
-      default: ""
-    },
-    inputType: {
-      type: String,
-      default: ""
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    options: {
-      value: {
+    data: {
+      index: {
+        type: [Number, Boolean],
+        default: false
+      },
+      id: {
+        type: [String, Boolean],
+        default: false
+      },
+      inputHeading: {
         type: String,
         default: ""
       },
-      text: {
+      inputType: {
         type: String,
         default: ""
+      },
+      required: {
+        type: Boolean,
+        default: false
       }
-    },
-    id: {
-      type: [String, Boolean],
-      default: false
     }
   },
   methods: {
     blurOthers() {
-      EventBus.$emit("blur", this.id);
+      EventBus.$emit("blur", this.data.id);
     }
   }
 };

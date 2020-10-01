@@ -1,31 +1,28 @@
 <template>
     <div
-      :name="index"
-      :value="data.join(', ')"
-      :data-text="inputHeading"
       class="contact-form__form-element"
     >
       <input
-        :name="index"
-        :value="data.join(', ')"
-        :data-text="inputHeading"
+        :name="data.index"
+        :value="model.join(', ')"
+        :data-text="data.inputHeading"
         type="hidden"
       />
-        <label>{{ inputHeading }}</label>
+        <label>{{ data.inputHeading }}</label>
         <div
           class="checkbox__wrapper"
         >
           <label
-            v-for="option in options"
+            v-for="option in data.options"
             :key="option.value"
             :for="`contact-form__checkbox-${option.value}`"
             class="checkbox__container"
           >
             <span>{{ option.text }}</span>
             <input
-              v-model="data"
+              v-model="model"
               :id="`contact-form__checkbox-${option.value}`"
-              :data-text="inputHeading"
+              :data-text="data.inputHeading"
               :value="option.value"
               tabindex="-1"
               type="checkbox"
@@ -40,35 +37,37 @@
         </div>
     </div>
 </template>
-<script lang="es6">
+<script>
 import EventBus from "../../../event-bus.es6";
 
 export default {
-  name: "Input",
+  name: "Checkbox",
   data: () => ({
-    data: []
+    model: []
   }),
   props: {
-    id: {
-      type: [String, Boolean],
-      default: false
-    },
-    index: {
-      type: [Number, Boolean],
-      default: false
-    },
-    inputHeading: {
-      type: String,
-      default: ""
-    },
-    options: {
-      value: {
+    data: {
+      id: {
+        type: [String, Boolean],
+        default: false
+      },
+      index: {
+        type: [Number, Boolean],
+        default: false
+      },
+      inputHeading: {
         type: String,
         default: ""
       },
-      text: {
-        type: String,
-        default: ""
+      options: {
+        value: {
+          type: String,
+          default: ""
+        },
+        text: {
+          type: String,
+          default: ""
+        }
       }
     }
   },
@@ -77,7 +76,7 @@ export default {
       document.getElementById(id).checked = !document.getElementById(id).checked;
     },
     blurOthers() {
-      EventBus.$emit("blur", this.id);
+      EventBus.$emit("blur", this.data.id);
     }
   }
 };

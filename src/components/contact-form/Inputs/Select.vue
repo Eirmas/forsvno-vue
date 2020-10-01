@@ -1,9 +1,9 @@
 <template>
   <div
-    v-if="index !== undefined"
+    v-if="data.index !== undefined"
     class="contact-form__form-element"
   >
-    <label>{{ inputHeading }}</label>
+    <label>{{ data.inputHeading }}</label>
     <div
       class="contact-form__options"
     >
@@ -13,8 +13,8 @@
       >
           <button
             :value="value"
-            :data-text="inputHeading"
-            :name="index"
+            :data-text="data.inputHeading"
+            :name="(data.isEmail) ? -1 : data.index"
             aria-controls="dropdown-menu-options"
             type="button"
             class="dropdown__toggle"
@@ -28,12 +28,12 @@
                   <span>{{ text }}</span>
               </div>
               <div
-                v-if="caret"
+                v-if="data.caret"
                 class="dropdown__caret"
               >
                   <img
                     ref="caret"
-                    :src="caret"
+                    :src="data.caret"
                     alt="Caret"
                   >
               </div>
@@ -50,7 +50,7 @@
                 class="dropdown__options"
               >
                   <li
-                      v-for="(option, i) in options"
+                      v-for="(option, i) in data.options"
                       :key="option.value"
                       :id="i"
                       aria-selected="false"
@@ -81,40 +81,46 @@ export default {
     value: ""
   }),
   props: {
-    index: {
-      type: [Number, Boolean],
-      default: false
-    },
-    caret: {
-      type: [String, Boolean],
-      default: false
-    },
-    inputHeading: {
-      type: String,
-      default: ""
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    options: {
-      value: {
+    data: {
+      isEmail: {
+        type: Boolean,
+        default: false
+      },
+      index: {
+        type: [Number, Boolean],
+        default: false
+      },
+      id: {
+        type: [String, Boolean],
+        default: false
+      },
+      caret: {
+        type: [String, Boolean],
+        default: false
+      },
+      inputHeading: {
         type: String,
         default: ""
       },
-      text: {
-        type: String,
-        default: ""
+      required: {
+        type: Boolean,
+        default: false
+      },
+      options: {
+        value: {
+          type: String,
+          default: ""
+        },
+        text: {
+          type: String,
+          default: ""
+        }
       }
-    },
-    id: {
-      type: [String, Boolean],
-      default: false
     }
   },
   created() {
     EventBus.$on("blur", (id) => {
-      if (this.id === id) this.hide();
+      if (this.data.id === id) this.hide();
     });
   },
   methods: {
@@ -130,7 +136,7 @@ export default {
       this.optionsOpen = false;
     },
     blurOthers() {
-      EventBus.$emit("blur", this.id);
+      EventBus.$emit("blur", this.data.id);
     }
   },
   watch: {

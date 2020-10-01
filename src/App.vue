@@ -4,9 +4,7 @@
       <ContactForm
         :id="contactData.id"
         :fields="contactData.fields"
-        :chosenEmail="contactData.chosenEmail"
-        :caret="contactData.caret"
-        :close="contactData.close"
+        :reciever="contactData.reciever"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -99,79 +97,95 @@ export default {
   data: () => ({
     contactData: {
       id: "1",
-      caret: require("@/assets/images/caret.svg"),
-      close: require("@/assets/images/close.svg"),
-      chosenEmail: {
-        inputHeading: "Hvem ønsker du å kontakte?",
-        options: [
-          {
-            text: "FMS",
-            value: "fms@fms.no"
-          },
-          {
-            text: "Luft",
-            value: "luft@mil.no"
-          }
-        ]
-      },
       fields: [
         {
-          _selected: "attachment",
-          inputHeading: "Last opp vedlegg",
-          required: false
+          selected: "Select",
+          data: {
+            caret: require("@/assets/images/caret.svg"),
+            isEmail: true,
+            inputHeading: "Hvem ønsker du å kontakte?",
+            options: [
+              {
+                text: "FMS",
+                value: "fms@fms.no"
+              },
+              {
+                text: "Luft",
+                value: "luft@mil.no"
+              }
+            ]
+          }
         },
         {
-          _selected: "checkbox",
-          inputHeading: "Velg interesser",
-          required: false,
-          options: [
-            {
-              text: "Friluftsliv",
-              value: "Friluftsliv"
-            },
-            {
-              text: "Trening",
-              value: "Trening"
-            },
-            {
-              text: "Hund",
-              value: "Hund"
-            },
-            {
-              text: "Jakt",
-              value: "Jakt"
-            },
-            {
-              text: "Fiske",
-              value: "Fiske"
-            }
-          ]
+          selected: "Attachment",
+          data: {
+            inputHeading: "Last opp vedlegg",
+            required: false,
+            close: require("@/assets/images/close.svg")
+          }
         },
         {
-          _selected: "select",
-          inputHeading: "Hva gjelder det?",
-          required: true,
-          options: [
-            {
-              text: "Ting",
-              value: "Ting"
-            },
-            {
-              text: "Tang",
-              value: "Tang"
-            }
-          ]
+          selected: "Checkbox",
+          data: {
+            inputHeading: "Velg interesser",
+            required: false,
+            options: [
+              {
+                text: "Friluftsliv",
+                value: "Friluftsliv"
+              },
+              {
+                text: "Trening",
+                value: "Trening"
+              },
+              {
+                text: "Hund",
+                value: "Hund"
+              },
+              {
+                text: "Jakt",
+                value: "Jakt"
+              },
+              {
+                text: "Fiske",
+                value: "Fiske"
+              }
+            ]
+          }
         },
         {
-          _selected: "text",
-          inputHeading: "Navn",
-          required: true,
-          inputType: "text"
+          selected: "Select",
+          data: {
+            isEmail: false,
+            caret: require("@/assets/images/caret.svg"),
+            inputHeading: "Hva gjelder det?",
+            required: true,
+            options: [
+              {
+                text: "Ting",
+                value: "Ting"
+              },
+              {
+                text: "Tang",
+                value: "Tang"
+              }
+            ]
+          }
         },
         {
-          _selected: "textarea",
-          inputHeading: "Kommentar",
-          required: false
+          selected: "Input",
+          data: {
+            inputHeading: "Navn",
+            required: true,
+            inputType: "text"
+          }
+        },
+        {
+          selected: "Textarea",
+          data: {
+            inputHeading: "Kommentar",
+            required: false
+          }
         }
       ],
       reciever: "noen@mil.no"
