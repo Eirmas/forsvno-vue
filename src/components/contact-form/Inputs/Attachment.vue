@@ -2,7 +2,7 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ inputHeading }}</label>
+        <label>{{ data.inputHeading }}</label>
         <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
         <div
           class="attachment__wrapper"
@@ -10,9 +10,9 @@
           <label class="attachment__file-input">
             <span>Velg fil</span>
             <input
-              :name="index"
-              :data-text="inputHeading"
-              :required="required"
+              :name="data.index"
+              :data-text="data.inputHeading"
+              :required="data.required"
               ref="_input"
               type="file"
               hidden
@@ -24,13 +24,16 @@
           <div
             class="attachment__info"
           >
-            <div v-for="file in fileNames" :key="file.name">
+            <div
+              v-for="file in fileNames"
+              :key="file.name"
+            >
               <button
                 @click="removeFile(file.name)"
               >
                 <img
-                  v-if="close"
-                  :src="close"
+                  v-if="data.close"
+                  :src="data.close"
                   alt="Fjern vedlagt fil(er)"
                 >
               </button>
@@ -46,25 +49,27 @@ import EventBus from "../../../event-bus.es6";
 export default {
   name: "Attachment",
   props: {
-    close: {
-      type: [String, Boolean],
-      default: false
-    },
-    id: {
-      type: [String, Boolean],
-      default: false
-    },
-    index: {
-      type: [Number, Boolean],
-      default: false
-    },
-    inputHeading: {
-      type: String,
-      default: ""
-    },
-    required: {
-      type: Boolean,
-      default: false
+    data: {
+      id: {
+        type: [String, Boolean],
+        default: false
+      },
+      index: {
+        type: [Number, Boolean],
+        default: false
+      },
+      inputHeading: {
+        type: String,
+        default: ""
+      },
+      required: {
+        type: Boolean,
+        default: false
+      },
+      close: {
+        type: [String, Boolean],
+        default: false
+      }
     }
   },
   data: () => ({
@@ -72,7 +77,7 @@ export default {
   }),
   methods: {
     blurOthers() {
-      EventBus.$emit("blur", this.id);
+      EventBus.$emit("blur", this.data.id);
     },
     showFiles(e) {
       const files = e.target.files;

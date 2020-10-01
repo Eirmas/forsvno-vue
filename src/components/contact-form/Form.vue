@@ -4,82 +4,32 @@
       @submit.prevent="submitForm"
     >
         <div
-          class="contact-form__form-inner"
-        >
-          <Select
-            v-if="chosenEmail"
-            :id="id"
-            :index="-1"
-            :caret="caret"
-            :required="true"
-            :options="chosenEmail.options"
-            :input-heading="chosenEmail.inputHeading"
-          />
-        </div>
-        <div
-          v-for="(field, i) in fields"
+          ref="form"
+          v-for="(field, i) in fields.filter((e) => e.selected && e.data)"
           :key="i"
           class="contact-form__form-inner"
         >
-            <Select
-              v-if="field._selected === 'select'"
-              :options="field.options"
-              :id="id"
-              :index="i"
-              :required="field.required"
-              :caret="caret"
-              :inputHeading="field.inputHeading"
-            />
-            <Textarea
-              v-if="field._selected === 'textarea'"
-              :id="id"
-              :index="i"
-              :required="field.required"
-              :inputHeading="field.inputHeading"
-              :options="field.options"
-            />
-            <Input
-              v-if="field._selected === 'text'"
-              :id="id"
-              :index="i"
-              :inputHeading="field.inputHeading"
-              :inputType="field.inputType"
-              :required="field.required"
-            />
-            <Checkbox
-              v-if="field._selected === 'checkbox'"
-              :id="id"
-              :index="i"
-              :inputHeading="field.inputHeading"
-              :options="field.options"
-              :required="field.required"
-            />
-            <Attachment
-              v-if="field._selected === 'attachment'"
-              :id="id"
-              :index="i"
-              :close="close"
-              :inputHeading="field.inputHeading"
-              :required="field.required"
-            />
-            <Radio
-              v-if="field._selected === 'radio'"
-              :inputHeading="field.inputHeading"
-              :options="field.options"
+            <component
+              :is="field.selected"
+              :data="{ ...field.data, id: id, index: i }"
             />
         </div>
         <div class="contact-form__form-inner">
         </div>
-        <Divider />
-        <h6>
-          <span>Felt markert med * må fylles ut.</span>
-        </h6>
-        <button
-          type="submit"
-          class="btn-square negative"
+        <div
+          class="contact-form__form-element"
         >
-          <span>Send inn</span>
-        </button>
+          <div
+            class="contact-form__divider"
+          />
+          <h6>Felt markert med * må fylles ut.</h6>
+          <button
+            type="submit"
+            class="btn-square negative"
+          >
+            <span>Send inn</span>
+          </button>
+        </div>
     </form>
 </template>
 <script>
@@ -88,7 +38,6 @@ import Select from "./Inputs/Select.vue";
 import Input from "./Inputs/Input.vue";
 import Textarea from "./Inputs/Textarea.vue";
 import Checkbox from "./Inputs/Checkbox.vue";
-import Divider from "./Inputs/Divider.vue";
 import Attachment from "./Inputs/Attachment.vue";
 import Radio from "./Inputs/Radio.vue";
 
@@ -99,52 +48,25 @@ export default {
     Input,
     Textarea,
     Checkbox,
-    Divider,
     Attachment,
     Radio
   },
   props: {
-    close: {
-      type: [String, Boolean],
-      default: false
-    },
-    caret: {
-      type: [String, Boolean],
-      default: false
-    },
-    chosenEmail: {
-      inputHeading: {
-        type: String,
-        default: ""
-      },
-      options: {
-        type: [Array, Boolean],
-        default: false
-      }
-    },
-    fields: {
-      inputHeading: {
-        type: String,
-        default: ""
-      },
-      inputType: {
-        type: [String, Boolean],
-        default: false
-      },
-      required: {
-        type: Boolean,
-        default: false
-      },
-      _selected: {
-        type: [String, Boolean],
-        default: false
-      }
-    },
     id: {
       type: [String, Boolean],
       default: false
     },
-    serviceUrl: {
+    fields: {
+      data: {
+        type: [Object, Boolean],
+        default: false
+      },
+      selected: {
+        type: [String, Boolean],
+        default: false
+      }
+    },
+    reciever: {
       type: [String, Boolean],
       default: false
     }
@@ -169,19 +91,20 @@ export default {
       if (error) {
         return;
       }
-      console.log(data);
-      axios.post(this.serviceUrl, {
-        data: data,
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-        .then((response) => {
-          console.log(response);
+      if (this.reciever) {
+        axios.post((data[-1]) ? data[-1].value : this.reciever, {
+          data: data,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     showWarning(element) {
       console.log(element);
