@@ -2,7 +2,7 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ data.inputHeading }}</label>
+        <label>{{ data.inputHeading }}{{ data.required ? "*" : "" }}</label>
         <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
         <div
           class="attachment__wrapper"
@@ -12,7 +12,7 @@
             <input
               :name="data.index"
               :data-text="data.inputHeading"
-              :required="data.required"
+              :data-required="data.required"
               :multiple="data.options.advanced.multiple"
               :accept="data.options.advanced.accept"
               ref="_input"

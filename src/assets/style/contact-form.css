@@ -9,6 +9,7 @@
 .contact-form__wrapper form .contact-form__form-inner .contact-form__form-element {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 .contact-form__form-element label {
     font-weight: 500;

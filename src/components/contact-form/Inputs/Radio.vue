@@ -6,9 +6,10 @@
           :name="data.index"
           :value="model"
           :data-text="data.inputHeading"
+          :data-required="data.required"
           type="hidden"
         />
-        <label>{{ data.inputHeading }}</label>
+        <label>{{ data.inputHeading }}{{ data.required ? "*" : "" }}</label>
         <div
           class="radiobutton__wrapper"
         >

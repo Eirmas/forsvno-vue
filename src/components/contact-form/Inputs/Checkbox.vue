@@ -8,7 +8,7 @@
         :data-text="data.inputHeading"
         type="hidden"
       />
-        <label>{{ data.inputHeading }}</label>
+        <label>{{ data.inputHeading }}{{ data.required ? "*" : "" }}</label>
         <div
           class="checkbox__wrapper"
         >

@@ -3,7 +3,7 @@
     v-if="data.index !== undefined"
     class="contact-form__form-element"
   >
-    <label>{{ data.inputHeading }}</label>
+    <label>{{ data.inputHeading }}{{ data.required ? "*" : "" }}</label>
     <div
       class="contact-form__options"
     >
@@ -14,6 +14,7 @@
           <button
             :value="value"
             :data-text="data.inputHeading"
+            :data-required="data.required"
             :name="(data.isEmail) ? -1 : data.index"
             aria-controls="dropdown-menu-options"
             type="button"

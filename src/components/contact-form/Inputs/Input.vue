@@ -3,14 +3,14 @@
       v-if="data.index !== undefined"
       class="contact-form__form-element"
     >
-        <label>{{ data.inputHeading }}</label>
+        <label>{{ data.inputHeading }}{{ data.required ? "*" : "" }}</label>
         <input
           v-model="model"
+          ref="_input"
           :name="data.index"
           :data-text="data.inputHeading"
+          :data-required="data.required"
           :type="data.inputType"
-          :required="data.required"
-          :pattern="data.options.advanced.regex"
           :maxlength="data.options.advanced.maxLength"
           :minlength="data.options.advanced.minLength"
           @focus="blurOthers"
@@ -21,6 +21,7 @@
         >
           {{ model.length }} / {{ data.options.advanced.maxLength }}
         </span>
+        <p v-if="error" class="contact-form__error-text">Feltet er obligatorisk</p>
     </div>
 </template>
 <script>
@@ -32,6 +33,7 @@ export default {
     model: ""
   }),
   props: {
+    error: null,
     data: {
       index: {
         type: [Number, Boolean],
@@ -74,6 +76,15 @@ export default {
   methods: {
     blurOthers() {
       EventBus.$emit("blur", this.data.id);
+    }
+  },
+  watch: {
+    model: function () {
+      if (this.data.options.advanced.regex) {
+        const re = new RegExp(this.data.options.advanced.regex);
+        const input = this.$refs._input;
+        input.classList.toggle("contact-form__error", this.model.length === 0 ? false : !re.test(this.model));
+      }
     }
   }
 };

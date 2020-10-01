@@ -104,6 +104,7 @@ export default {
             caret: require("@/assets/images/caret.svg"),
             isEmail: true,
             inputHeading: "Hvem ønsker du å kontakte?",
+            required: true,
             options: [
               {
                 text: "FMS",
@@ -144,7 +145,7 @@ export default {
           selected: "Attachment",
           data: {
             inputHeading: "Last opp vedlegg",
-            required: false,
+            required: true,
             close: require("@/assets/images/close.svg"),
             options: {
               advanced: {
@@ -205,7 +206,7 @@ export default {
             inputType: "text",
             options: {
               advanced: {
-                regex: false,
+                regex: "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(.\\w{2,3})+$",
                 maxLength: 20,
                 minLength: 5
               }
@@ -216,7 +217,7 @@ export default {
           selected: "Textarea",
           data: {
             inputHeading: "Kommentar",
-            required: false,
+            required: true,
             options: {
               advanced: {
                 maxLength: 144
