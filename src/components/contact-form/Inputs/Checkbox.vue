@@ -24,14 +24,11 @@
               :id="`contact-form__checkbox-${option.value}`"
               :data-text="data.inputHeading"
               :value="option.value"
-              tabindex="-1"
               type="checkbox"
               @focus="blurOthers"
             >
             <span
-              @keyup.enter.prevent="select(option.value)"
               class="checkbox__checkmark"
-              tabindex="0"
             />
           </label>
         </div>
@@ -63,14 +60,25 @@ export default {
         value: {
           type: String,
           default: ""
+        },
+        advanced: {
+          regex: {
+            type: [String, Boolean],
+            default: false
+          },
+          maxLength: {
+            type: [Number, Boolean],
+            default: false
+          },
+          minLength: {
+            type: [Number, Boolean],
+            default: false
+          }
         }
       }
     }
   },
   methods: {
-    select(id) {
-      document.getElementById(id).checked = !document.getElementById(id).checked;
-    },
     blurOthers() {
       EventBus.$emit("blur", this.data.id);
     }
@@ -92,10 +100,9 @@ export default {
     user-select: none;
     input {
       position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
       width: 0;
+      height: 0;
+      opacity: 0;
     }
     .checkbox__checkmark {
       position: absolute;
@@ -111,15 +118,23 @@ export default {
       position: absolute;
       display: none;
     }
+    input:focus ~ .checkbox__checkmark:after {
+      display: block;
+      background: #191B2180;
+    }
     input:checked ~ .checkbox__checkmark:after {
       display: block;
+      background: #191B21;
     }
     .checkbox__checkmark:after {
       left: 3px;
       top: 3px;
       width: 10px;
       height: 10px;
-      background: #191B21;
+    }
+    &:hover input:not(:checked) ~ .checkbox__checkmark:after {
+      display: block;
+      background: #191B2180;
     }
   }
   .checkbox__container:hover input ~ .checkbox__checkmark:after {

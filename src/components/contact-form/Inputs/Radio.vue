@@ -59,6 +59,20 @@ export default {
         value: {
           type: String,
           default: ""
+        },
+        advanced: {
+          regex: {
+            type: [String, Boolean],
+            default: false
+          },
+          maxLength: {
+            type: [Number, Boolean],
+            default: false
+          },
+          minLength: {
+            type: [Number, Boolean],
+            default: false
+          }
         }
       }
     }

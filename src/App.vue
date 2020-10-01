@@ -145,7 +145,13 @@ export default {
           data: {
             inputHeading: "Last opp vedlegg",
             required: false,
-            close: require("@/assets/images/close.svg")
+            close: require("@/assets/images/close.svg"),
+            options: {
+              advanced: {
+                multiple: true,
+                accept: "image/*"
+              }
+            }
           }
         },
         {
@@ -196,14 +202,26 @@ export default {
           data: {
             inputHeading: "Navn",
             required: true,
-            inputType: "text"
+            inputType: "text",
+            options: {
+              advanced: {
+                regex: false,
+                maxLength: 20,
+                minLength: 5
+              }
+            }
           }
         },
         {
           selected: "Textarea",
           data: {
             inputHeading: "Kommentar",
-            required: false
+            required: false,
+            options: {
+              advanced: {
+                maxLength: 144
+              }
+            }
           }
         }
       ],

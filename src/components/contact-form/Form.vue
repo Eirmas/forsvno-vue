@@ -75,6 +75,7 @@ export default {
     submitForm: function (e) {
       const data = {};
       let error = false;
+      console.log(e.target.elements);
       e.target.elements.forEach((el) => {
         if (el.name) {
           if (!el.value) {
@@ -88,9 +89,8 @@ export default {
           }
         }
       });
-      if (error) {
-        return;
-      }
+      console.log("done");
+      if (error) return;
       if (this.reciever) {
         axios.post((data[-1]) ? data[-1].value : this.reciever, {
           data: data,
@@ -126,5 +126,9 @@ export default {
 .contact-form__error-text{
   color: #AD0B0B;
   font-size: small;
+}
+.contact-form__letter-counter {
+  font-size: small;
+  text-align: right;
 }
 </style>

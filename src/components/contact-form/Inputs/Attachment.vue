@@ -13,10 +13,11 @@
               :name="data.index"
               :data-text="data.inputHeading"
               :required="data.required"
+              :multiple="data.options.advanced.multiple"
+              :accept="data.options.advanced.accept"
               ref="_input"
               type="file"
               hidden
-              multiple
               @focus="blurOthers"
               @change="showFiles"
             >
@@ -69,6 +70,18 @@ export default {
       close: {
         type: [String, Boolean],
         default: false
+      },
+      options: {
+        advanced: {
+          accept: {
+            type: [String],
+            default: false
+          },
+          multiple: {
+            type: Boolean,
+            default: false
+          }
+        }
       }
     }
   },
