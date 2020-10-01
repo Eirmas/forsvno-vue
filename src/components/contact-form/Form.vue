@@ -4,6 +4,7 @@
       @submit.prevent="submitForm"
     >
         <div
+          ref="form"
           v-for="(field, i) in fields.filter((e) => e.selected && e.data)"
           :key="i"
           class="contact-form__form-inner"
@@ -12,6 +13,8 @@
               :is="field.selected"
               :data="{ ...field.data, id: id, index: i }"
             />
+        </div>
+        <div class="contact-form__form-inner">
         </div>
         <div
           class="contact-form__form-element"
@@ -36,6 +39,7 @@ import Input from "./Inputs/Input.vue";
 import Textarea from "./Inputs/Textarea.vue";
 import Checkbox from "./Inputs/Checkbox.vue";
 import Attachment from "./Inputs/Attachment.vue";
+import Radio from "./Inputs/Radio.vue";
 
 export default {
   name: "Form",
@@ -44,7 +48,8 @@ export default {
     Input,
     Textarea,
     Checkbox,
-    Attachment
+    Attachment,
+    Radio
   },
   props: {
     id: {

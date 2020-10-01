@@ -14,6 +14,9 @@
     font-weight: 500;
     margin: 1.5rem 0 0.1rem 0;
 }
+.contact-form__form-element p {
+    font-size: small;
+}
 .contact-form__form-element input, .contact-form__form-element textarea {
     border: 2px solid #e6e8e9;
     padding: 0.5rem 1rem;

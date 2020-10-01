@@ -2,36 +2,32 @@
     <div
       class="contact-form__form-element"
     >
-      <input
-        :name="data.index"
-        :value="model.join(', ')"
-        :data-text="data.inputHeading"
-        type="hidden"
-      />
+        <input
+          :name="data.index"
+          :value="model"
+          :data-text="data.inputHeading"
+          type="hidden"
+        />
         <label>{{ data.inputHeading }}</label>
         <div
-          class="checkbox__wrapper"
+          class="radiobutton__wrapper"
         >
           <label
-            v-for="option in data.options"
-            :key="option.value"
-            :for="`contact-form__checkbox-${option.value}`"
-            class="checkbox__container"
+            v-for="(option, i) in data.options"
+            :key="i"
+            class="radiobutton__container"
           >
-            <span>{{ option.value }}</span>
+            {{ option.value }}
             <input
               v-model="model"
-              :id="`contact-form__checkbox-${option.value}`"
-              :data-text="data.inputHeading"
+              :id="option.value"
               :value="option.value"
-              tabindex="-1"
-              type="checkbox"
+              :name="`contact-form__radio-${data.id}-${data.index}`"
+              type="radio"
               @focus="blurOthers"
             >
             <span
-              @keyup.enter.prevent="select(option.value)"
-              class="checkbox__checkmark"
-              tabindex="0"
+              class="radiobutton__checkmark"
             />
           </label>
         </div>
@@ -41,9 +37,9 @@
 import EventBus from "../../../event-bus.es6";
 
 export default {
-  name: "Checkbox",
+  name: "Radio",
   data: () => ({
-    model: []
+    model: ""
   }),
   props: {
     data: {
@@ -68,9 +64,6 @@ export default {
     }
   },
   methods: {
-    select(id) {
-      document.getElementById(id).checked = !document.getElementById(id).checked;
-    },
     blurOthers() {
       EventBus.$emit("blur", this.data.id);
     }
@@ -78,10 +71,10 @@ export default {
 };
 </script>
 <style lang="scss">
-.checkbox__wrapper {
+.radiobutton__wrapper {
   display: flex;
   flex-direction: column;
-  .checkbox__container {
+  .radiobutton__container {
     position: relative;
     display: block;
     cursor: pointer;
@@ -91,39 +84,44 @@ export default {
     -ms-user-select: none;
     user-select: none;
     input {
-      position: absolute;
       opacity: 0;
-      cursor: pointer;
-      height: 0;
       width: 0;
+      height: 0;
+      position: absolute;
+      cursor: pointer;
+      &:focus ~ .radiobutton__checkmark:after {
+        display: block;
+        background: #191B2180;
+      }
+      &:checked ~ .radiobutton__checkmark:after{
+        display: block;
+        background: #191B21;
+      }
     }
-    .checkbox__checkmark {
+    .radiobutton__checkmark {
       position: absolute;
       top: 50%;
       left: 0;
       height: 20px;
       width: 20px;
       border: 2px solid #191B21;
-      transform: translateY(-50%)
+      border-radius: 50%;
+      transform: translateY(-50%);
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 3px;
+        top: 3px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
     }
-    .checkbox__checkmark:after {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-    input:checked ~ .checkbox__checkmark:after {
+    &:hover input:not(:checked) ~ .radiobutton__checkmark:after {
       display: block;
+      background: #191B2180;
     }
-    .checkbox__checkmark:after {
-      left: 3px;
-      top: 3px;
-      width: 10px;
-      height: 10px;
-      background: #191B21;
-    }
-  }
-  .checkbox__container:hover input ~ .checkbox__checkmark:after {
-    display: block;
   }
 }
 </style>

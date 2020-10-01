@@ -117,6 +117,30 @@ export default {
           }
         },
         {
+          selected: "radio",
+          data: {
+            inputHeading: "Velg interesse",
+            required: true,
+            options: [
+              {
+                value: "Friluftsliv"
+              },
+              {
+                value: "Trening"
+              },
+              {
+                value: "Hund"
+              },
+              {
+                value: "Jakt"
+              },
+              {
+                value: "Fiske"
+              }
+            ]
+          }
+        },
+        {
           selected: "Attachment",
           data: {
             inputHeading: "Last opp vedlegg",
@@ -131,23 +155,18 @@ export default {
             required: false,
             options: [
               {
-                text: "Friluftsliv",
                 value: "Friluftsliv"
               },
               {
-                text: "Trening",
                 value: "Trening"
               },
               {
-                text: "Hund",
                 value: "Hund"
               },
               {
-                text: "Jakt",
                 value: "Jakt"
               },
               {
-                text: "Fiske",
                 value: "Fiske"
               }
             ]
