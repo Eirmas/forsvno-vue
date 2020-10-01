@@ -52,7 +52,7 @@
               :index="i"
               :inputHeading="field.inputHeading"
               :options="field.options"
-              :required="field.required"  
+              :required="field.required"
             />
             <Attachment
               v-if="field._selected === 'attachment'"

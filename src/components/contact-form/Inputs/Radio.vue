@@ -1,12 +1,12 @@
 <template>
-    <div 
+    <div
       class="contact-form__form-element"
     >
         <label>{{ inputHeading }}</label>
-        <div 
+        <div
           class="radiobutton__wrapper"
         >
-          <label 
+          <label
             v-for="option in options"
             :key="option.value"
             for="et_fornuftig_men_unikt_name"
@@ -22,7 +22,7 @@
               tabindex="0"
               @focus="blurOthers"
             >
-            <span 
+            <span
               class="radiobutton__checkmark"
             >
             </span>
