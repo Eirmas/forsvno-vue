@@ -152,25 +152,56 @@ export default {
   methods: {
     submitForm: function (e) {
       const data = {};
+      let error = false;
       e.target.elements.forEach((el) => {
         if (el.name) {
-          data[el.name] = {
-            text: el.getAttribute("data-text"),
-            value: el[(el.files) ? "files" : "value"]
-          };
+          if (!el.value) {
+            error = true;
+            this.showWarning(document.getElementsByName(el.name)[0]);
+          } else {
+            data[el.name] = {
+              text: el.getAttribute("data-text"),
+              value: el[(el.files) ? "files" : "value"]
+            };
+          }
         }
       });
+      if (error) {
+        return;
+      }
       console.log(data);
       axios.post(this.serviceUrl, {
-        data: data
+        data: data,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       })
         .then((response) => {
           console.log(response);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
+    },
+    showWarning(element) {
+      console.log(element);
+      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") element.classList.add("contact-form__error");
+      const error = document.createElement("p");
+      error.innerHTML = "Feltet er obligatiorisk";
+      error.classList.add("contact-form__error-text");
+      console.log(element.tagName);
+      element.parentNode.append(error);
     }
   }
 };
 </script>
+<style lang="scss">
+.contact-form__error {
+  border: 2px solid #AD0B0B !important;
+  background: rgba(173, 11, 11, 0.1);
+}
+.contact-form__error-text{
+  color: #AD0B0B;
+  font-size: small;
+}
+</style>

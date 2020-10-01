@@ -177,7 +177,7 @@ export default {
         {
           _selected: "select",
           inputHeading: "Hva gjelder det?",
-          required: true,
+          required: false,
           options: [
             {
               text: "Ting",
@@ -192,8 +192,8 @@ export default {
         {
           _selected: "text",
           inputHeading: "Navn",
-          required: true,
-          inputType: "text"
+          required: false,
+          inputType: "email"
         },
         {
           _selected: "textarea",
