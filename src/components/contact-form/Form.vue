@@ -75,7 +75,7 @@ export default {
     submitForm: function (e) {
       const data = {};
       e.target.elements.forEach((el) => {
-        if (el.name) {
+        if (el.name && el.getAttribute("data-text") && el.value) {
           data[el.name] = {
             text: el.getAttribute("data-text"),
             value: el[(el.files) ? "files" : "value"]
