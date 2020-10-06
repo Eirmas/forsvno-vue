@@ -1,48 +1,52 @@
 <template>
     <form
       name="contact-form"
-      @submit.prevent="submitForm"
+      @submit.prevent="handleSubmit"
     >
         <div
           ref="form"
-          v-for="(field, i) in fields.filter((e) => e.selected && e.data)"
-          :key="i"
+          v-for="field in controls"
+          :key="field.name"
           class="contact-form__form-inner"
         >
             <component
-              :is="field.selected"
-              :data="{ ...field.data, id: id, index: i }"
+              :is="field.component"
+              :field="field"
             />
         </div>
         <div class="contact-form__form-inner">
-        </div>
-        <div
-          class="contact-form__form-element"
-        >
           <div
-            class="contact-form__divider"
-          />
-          <h6>Felt markert med * må fylles ut.</h6>
-          <button
-            type="submit"
-            class="btn-square negative"
+            class="contact-form__form-element"
           >
-            <span>Send inn</span>
-          </button>
+            <div
+              class="contact-form__divider"
+            />
+            <h6>Felt markert med * må fylles ut.</h6>
+            <button
+              type="submit"
+              class="btn-square negative"
+            >
+              <span>Send inn</span>
+            </button>
+          </div>
         </div>
     </form>
 </template>
 <script>
-import axios from "axios";
-import Select from "./Inputs/Select.vue";
-import Input from "./Inputs/Input.vue";
-import Textarea from "./Inputs/Textarea.vue";
-import Checkbox from "./Inputs/Checkbox.vue";
-import Attachment from "./Inputs/Attachment.vue";
-import Radio from "./Inputs/Radio.vue";
+import { FormControl, Form } from "./utils/formControl.es6";
+import Select from "./inputs/Select.vue";
+import Input from "./inputs/Input.vue";
+import Textarea from "./inputs/Textarea.vue";
+import Checkbox from "./inputs/Checkbox.vue";
+import Attachment from "./inputs/Attachment.vue";
+import Radio from "./inputs/Radio.vue";
 
 export default {
   name: "Form",
+  data: () => ({
+    controls: [],
+    form: undefined
+  }),
   components: {
     Select,
     Input,
@@ -56,44 +60,62 @@ export default {
       type: [String, Boolean],
       default: false
     },
+    icons: {
+      type: [Object, Boolean],
+      default: false
+    },
     fields: {
-      data: {
-        type: [Object, Boolean],
-        default: false
-      },
-      selected: {
-        type: [String, Boolean],
-        default: false
-      }
+      type: [Array, Boolean],
+      default: false
     },
     reciever: {
       type: [String, Boolean],
       default: false
     }
   },
+  created() {
+    this.mapForm();
+    this.mapControls();
+  },
   methods: {
-    submitForm: function (e) {
-      const data = {};
-      e.target.elements.forEach((el) => {
-        if (el.name && el.getAttribute("data-text") && el.value) {
-          data[el.name] = {
-            text: el.getAttribute("data-text"),
-            value: el[(el.files) ? "files" : "value"]
-          };
+    handleSubmit() {
+      this.updateControls();
+      this.$nextTick(() => {
+        if (!this.isValid) {
+          this.form.displayErrors = true;
+        } else {
+          console.log(this.controls);
         }
       });
-      console.log(data);
-      if (this.reciever) {
-        axios.post((data[-1]) ? data[-1].value : this.reciever, {
-          data: data
-        })
-          .then((response) => {
-            console.log(response);
+    },
+    updateControls() {
+      this.controls = this.controls.map((field) => new FormControl({
+        ...field,
+        form: this.form
+      }));
+    },
+    mapForm() {
+      this.form = new Form({
+        id: this.id,
+        icons: this.icons
+      });
+    },
+    mapControls() {
+      this.controls = this.fields
+        && this.fields.map(
+          (field, index) => new FormControl({
+            ...field,
+            id: this.form.id,
+            name: index,
+            form: this.form
           })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+        );
+    }
+  },
+  computed: {
+    isValid() {
+      const control = this.controls.find((ctrl) => !ctrl.valid);
+      return control ? control.valid : true;
     }
   }
 };

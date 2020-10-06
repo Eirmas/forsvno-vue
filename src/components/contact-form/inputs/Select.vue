@@ -1,9 +1,8 @@
 <template>
   <div
-    v-if="data.index !== undefined"
     class="contact-form__form-element"
   >
-    <label>{{ data.inputHeading }}</label>
+    <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
     <div
       class="contact-form__options"
     >
@@ -12,50 +11,47 @@
         class="dropdown align"
       >
           <button
-            :value="value"
-            :data-text="data.inputHeading"
-            :name="(data.isEmail) ? -1 : data.index"
+            :name="field.name"
+            :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__select-toggle']"
             aria-controls="dropdown-menu-options"
             type="button"
-            class="dropdown__toggle"
-            @focus="blurOthers"
             @click="optionsOpen = !optionsOpen"
           >
               <div
                 ref="label"
-                class="dropdown__label"
+                class="contact-form__select-label"
               >
-                  <span>{{ text }}</span>
+                  <span>{{ field.value ? field.value[0].text : field.placeholder }}</span>
               </div>
               <div
-                v-if="data.caret"
-                class="dropdown__caret"
+                v-if="field.form.icons.caret"
+                class="contact-form__select-caret"
               >
                   <img
                     ref="caret"
-                    :src="data.caret"
+                    :src="field.form.icons.caret"
                     alt="Caret"
                   >
               </div>
           </button>
           <div
             ref="options"
-            class="dropdown__menu"
+            class="contact-form__select-menu"
           >
               <ul
                 ref="list"
                 tabindex="-1"
                 role="listbox"
                 aria-labelledby="filter-Avdeling"
-                class="dropdown__options"
+                class="contact-form__select-options"
               >
                   <li
-                      v-for="(option, i) in data.options"
+                      v-for="(option, i) in field.options"
                       :key="option.value"
                       :id="i"
-                      aria-selected="false"
+                      :aria-selected="option.value === field.value"
                       role="option"
-                      class="dropdown__item"
+                      class="contact-form__select-item"
                       tabindex="0"
                       @mousedown="selectOption(option, $event)"
                       @keyup.enter.prevent="selectOption(option)"
@@ -67,76 +63,46 @@
           </div>
       </div>
     </div>
+    <template
+      v-for="(error, i) in field.errors"
+    >
+      <div
+        v-if="field.form.displayErrors"
+        :key="i"
+        class="contact-form__error-text"
+      >
+        <span>{{ error.text }}</span>
+      </div>
+    </template>
   </div>
 </template>
 <script>
 import ClickOutside from "vue-click-outside";
-import EventBus from "../../../event-bus.es6";
+import { FormControl } from "../utils/formControl.es6";
+import { ControlMixin } from "../mixin/control";
 
 export default {
   name: "Select",
+  mixins: [ControlMixin],
   data: () => ({
-    optionsOpen: false,
-    text: "Velg",
-    value: ""
+    optionsOpen: false
   }),
   props: {
-    data: {
-      isEmail: {
-        type: Boolean,
-        default: false
-      },
-      index: {
-        type: [Number, Boolean],
-        default: false
-      },
-      id: {
-        type: [String, Boolean],
-        default: false
-      },
-      caret: {
-        type: [String, Boolean],
-        default: false
-      },
-      inputHeading: {
-        type: String,
-        default: ""
-      },
-      required: {
-        type: Boolean,
-        default: false
-      },
-      options: {
-        value: {
-          type: String,
-          default: ""
-        },
-        text: {
-          type: String,
-          default: ""
-        }
-      }
+    field: {
+      type: Object,
+      default: () => new FormControl({})
     }
   },
   created() {
-    EventBus.$on("blur", (id) => {
-      if (this.data.id === id) this.hide();
-    });
+    this.validate();
   },
   methods: {
     selectOption(option) {
-      if (this.$refs.list && this.$refs.label) {
-        this.$refs.list.children.forEach((item) => item.setAttribute("aria-selected", item.id === option.value));
-        this.value = option.value;
-        this.text = this.$refs.label.innerHTML = option.text;
-        this.hide();
-      }
+      this.field.value = [option];
+      this.hide();
     },
     hide() {
       this.optionsOpen = false;
-    },
-    blurOthers() {
-      EventBus.$emit("blur", this.data.id);
     }
   },
   watch: {
