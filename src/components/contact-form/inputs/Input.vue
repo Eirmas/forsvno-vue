@@ -2,7 +2,7 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
+        <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <input
           v-model="field.value"
           :name="field.name"
@@ -10,6 +10,7 @@
           :placeholder="field.placeholder"
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
+          :autocomplete="field.settings.cc || false"
         >
         <div
           class="contact-form__input-info"

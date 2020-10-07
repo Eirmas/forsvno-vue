@@ -1,27 +1,28 @@
 <template>
   <main>
-    <div class="contact-form__wrapper">
-      <ContactForm
+    <div class="contact-form__wrapper container">
+      <Form
         :id="contactData.id"
         :icons="contactData.icons"
-        :fields="contactData.fields"
-        :reciever="contactData.reciever"
+        :forms="contactData.forms"
       />
     </div>
   </main>
 </template>
 
 <script>
-import ContactForm from "./components/contact-form/Form.vue";
+import Form from "./components/contact-form/Controller.vue";
 import {
   FormControl, FormValidation, FormSettings, FormOption
 } from "./components/contact-form/utils/formControl.es6";
-import { maxLength, email, required } from "./components/contact-form/utils/validators";
+import {
+  maxLength, email, required, pnum, minLength, pattern
+} from "./components/contact-form/utils/validators";
 
 export default {
   name: "App",
   components: {
-    ContactForm
+    Form
   },
   data: () => ({
     contactData: {
@@ -30,124 +31,212 @@ export default {
         caret: require("@/assets/images/caret.svg"),
         close: require("@/assets/images/close.svg")
       },
-      fields: [
-        new FormControl({
-          component: "Attachment",
-          validations: [
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            accept: "",
-            multiple: true,
-            required: true
-          }),
-          label: "Vedlegg",
-          value: []
-        }),
-        new FormControl({
-          component: "Checkbox",
-          validations: [
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            required: true
-          }),
-          options: [
-            new FormOption({
-              text: "Hund",
-              value: "dog",
-              picked: false
+      forms: [
+        {
+          receiver: {
+            text: "FMS",
+            value: "desk@fms.mil.no"
+          },
+          fields: [
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 6,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk"),
+                new FormValidation(minLength(2), "Navnet må være minst 2 bokstaver")
+              ],
+              settings: new FormSettings({
+                required: true,
+                minLength: 2,
+                cc: "given-name"
+              }),
+              label: "For- og mellomnavn"
             }),
-            new FormOption({
-              text: "Katt",
-              picked: false
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 6,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true,
+                cc: "family-name"
+              }),
+              label: "Etternavn"
             }),
-            new FormOption({
-              text: "Annet",
-              value: "other",
-              picked: true
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 12,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk"),
+                new FormValidation(pnum, "Personnummeret er ugyldig")
+              ],
+              settings: new FormSettings({
+                required: true,
+                cc: "off"
+              }),
+              label: "Personnummer"
+            }),
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 12,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true,
+                cc: "street-address"
+              }),
+              label: "Adresse"
+            }),
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 3,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk"),
+                new FormValidation(pattern("^[0-9]{4}$"), "Ugyldig postkode")
+              ],
+              settings: new FormSettings({
+                required: true,
+                cc: "postal-code"
+              }),
+              label: "Postnummer"
+            }),
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 5,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true,
+                cc: "locality"
+              }),
+              label: "Poststed"
+            }),
+            new FormControl({
+              component: "Input",
+              type: "text",
+              cols: 4,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true
+              }),
+              value: "Norge",
+              label: "Land"
+            }),
+            new FormControl({
+              component: "Input",
+              type: "email",
+              cols: 12,
+              validations: [
+                new FormValidation(email, "Ugyldig e-postadresse")
+              ],
+              settings: {
+                cc: "email"
+              },
+              label: "E-postadresse"
+            }),
+            new FormControl({
+              component: "Textarea",
+              cols: 12,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk"),
+                new FormValidation(maxLength(2500), "Teksten er over 2500 tegn")
+              ],
+              settings: {
+                required: true,
+                maxLength: 2500
+              },
+              placeholder: "Hvor og når har du tjenestegjort? Skriv en linje per operasjon",
+              label: "Tjenestegjøring"
             })
-          ],
-          label: "Hvilken kjæledyr har du?"
-        }),
-        new FormControl({
-          component: "Radio",
-          validations: [
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            required: true
-          }),
-          options: [
-            new FormOption({
-              text: "Luft",
-              value: "airforce",
-              picked: false
+          ]
+        },
+        {
+          receiver: {
+            text: "FPVS",
+            value: "fpvs@.mil.no"
+          },
+          fields: [
+            new FormControl({
+              component: "Attachment",
+              cols: 12,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk"),
+                new FormValidation(maxLength(1), "Du kan bare vedlegge 1 fil")
+              ],
+              settings: new FormSettings({
+                required: true,
+                multiple: false
+              }),
+              value: [],
+              label: "Legg til innkallingen"
             }),
-            new FormOption({
-              text: "Hær",
-              value: "army",
-              picked: false
+            new FormControl({
+              component: "Radio",
+              type: "text",
+              cols: 6,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true
+              }),
+              options: [
+                {
+                  text: "Hund",
+                  value: "dog"
+                },
+                {
+                  text: "Katt",
+                  value: "cat"
+                },
+                {
+                  text: "Annet",
+                  value: "other"
+                }
+              ],
+              label: "Hva er favoritt kjæledyret ditt?"
             }),
-            new FormOption({
-              text: "Sjø",
-              value: "marine",
-              picked: false
+            new FormControl({
+              component: "Checkbox",
+              type: "text",
+              cols: 6,
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true
+              }),
+              label: "Postnummer",
+              options: [
+                new FormOption({
+                  text: "Fisking",
+                  value: "fishing"
+                }),
+                new FormOption({
+                  text: "Jakt",
+                  value: "hunting",
+                  picked: true
+                }),
+                new FormOption({
+                  text: "Natur",
+                  value: "nature"
+                })
+              ]
             })
-          ],
-          label: "Hvilken avdeling ønsker du å komme i?"
-        }),
-        new FormControl({
-          component: "Select",
-          validations: [
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            required: true
-          }),
-          options: [
-            {
-              text: "Jakt",
-              value: "hunting"
-            },
-            {
-              text: "Fisking",
-              value: "fishing"
-            }
-          ],
-          label: "Hvilke interesser har du?",
-          placeholder: "Velg"
-        }),
-        new FormControl({
-          component: "Input",
-          type: "email",
-          validations: [
-            new FormValidation(maxLength(50), "Teksten er over 50 tegn lang"),
-            new FormValidation(email, "Skriv en gyldig email"),
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            maxLength: 50,
-            required: true
-          }),
-          label: "E-mail adresse",
-          placeholder: "F.eks olanordmann@email.no"
-        }),
-        new FormControl({
-          component: "Textarea",
-          validations: [
-            new FormValidation(maxLength(50), "Teksten kan ikke være over 144 tegn lang."),
-            new FormValidation(required, "Dette feltet er obligatorisk")
-          ],
-          settings: new FormSettings({
-            maxLength: 50,
-            required: true
-          }),
-          label: "Kommentar",
-          placeholder: "Skriv meldingen din her"
-        })
-      ],
-      reciever: "noen@mil.no"
+          ]
+        }
+      ]
     }
   })
 };

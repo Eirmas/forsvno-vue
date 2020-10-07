@@ -2,7 +2,7 @@
   <div
     class="contact-form__form-element"
   >
-    <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
+    <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
     <div
       class="contact-form__options"
     >
@@ -91,14 +91,25 @@ export default {
     field: {
       type: Object,
       default: () => new FormControl({})
+    },
+    value: {
+      type: [Object, Boolean],
+      default: false
     }
   },
   created() {
+    if (this.field.isEmail && this.value) {
+      this.field.value = [this.field.options[this.value.index]];
+    }
     this.validate();
   },
   methods: {
     selectOption(option) {
+      if (this.field.isEmail && this.value) {
+        this.value.index = option.value;
+      }
       this.field.value = [option];
+      this.$forceUpdate();
       this.hide();
     },
     hide() {

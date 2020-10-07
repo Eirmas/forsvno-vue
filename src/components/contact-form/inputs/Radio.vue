@@ -2,7 +2,7 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
+        <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <div
           :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__radio-wrapper']"
         >

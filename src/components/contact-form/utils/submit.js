@@ -33,6 +33,4 @@ export function submit(url, data, config) {
       });
   });
 }
-export default {
-  submit
-};
+export default { submit };

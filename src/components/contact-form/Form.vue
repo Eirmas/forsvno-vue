@@ -1,20 +1,20 @@
 <template>
     <form
       name="contact-form"
-      @submit.prevent="handleSubmit"
+      @submit.prevent
     >
         <div
           ref="form"
           v-for="field in controls"
           :key="field.name"
-          class="contact-form__form-inner"
+          :class="['contact-form__form-inner', `col-md-${field.cols}`]"
         >
             <component
               :is="field.component"
               :field="field"
             />
         </div>
-        <div class="contact-form__form-inner">
+        <div class="contact-form__form-inner col-md-12">
           <div
             class="contact-form__form-element"
           >
@@ -26,6 +26,7 @@
               ref="submit"
               type="submit"
               class="btn-square negative"
+              @click="handleSubmit"
             >
               <span>Send inn</span>
             </button>
@@ -127,8 +128,7 @@ export default {
   },
   computed: {
     isValid() {
-      const control = this.controls.find((ctrl) => !ctrl.valid);
-      return control ? control.valid : true;
+      return this.controls.find((ctrl) => !ctrl.valid) === undefined;
     }
   }
 };
