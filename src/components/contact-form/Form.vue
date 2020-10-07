@@ -34,6 +34,7 @@
 </template>
 <script>
 import { FormControl, Form } from "./utils/formControl.es6";
+import { submit } from "./utils/submit";
 import Select from "./inputs/Select.vue";
 import Input from "./inputs/Input.vue";
 import Textarea from "./inputs/Textarea.vue";
@@ -84,7 +85,13 @@ export default {
         if (!this.isValid) {
           this.form.displayErrors = true;
         } else {
-          console.log(this.controls);
+          submit("http://localhost:3000/submit", this.controls, null)
+            .then((res) => {
+              console.log(res.status === 200 ? "Hooray" : "Hmm....");
+            })
+            .catch((err) => {
+              console.log("Oops...", err);
+            });
         }
       });
     },
