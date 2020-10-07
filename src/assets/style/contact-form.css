@@ -39,6 +39,34 @@
     background: #191b21;
     outline: 0;
 }
+.contact-form__wrapper form button[type=submit]:disabled {
+    width: 100%;
+    padding: 0.75rem 0;
+    outline: 0;
+    animation: zoom 1s ease-out;
+    animation-fill-mode: backwards;
+    background: white;
+    color: #191B21;
+}
+
+@keyframes zoom {
+    0% {
+        background: #191B21;
+        color: white;
+    }
+    20% {
+        width: 70px;
+    }
+    70% {
+        background: #191B21;
+        color: white;
+    }
+    100% {
+        width: 70px;
+        background: white;
+        color: #191B21;
+    }
+}
 .contact-form__wrapper form button[type=submit]:focus{
     outline: 1px solid #191b21;
 }
