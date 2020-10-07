@@ -12,23 +12,27 @@
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
           :autocomplete="field.settings.cc || false"
         >
-        <span
-          v-if="field.settings.maxLength && field.value"
-          class="contact-form__letter-counter"
+        <div
+          class="contact-form__input-info"
         >
-          {{ field.value.length }} / {{ field.settings.maxLength }}
-        </span>
-        <template
-          v-for="(error, i) in field.errors"
-        >
-          <div
-            v-if="field.form.displayErrors"
-            :key="i"
-            class="contact-form__error-text"
+          <span
+            v-if="field.settings.maxLength && field.value"
+            class="contact-form__letter-counter"
           >
-            <span>{{ error.text }}</span>
-          </div>
-        </template>
+            {{ field.value.length }} / {{ field.settings.maxLength }}
+          </span>
+          <template
+            v-for="(error, i) in field.errors"
+          >
+            <div
+              v-if="field.form.displayErrors"
+              :key="i"
+              class="contact-form__error-text"
+            >
+              <span>{{ error.text }}</span>
+            </div>
+          </template>
+        </div>
     </div>
 </template>
 <script>

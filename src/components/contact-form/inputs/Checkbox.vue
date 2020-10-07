@@ -12,7 +12,7 @@
             :for="`${field.name}-checkbox-${i}`"
             class="contact-form__checkbox-container"
           >
-            <span>{{ option.text }}</span>
+            
             <input
               v-model="option.picked"
               :id="`${field.name}-checkbox-${i}`"
@@ -20,6 +20,7 @@
               :disabled="field.disabled || field.form.disabled"
               type="checkbox"
             >
+            <span class="contact-form__checkbox-text">{{ option.text }}</span>
             <span
               class="contact-form__checkbox-checkmark"
             />

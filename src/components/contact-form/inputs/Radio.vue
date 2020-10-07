@@ -11,7 +11,7 @@
             :key="i"
             class="contact-form__radio-container"
           >
-            {{ option.text }}
+            
             <input
               v-model="field.value"
               :id="option.value"
@@ -20,6 +20,7 @@
               :disabled="field.disabled || field.form.disabled"
               type="radio"
             >
+            <span class="contact-form__radio-text">{{ option.text }}</span>
             <span
               class="contact-form__radio-checkmark"
             />

@@ -18,6 +18,7 @@
               hidden
               @change="field.value.push($event.target.files)"
             >
+            <span v-if="field.value.length !== 0" class="input-info">Totalt: {{ totalSize }}</span>
           </label>
           <div
             class="contact-form__attachment-info"
@@ -35,7 +36,7 @@
                   alt="Fjern vedlagt fil(er)"
                 >
               </button>
-              <span>{{ file.name }} {{ formatBytes(file.size) }}</span>
+              <span>{{ file.name }} ({{ formatBytes(file.size) }})</span>
             </div>
           </div>
         </div>
@@ -77,19 +78,26 @@ export default {
   created() {
     this.validate();
   },
+  computed: {
+    totalSize: function () {
+      let total = 0;
+      this.field.value.forEach((fileList) => {
+        total += [...fileList].reduce((a, c) => a + c.size, 0);
+      });
+      return this.formatBytes(total);
+    }
+  },
   methods: {
     updateFiles() {
       this.fileNames = [];
-      if (this.field.value) {
-        this.field.value.forEach((fileList) => {
-          fileList.forEach((file) => {
-            this.fileNames.push({
-              name: file.name,
-              size: file.size
-            });
+      this.field.value.forEach((fileList) => {
+        fileList.forEach((file) => {
+          this.fileNames.push({
+            name: file.name,
+            size: file.size
           });
         });
-      }
+      });
     },
     removeFile(name) {
       const dt = new DataTransfer();
@@ -109,7 +117,7 @@ export default {
       const k = 1024;
       const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return `(${parseFloat((bytes / (k ** i)).toFixed(0))} ${sizes[i]})`;
+      return `${parseFloat((bytes / (k ** i)).toFixed(0))} ${sizes[i]}`;
     }
   }
 };
