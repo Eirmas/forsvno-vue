@@ -2,7 +2,7 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
+        <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
         <div
           class="contact-form__attachment-wrapper"

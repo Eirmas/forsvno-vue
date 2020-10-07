@@ -11,7 +11,7 @@ export function FormControl({
   name = null,
   options = [],
   placeholder = null,
-  cols = null,
+  cols = 12,
   errors = [],
   disabled = false,
   valid = true
@@ -47,13 +47,15 @@ export function FormSettings({
   minLength = 0,
   required = false,
   accept = "",
-  multiple = false
+  multiple = false,
+  cc = false
 }) {
   this.maxLength = maxLength;
   this.accept = accept;
   this.multiple = multiple;
   this.minLength = minLength;
   this.required = required;
+  this.cc = cc;
 }
 
 export function Form({

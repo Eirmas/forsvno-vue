@@ -2,13 +2,14 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ field.label }}{{ field.settings.required ? "*" : "" }}</label>
+        <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <textarea
           v-model="field.value"
           :name="field.name"
           :placeholder="field.placeholder"
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
+          rows="8"
         />
         <span
           v-if="field.settings.maxLength && field.value"

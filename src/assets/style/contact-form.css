@@ -1,6 +1,7 @@
 .contact-form__wrapper form {
     margin: 0 auto;
-    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
 }
 .contact-form__wrapper form .contact-form__form-inner {
     display: flex;
@@ -21,7 +22,10 @@
 .contact-form__form-element input, .contact-form__form-element textarea {
     border: 2px solid #e6e8e9;
     padding: 0.5rem 1rem;
-    outline: none;
+    outline: none !important;
+}
+.contact-form__form-element input:focus, .contact-form__form-element textarea:focus {
+    border-color: #191B21;
 }
 .contact-form__form-element button {
     width: 100%;
