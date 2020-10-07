@@ -162,8 +162,8 @@
     position: absolute;
     cursor: pointer;
 }
-.contact-form__radio-wrapper .contact-form__radio-container input:focus ~ .contact-form__radio-checkmark {
-    outline: 1px solid #191B21;
+.contact-form__radio-wrapper .contact-form__radio-container input:focus ~ .contact-form__radio-text {
+    text-decoration: underline;
 }
 .contact-form__radio-wrapper .contact-form__radio-container input:checked ~ .contact-form__radio-checkmark:after {
     display: block;
@@ -194,7 +194,6 @@
     border-radius: 50%;
 }
 .contact-form__radio-wrapper .contact-form__radio-container:hover input:not(:checked) ~ .contact-form__radio-text {
-    font-weight: bold;
     text-decoration: underline;
 }
 .contact-form__attachment-wrapper {
@@ -282,8 +281,8 @@
     position: absolute;
     display: none;
 }
-.contact-form__checkbox-wrapper .contact-form__checkbox-container input:focus ~ .contact-form__checkbox-checkmark {
-    outline: 1px solid #191B21;
+.contact-form__checkbox-wrapper .contact-form__checkbox-container input:focus ~ .contact-form__checkbox-text {
+    text-decoration: underline;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container input:checked ~ .contact-form__checkbox-checkmark:after {
     display: block;
@@ -301,7 +300,6 @@
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container:hover input:not(:checked) ~ .contact-form__checkbox-text {
     text-decoration: underline;
-    font-weight: bold;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container:hover input ~ .contact-form__checkbox-checkmark:after {
     display: block;
