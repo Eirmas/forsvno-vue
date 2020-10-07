@@ -12,7 +12,7 @@
             :for="`${field.name}-checkbox-${i}`"
             class="contact-form__checkbox-container"
           >
-            
+
             <input
               v-model="option.picked"
               :id="`${field.name}-checkbox-${i}`"

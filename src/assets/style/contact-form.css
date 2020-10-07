@@ -1,3 +1,6 @@
+.contact-form__wrapper {
+    max-width: 680px !important;
+}
 .contact-form__wrapper form {
     margin: 0 auto;
     display: flex;
@@ -175,7 +178,6 @@
 }
 .contact-form__radio-wrapper .contact-form__radio-container input:checked ~ .contact-form__radio-text {
     font-weight: bold;
-    text-decoration: underline;
 }
 .contact-form__radio-wrapper .contact-form__radio-container .contact-form__radio-checkmark {
     position: absolute;
@@ -293,7 +295,6 @@
     background: #191b21;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container input:checked ~ .contact-form__checkbox-text {
-    text-decoration: underline;
     font-weight: bold;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container .contact-form__checkbox-checkmark:after {

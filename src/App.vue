@@ -168,97 +168,71 @@ export default {
           },
           fields: [
             new FormControl({
-              component: "Input",
-              type: "text",
+              component: "Attachment",
               cols: 12,
               validations: [
                 new FormValidation(required, "Dette feltet er obligatorisk"),
-                new FormValidation(pnum, "Personnummeret er ugyldig")
+                new FormValidation(maxLength(1), "Du kan bare vedlegge 1 fil")
               ],
               settings: new FormSettings({
                 required: true,
-                cc: "off"
+                multiple: false
               }),
-              label: "Personnummer"
+              value: [],
+              label: "Legg til innkallingen"
             }),
             new FormControl({
-              component: "Input",
+              component: "Radio",
               type: "text",
-              cols: 12,
-              validations: [
-                new FormValidation(required, "Dette feltet er obligatorisk")
-              ],
-              settings: new FormSettings({
-                required: true,
-                cc: "street-address"
-              }),
-              label: "Adresse"
-            }),
-            new FormControl({
-              component: "Input",
-              type: "text",
-              cols: 3,
-              validations: [
-                new FormValidation(required, "Dette feltet er obligatorisk"),
-                new FormValidation(pattern("^[0-9]{4}$"), "Ugyldig postkode")
-              ],
-              settings: new FormSettings({
-                required: true,
-                cc: "postal-code"
-              }),
-              label: "Postnummer"
-            }),
-            new FormControl({
-              component: "Input",
-              type: "text",
-              cols: 5,
-              validations: [
-                new FormValidation(required, "Dette feltet er obligatorisk")
-              ],
-              settings: new FormSettings({
-                required: true,
-                cc: "locality"
-              }),
-              label: "Poststed"
-            }),
-            new FormControl({
-              component: "Input",
-              type: "text",
-              cols: 4,
+              cols: 6,
               validations: [
                 new FormValidation(required, "Dette feltet er obligatorisk")
               ],
               settings: new FormSettings({
                 required: true
               }),
-              value: "Norge",
-              label: "Land"
+              options: [
+                {
+                  text: "Hund",
+                  value: "dog"
+                },
+                {
+                  text: "Katt",
+                  value: "cat"
+                },
+                {
+                  text: "Annet",
+                  value: "other"
+                }
+              ],
+              label: "Hva er favoritt kjæledyret ditt?"
             }),
             new FormControl({
-              component: "Input",
-              type: "email",
-              cols: 12,
+              component: "Checkbox",
+              type: "text",
+              cols: 6,
               validations: [
-                new FormValidation(email, "Ugyldig e-postadresse")
+                new FormValidation(required, "Dette feltet er obligatorisk")
               ],
-              settings: {
-                cc: "email"
-              },
-              label: "E-postadresse"
-            }),
-            new FormControl({
-              component: "Textarea",
-              cols: 12,
-              validations: [
-                new FormValidation(required, "Dette feltet er obligatorisk"),
-                new FormValidation(maxLength(2500), "Teksten er over 2500 tegn")
-              ],
-              settings: {
-                required: true,
-                maxLength: 2500
-              },
-              placeholder: "Hvor og når har du tjenestegjort? Skriv en linje per operasjon",
-              label: "Tjenestegjøring"
+              settings: new FormSettings({
+                required: true
+              }),
+              label: "Postnummer",
+              options: [
+                new FormOption({
+                  text: "Fisking",
+                  value: "fishing"
+                }),
+                new FormOption({
+                  text: "Jakt",
+                  value: "hunting",
+                  picked: true
+                }),
+                new FormOption({
+                  text: "Natur",
+                  value: "nature"
+                })
+              ]
             })
           ]
         }

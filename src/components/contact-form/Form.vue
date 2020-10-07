@@ -1,7 +1,7 @@
 <template>
     <form
       name="contact-form"
-      @submit.prevent="handleSubmit"
+      @submit.prevent
     >
         <div
           ref="form"
@@ -25,6 +25,7 @@
             <button
               type="submit"
               class="btn-square negative"
+              @click="handleSubmit"
             >
               <span>Send inn</span>
             </button>

@@ -15,7 +15,7 @@
 
 <script>
 import Select from "./inputs/Select.vue";
-import { FormControl, Form as Form1 } from "./utils/formControl.es6";
+import { FormControl, Form as Controller } from "./utils/formControl.es6";
 import Form from "./Form.vue";
 
 export default {
@@ -53,7 +53,7 @@ export default {
     emailField: function () {
       return new FormControl({
         id: `contact-form__${this.id}`,
-        form: new Form1({
+        form: new Controller({
           id: this.id,
           icons: this.icons
         }),

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function submit(url, data, config) {
   return new Promise((resolve, reject) => {
-    axios.post(url, fd, {
+    axios.post(url, data, {
       headers: {
         "Content-Type": "multipart/form-data"
       },
@@ -16,6 +16,4 @@ export function submit(url, data, config) {
       });
   });
 }
-export default {
-  submit
-};
+export default { submit };
