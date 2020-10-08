@@ -23,7 +23,7 @@
     font-size: small;
 }
 .contact-form__form-element input, .contact-form__form-element textarea {
-    border: 2px solid #e6e8e9;
+    border: 1px solid #191b21;
     padding: 0.5rem 1rem;
     outline: none !important;
 }
@@ -117,14 +117,16 @@
     align-items: center;
     background: transparent;
     padding: 0;
-    border: 2px solid #e6e8e9;
+    border: 1px solid #191b21;
     outline: 0;
 }
 .contact-form__select-toggle:focus {
     outline: 1px solid #191b21;
 }
 .contact-form__select-label {
-    padding: .5rem 1rem;
+    padding: .5rem 1.5rem;
+    width: 100%;
+    text-align: left;
 }
 .contact-form__select-caret {
     margin-left: .8rem;
@@ -143,11 +145,9 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     max-height: 20.6rem;
     overflow: auto;
+    background: #e2e6e9;
 }
 .contact-form__select-item[aria-selected=true] {
     background: #e6e8e9;
@@ -155,15 +155,35 @@
 .contact-form__select-item {
     width: 100%;
     border: none;
-    padding: 1rem;
+    padding: .5rem 1rem 0 1rem;    
+    font-weight: bold;
     transition: background .2s;
 }
+.contact-form__select-item span{
+    display: block;
+    padding: .2rem .5rem;
+}
 .contact-form__select-item:hover {
-    background: #f1f2f0;
+    background: #ffffff46;
 }
 .contact-form__select-item:focus {
     outline: 1px solid #000;
     z-index: 2;
+}
+.contact-form__select-seperator {
+    height: 1px;
+    width: 100%;
+    background: #cbcdcb;
+    margin-top: .5rem;
+    margin-bottom: -1px;
+}
+.hidden {
+    visibility: hidden;
+}
+.contact-form__select-search {
+    border: none !important;
+    padding: 0 !important;
+    width: 100%;
 }
 .contact-form__divider {
     width: 100%;
