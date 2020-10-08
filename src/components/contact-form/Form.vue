@@ -23,6 +23,7 @@
             />
             <p>Felt markert med * må fylles ut.</p>
             <button
+              ref="submit"
               type="submit"
               class="btn-square negative"
               @click="handleSubmit"
@@ -96,6 +97,11 @@ export default {
           submit("http://localhost:3000/submit", this.controls, null)
             .then((res) => {
               console.log(res.status === 200 ? "Hooray" : "Hmm....");
+              const submitButton = this.$refs.submit;
+              submitButton.disabled = true;
+              setTimeout(() => {
+                submitButton.innerHTML = "Sendt";
+              }, 850);
             })
             .catch((err) => {
               console.log("Oops...", err);

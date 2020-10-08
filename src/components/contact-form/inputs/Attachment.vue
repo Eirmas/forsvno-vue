@@ -7,8 +7,10 @@
         <div
           class="contact-form__attachment-wrapper"
         >
-          <label class="contact-form__attachment-file-input">
-            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''">Velg fil</span>
+          <label
+            class="contact-form__attachment-file-input"
+          >
+            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''" >Velg fil</span>
             <input
               :name="field.name"
               :multiple="field.settings.multiple"

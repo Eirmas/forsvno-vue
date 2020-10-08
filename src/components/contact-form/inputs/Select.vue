@@ -13,6 +13,7 @@
           <button
             :name="field.name"
             :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__select-toggle']"
+            :style="(optionsOpen ? 'border-width: 2px;margin: 0;' : '')"
             aria-controls="dropdown-menu-options"
             type="button"
             @click="optionsOpen = !optionsOpen"
@@ -21,7 +22,15 @@
                 ref="label"
                 class="contact-form__select-label"
               >
-                  <span>{{ field.value ? field.value[0].text : field.placeholder }}</span>
+                  <input
+                    v-model="searchTerm"
+                    v-if="optionsOpen"
+                    :placeholder="field.value ? field.value[0].text : field.placeholder"
+                    type="text"
+                    class="contact-form__select-search"
+                    @click.stop
+                  />
+                  <span v-if="!optionsOpen">{{ field.value ? field.value[0].text : field.placeholder }}</span>
               </div>
               <div
                 v-if="field.form.icons.caret"
@@ -46,7 +55,7 @@
                 class="contact-form__select-options"
               >
                   <li
-                      v-for="(option, i) in field.options"
+                      v-for="(option, i) in options"
                       :key="option.value"
                       :id="i"
                       :aria-selected="option.value === field.value"
@@ -54,10 +63,11 @@
                       class="contact-form__select-item"
                       tabindex="0"
                       @mousedown="selectOption(option, $event)"
-                      @keyup.enter.prevent="selectOption(option)"
+                      @keyup.enter.prevent="selectOption(option, $event)"
                       @keydown.enter.prevent
                   >
                       <span>{{ option.text }}</span>
+                      <div :class="`contact-form__select-seperator ${i >= options.length - 1 ? 'hidden' : ''}`"></div>
                   </li>
               </ul>
           </div>
@@ -85,7 +95,8 @@ export default {
   name: "Select",
   mixins: [ControlMixin],
   data: () => ({
-    optionsOpen: false
+    optionsOpen: false,
+    searchTerm: null
   }),
   props: {
     field: {
@@ -97,6 +108,14 @@ export default {
       default: false
     }
   },
+  computed: {
+    options: function () {
+      if (this.searchTerm === null) {
+        return this.field.options;
+      }
+      return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
+    }
+  },
   created() {
     if (this.field.isEmail && this.value) {
       this.field.value = [this.field.options[this.value.index]];
@@ -104,10 +123,11 @@ export default {
     this.validate();
   },
   methods: {
-    selectOption(option) {
+    selectOption(option, event) {
       if (this.field.isEmail && this.value) {
         this.value.index = option.value;
       }
+      this.searchTerm = null;
       this.field.value = [option];
       this.$forceUpdate();
       this.hide();
