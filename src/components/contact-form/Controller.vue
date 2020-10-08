@@ -22,7 +22,7 @@ export default {
   name: "Controller",
   data: () => ({
     currentSchema: {
-      index: 0
+      index: 1
     }
   }),
   components: {

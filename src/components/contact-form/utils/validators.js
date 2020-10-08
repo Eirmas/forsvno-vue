@@ -57,22 +57,12 @@ export const minLength = (val) => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
-  let length = 0;
-  if (control.component === "Attachment") {
-    if (control.value) control.value.forEach((v) => { length += v.length; });
-  } else {
-    length = control.value ? control.value.length : 0;
-  }
+  const length = control.value ? control.value.length : 0;
   return length < val ? { minlength: { requiredLength: val, actualLength: length } } : null;
 };
 
 export const maxLength = (val) => (control) => {
-  let length = 0;
-  if (control.component === "Attachment") {
-    if (control.value) control.value.forEach((v) => { length += v.length; });
-  } else {
-    length = control.value ? control.value.length : 0;
-  }
+  const length = control.value ? control.value.length : 0;
   return length > val ? { maxlength: { requiredLength: val, actualLength: length } } : null;
 };
 

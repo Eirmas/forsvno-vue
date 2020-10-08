@@ -21,7 +21,7 @@
             <div
               class="contact-form__divider"
             />
-            <h6>Felt markert med * må fylles ut.</h6>
+            <p>Felt markert med * må fylles ut.</p>
             <button
               type="submit"
               class="btn-square negative"
@@ -29,6 +29,13 @@
             >
               <span>Send inn</span>
             </button>
+            <div
+              v-if="form.displayErrors && !isValid"
+              class="contact-form__error-text"
+              style="padding: 1rem 0"
+            >
+              <span>Ett eller flere felt mangler eller er ikke korrekt utfylt</span>
+            </div>
           </div>
         </div>
     </form>
