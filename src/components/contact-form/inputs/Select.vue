@@ -29,6 +29,7 @@
                     type="text"
                     class="contact-form__select-search"
                     @click.stop
+                    @keyup.enter.prevent="options[0] && selectOption(options[0])"
                   />
                   <span v-if="!optionsOpen">{{ field.value ? field.value[0].text : field.placeholder }}</span>
               </div>
@@ -62,8 +63,8 @@
                       role="option"
                       class="contact-form__select-item"
                       tabindex="0"
-                      @mousedown="selectOption(option, $event)"
-                      @keyup.enter.prevent="selectOption(option, $event)"
+                      @mousedown="selectOption(option)"
+                      @keyup.enter.prevent="selectOption(option)"
                       @keydown.enter.prevent
                   >
                       <span>{{ option.text }}</span>
@@ -123,7 +124,7 @@ export default {
     this.validate();
   },
   methods: {
-    selectOption(option, event) {
+    selectOption(option) {
       if (this.field.isEmail && this.value) {
         this.value.index = option.value;
       }

@@ -24,6 +24,7 @@
             <p>Felt markert med * må fylles ut.</p>
             <button
               ref="submit"
+              :disabled="form.displayErrors && !isValid"
               type="submit"
               class="btn-square negative"
               @click="handleSubmit"

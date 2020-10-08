@@ -16,7 +16,7 @@ import {
   FormControl, FormValidation, FormSettings, FormOption
 } from "./components/contact-form/utils/formControl.es6";
 import {
-  maxLength, email, required, pnum, minLength, pattern
+  maxLength, email, required, pnum, minLength, pattern, maxSize
 } from "./components/contact-form/utils/validators";
 
 export default {
@@ -172,11 +172,13 @@ export default {
               cols: 12,
               validations: [
                 new FormValidation(required, "Dette feltet er obligatorisk"),
-                new FormValidation(maxLength(1), "Du kan bare vedlegge 1 fil")
+                new FormValidation(maxLength(1), "Du kan bare vedlegge 1 fil"),
+                new FormValidation(maxSize(20 * (32 ** 4)), "Filen(e) er for stor")
               ],
               settings: new FormSettings({
                 required: true,
-                multiple: false
+                multiple: false,
+                maxSize: 20 * (32 ** 4)
               }),
               value: [],
               label: "Legg til innkallingen"

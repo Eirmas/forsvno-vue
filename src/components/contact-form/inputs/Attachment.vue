@@ -3,7 +3,7 @@
       class="contact-form__form-element"
     >
         <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
-        <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
+        <p v-if="field.settings.maxSize">Vedleggene kan ikke overskride {{ formatBytes(field.settings.maxSize) }} samlet</p>
         <div
           class="contact-form__attachment-wrapper"
         >
@@ -92,12 +92,12 @@ export default {
         this.field.value.splice(this.field.value.indexOf(file), 1);
       }
     },
-    formatBytes(bytes) {
+    formatBytes(bytes, digits = 2) {
       if (bytes === 0) return "0 Bytes";
       const k = 1024;
       const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return `${parseFloat((bytes / (k ** i)).toFixed(0))} ${sizes[i]}`;
+      return `${parseFloat((bytes / (k ** i)).toFixed(digits))} ${sizes[i]}`;
     }
   }
 };

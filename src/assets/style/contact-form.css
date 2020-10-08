@@ -54,7 +54,7 @@
 .contact-form__wrapper form button[type=submit] span {
     color: #FFFFFF;
 }
-.contact-form__wrapper form button[type=submit]:hover:enabled span {
+.contact-form__wrapper form button[type=submit]:hover:enabled span, .contact-form__wrapper form button[type=submit]:focus:enabled span {
     color: #191B21;
     position: relative;
     z-index: 1;
@@ -69,7 +69,7 @@
     background: #ffffff;
     transition: all .35s;
 }
-.contact-form__wrapper form button[type=submit]:hover:enabled:before {
+.contact-form__wrapper form button[type=submit]:hover:enabled:before, .contact-form__wrapper form button[type=submit]:focus:enabled:before {
     width: 100%;
 }
 .contact-form__wrapper form button[type=submit]:disabled {
@@ -267,7 +267,7 @@
 }
 .contact-form__attachment-wrapper .contact-form__attachment-file-input .input-info {
     display: block;
-    cursor: none;
+    cursor: default;
     border: none;
     padding: 0;
     font-weight: normal;

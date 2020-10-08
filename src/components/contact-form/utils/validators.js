@@ -32,6 +32,17 @@ export const email = (control) => {
   return EMAIL_REGEXP.test(control.value) ? null : { email: true };
 };
 
+export const maxSize = (val) => (control) => {
+  if (isEmptyInputValue(control.value)) {
+    return null;
+  }
+  if (control.component !== "Attachment") {
+    return null;
+  }
+  const size = control.value ? control.value.reduce((a, b) => a + b.size, 0) : 0;
+  return size > val ? { maxSize: { maxSize: val, actualSize: size } } : null;
+};
+
 export const url = (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
@@ -99,5 +110,6 @@ export default {
   pattern,
   url,
   phone,
-  pnum
+  pnum,
+  maxSize
 };
