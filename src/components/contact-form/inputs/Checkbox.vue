@@ -1,6 +1,7 @@
 <template>
     <div
       class="contact-form__form-element"
+      :style="!standalone ? { padding: 0 } : ''"
     >
         <label v-if="standalone">{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <div
