@@ -117,7 +117,7 @@
     padding: 0;
     margin: 1px;
     border: 1px solid #191b21;
-    outline: none !important;
+    outline: none;
 }
 .contact-form__select-toggle:focus {
     outline: 1px solid #191b21;
@@ -360,9 +360,6 @@
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container input:focus ~ .contact-form__checkbox-text {
     text-decoration: underline;
-}
-.contact-form__checkbox-wrapper .contact-form__checkbox-container input:focus ~ .contact-form__checkbox-text {
-    text-decoration: none !important;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container input:checked ~ .contact-form__checkbox-checkmark:after {
     display: block;
