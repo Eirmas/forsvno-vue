@@ -14,21 +14,24 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    padding: .75rem 0;
 }
 .contact-form__form-element label {
     font-weight: 500;
-    margin: 1.5rem 0 0.1rem 0;
+    margin: 0;
 }
 .contact-form__form-element p {
     font-size: small;
 }
 .contact-form__form-element input, .contact-form__form-element textarea {
-    border: 1px solid #191b21;
+    border: 1px solid #191B21;
     padding: 0.5rem 1rem;
+    margin: 1px;
     outline: none !important;
 }
 .contact-form__form-element input:focus, .contact-form__form-element textarea:focus {
-    border-color: #191B21;
+    border-width: 2px;
+    margin: 0;
 }
 .contact-form__form-element button {
     width: 100%;
@@ -44,38 +47,33 @@
     width: 100%;
     padding: 0.75rem 0;
     background: #191b21;
-    outline: 0;
+    outline: none;
+    border: 2px solid #191B21;
+    transition: all .35s;
+}
+.contact-form__wrapper form button[type=submit] span {
+    color: #FFFFFF;
+}
+.contact-form__wrapper form button[type=submit]:hover:enabled span, .contact-form__wrapper form button[type=submit]:focus:enabled span {
+    color: #191B21;
+    position: relative;
+    z-index: 1;
+}
+.contact-form__wrapper form button[type=submit]:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background: #ffffff;
+    transition: all .35s;
+}
+.contact-form__wrapper form button[type=submit]:hover:enabled:before, .contact-form__wrapper form button[type=submit]:focus:enabled:before {
+    width: 100%;
 }
 .contact-form__wrapper form button[type=submit]:disabled {
-    width: 100%;
-    padding: 0.75rem 0;
-    outline: 0;
-    animation: zoom 1s ease-out;
-    animation-fill-mode: backwards;
-    background: white;
-    color: #191B21;
-}
-
-@keyframes zoom {
-    0% {
-        background: #191B21;
-        color: white;
-    }
-    20% {
-        width: 70px;
-    }
-    70% {
-        background: #191B21;
-        color: white;
-    }
-    100% {
-        width: 70px;
-        background: white;
-        color: #191B21;
-    }
-}
-.contact-form__wrapper form button[type=submit]:focus{
-    outline: 1px solid #191b21;
+    opacity: 0.8;
 }
 .contact-form__wrapper form h6 {
     margin: 1.2rem 0;
@@ -93,7 +91,7 @@
     opacity: 40%;
 }
 .contact-form__error {
-    border: 2px solid #AD0B0B !important;
+    border-color: #AD0B0B !important;
     background: rgba(173, 11, 11, 0.1) !important;
 }
 .contact-form__error-text{
@@ -117,8 +115,9 @@
     align-items: center;
     background: transparent;
     padding: 0;
+    margin: 1px;
     border: 1px solid #191b21;
-    outline: 0;
+    outline: none !important;
 }
 .contact-form__select-toggle:focus {
     outline: 1px solid #191b21;
@@ -145,7 +144,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: 20.6rem;
+    max-height: 15rem;
     overflow: auto;
     background: #e2e6e9;
 }
@@ -154,8 +153,9 @@
 }
 .contact-form__select-item {
     width: 100%;
-    border: none;
-    padding: .5rem 1rem 0 1rem;    
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: .5rem 1rem 0 1rem;
     font-weight: bold;
     transition: background .2s;
 }
@@ -164,11 +164,11 @@
     padding: .2rem .5rem;
 }
 .contact-form__select-item:hover {
-    background: #ffffff46;
+    background: rgba(0, 0, 0, 0.1);
 }
 .contact-form__select-item:focus {
-    outline: 1px solid #000;
-    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.1);
+    outline: none;
 }
 .contact-form__select-seperator {
     height: 1px;
@@ -188,12 +188,13 @@
     border: none !important;
     padding: 0 !important;
     width: 100%;
+    margin: 0 !important;
 }
 .contact-form__divider {
     width: 100%;
-    height: 2px;
+    height: 1.3px;
     background: #191B21;
-    margin: 3rem 0 1rem 0;
+    margin: .75rem 0 1.75rem 0;
 }
 .contact-form__radio-wrapper {
     display: flex;
@@ -202,7 +203,7 @@
 }
 .contact-form__radio-wrapper label {
     margin: 0 !important;
-    padding: 1rem 0;
+    padding: 0.25rem 0;
 }
 .contact-form__radio-wrapper .contact-form__radio-container {
     position: relative;
@@ -235,8 +236,8 @@
     position: absolute;
     top: 50%;
     left: 0;
-    height: 20px;
-    width: 20px;
+    height: 21px;
+    width: 21px;
     border: 2px solid #191b21;
     border-radius: 50%;
     transform: translateY(-50%);
@@ -245,10 +246,11 @@
     content: "";
     position: absolute;
     display: none;
-    left: 3px;
-    top: 3px;
-    width: 10px;
-    height: 10px;
+    left: 50%;
+    top: 50%;
+    width: 75%;
+    height: 75%;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
 }
 .contact-form__radio-wrapper .contact-form__radio-container:hover input:not(:checked) ~ .contact-form__radio-text {
@@ -269,7 +271,7 @@
 }
 .contact-form__attachment-wrapper .contact-form__attachment-file-input .input-info {
     display: block;
-    cursor: none;
+    cursor: default;
     border: none;
     padding: 0;
     font-weight: normal;
@@ -290,8 +292,8 @@
     background: none;
 }
 .contact-form__attachment-wrapper .contact-form__attachment-info div button img {
-    width: 1rem;
-    height: 1rem;
+    width: .9125rem;
+    height: .85rem;
 }
 .contact-form__attachment-wrapper .contact-form__attachment-info div span {
     text-decoration: underline;
@@ -312,7 +314,7 @@
 
 .contact-form__checkbox-wrapper label {
     margin: 0 !important;
-    padding: 1rem 0;
+    padding: 0.25rem 0;
 }
 .contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container {
     padding: 0 0 0 36px !important;
@@ -339,8 +341,8 @@
     position: absolute;
     top: 50%;
     left: 0;
-    height: 20px;
-    width: 20px;
+    height: 21px;
+    width: 21px;
     border: 2px solid #191b21;
     transform: translateY(-50%);
 }
@@ -360,10 +362,11 @@
     font-weight: bold;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container .contact-form__checkbox-checkmark:after {
-    left: 3px;
-    top: 3px;
-    width: 10px;
-    height: 10px;
+    left: 50%;
+    top: 50%;
+    width: 75%;
+    height: 75%;
+    transform: translate(-50%, -50%);
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container:hover input:not(:checked) ~ .contact-form__checkbox-text {
     text-decoration: underline;

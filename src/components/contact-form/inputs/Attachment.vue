@@ -3,12 +3,14 @@
       class="contact-form__form-element"
     >
         <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
-        <p>Vedleggene kan ikke overskride 20.00 MB samlet</p>
+        <p v-if="field.settings.maxSize">Vedleggene kan ikke overskride {{ formatBytes(field.settings.maxSize) }} samlet</p>
         <div
           class="contact-form__attachment-wrapper"
         >
-          <label class="contact-form__attachment-file-input">
-            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''">Velg fil</span>
+          <label
+            class="contact-form__attachment-file-input"
+          >
+            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''" >Velg fil</span>
             <input
               :name="field.name"
               :multiple="field.settings.multiple"
@@ -16,7 +18,7 @@
               ref="input"
               type="file"
               hidden
-              @change="field.value.push($event.target.files)"
+              @change="addFiles"
             >
             <span v-if="field.value.length !== 0" class="input-info">Totalt: {{ totalSize }}</span>
           </label>
@@ -24,7 +26,7 @@
             class="contact-form__attachment-info"
           >
             <div
-              v-for="(file, i) in fileNames"
+              v-for="(file, i) in field.value"
               :key="i"
             >
               <button
@@ -66,58 +68,36 @@ export default {
       default: () => new FormControl({})
     }
   },
-  data: () => ({
-    fileNames: []
-  }),
-  watch: {
-    "field.value": {
-      handler: "updateFiles",
-      deep: true
-    }
-  },
   created() {
     this.validate();
   },
   computed: {
     totalSize: function () {
-      let total = 0;
-      this.field.value.forEach((fileList) => {
-        total += [...fileList].reduce((a, c) => a + c.size, 0);
-      });
-      return this.formatBytes(total);
+      return this.formatBytes(this.field.value.reduce((a, b) => a + b.size, 0));
     }
   },
   methods: {
-    updateFiles() {
-      this.fileNames = [];
-      this.field.value.forEach((fileList) => {
-        fileList.forEach((file) => {
-          this.fileNames.push({
-            name: file.name,
-            size: file.size
-          });
-        });
-      });
-    },
-    removeFile(name) {
-      const dt = new DataTransfer();
-      const input = this.$refs.input;
-      if (input && input.files && input.files.length > 0) {
-        input.files.forEach((file) => {
-          if (file.name !== name) {
-            dt.items.add(file);
+    addFiles(e) {
+      if (e.target.files) {
+        e.target.files.forEach((file) => {
+          if (!this.field.value.find((x) => x.name === file.name)) {
+            this.field.value.push(file);
           }
         });
-        input.files = dt.files;
-        input.dispatchEvent(new Event("change"));
       }
     },
-    formatBytes(bytes) {
+    removeFile(name) {
+      const file = this.field.value.find((x) => x.name === name);
+      if (file) {
+        this.field.value.splice(this.field.value.indexOf(file), 1);
+      }
+    },
+    formatBytes(bytes, digits = 2) {
       if (bytes === 0) return "0 Bytes";
       const k = 1024;
       const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return `${parseFloat((bytes / (k ** i)).toFixed(0))} ${sizes[i]}`;
+      return `${parseFloat((bytes / (k ** i)).toFixed(digits))} ${sizes[i]}`;
     }
   }
 };

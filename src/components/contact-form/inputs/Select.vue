@@ -13,6 +13,7 @@
           <button
             :name="field.name"
             :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__select-toggle']"
+            :style="(optionsOpen ? 'border-width: 2px;margin: 0;' : '')"
             aria-controls="dropdown-menu-options"
             type="button"
             @click="optionsOpen = !optionsOpen"
@@ -28,6 +29,7 @@
                     type="text"
                     class="contact-form__select-search"
                     @click.stop
+                    @keyup.enter.prevent="options[0] && selectOption(options[0])"
                   />
                   <span v-if="!optionsOpen">{{ field.value ? field.value[0].text : field.placeholder }}</span>
               </div>

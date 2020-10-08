@@ -3,7 +3,7 @@ export const isEmptyInputValue = (value) => value == null || value === "" || val
 const EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const URL_REGEXP = /^((?:(https?):\/\/)?((?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9]))|(?:(?:(?:\w+\.){1,2}[\w]{2,3})))(?::(\d+))?((?:\/[\w]+)*)(?:\/|(\/[\w]+\.[\w]{3,4})|(\?(?:([\w]+=[\w]+)&)*([\w]+=[\w]+))?|\?(?:(wsdl|wadl))))$/;
 const TLF_REGEXP = /^((0047)?|(\+47)?|(47)?)\d{8}$/;
-const PNUM_REGEXP = /((0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])[0-9]{2}[0-9]{5})/;
+const PNUM_REGEXP = /^((0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])[0-9]{2}[0-9]{5})$/;
 
 export const required = (control) => (isEmptyInputValue(control.value) ? { required: true } : null);
 
@@ -32,6 +32,17 @@ export const email = (control) => {
   return EMAIL_REGEXP.test(control.value) ? null : { email: true };
 };
 
+export const maxSize = (val) => (control) => {
+  if (isEmptyInputValue(control.value)) {
+    return null;
+  }
+  if (control.component !== "Attachment") {
+    return null;
+  }
+  const size = control.value ? control.value.reduce((a, b) => a + b.size, 0) : 0;
+  return size > val ? { maxSize: { maxSize: val, actualSize: size } } : null;
+};
+
 export const url = (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
@@ -57,22 +68,12 @@ export const minLength = (val) => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
-  let length = 0;
-  if (control.component === "Attachment") {
-    if (control.value) control.value.forEach((v) => { length += v.length; });
-  } else {
-    length = control.value ? control.value.length : 0;
-  }
+  const length = control.value ? control.value.length : 0;
   return length < val ? { minlength: { requiredLength: val, actualLength: length } } : null;
 };
 
 export const maxLength = (val) => (control) => {
-  let length = 0;
-  if (control.component === "Attachment") {
-    if (control.value) control.value.forEach((v) => { length += v.length; });
-  } else {
-    length = control.value ? control.value.length : 0;
-  }
+  const length = control.value ? control.value.length : 0;
   return length > val ? { maxlength: { requiredLength: val, actualLength: length } } : null;
 };
 
@@ -109,5 +110,6 @@ export default {
   pattern,
   url,
   phone,
-  pnum
+  pnum,
+  maxSize
 };

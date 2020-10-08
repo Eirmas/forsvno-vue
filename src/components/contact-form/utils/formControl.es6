@@ -48,7 +48,8 @@ export function FormSettings({
   required = false,
   accept = "",
   multiple = false,
-  cc = false
+  cc = false,
+  maxSize = 20000
 }) {
   this.maxLength = maxLength;
   this.accept = accept;
@@ -56,6 +57,7 @@ export function FormSettings({
   this.minLength = minLength;
   this.required = required;
   this.cc = cc;
+  this.maxSize = maxSize;
 }
 
 export function Form({
