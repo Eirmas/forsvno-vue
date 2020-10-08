@@ -51,7 +51,6 @@ import Textarea from "./inputs/Textarea.vue";
 import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
-import MultiSelect from "./inputs/MultiSelect.vue";
 
 export default {
   name: "Form",
@@ -65,8 +64,7 @@ export default {
     Textarea,
     Checkbox,
     Attachment,
-    Radio,
-    MultiSelect
+    Radio
   },
   props: {
     id: {
@@ -97,6 +95,7 @@ export default {
         if (!this.isValid) {
           this.form.displayErrors = true;
         } else {
+          console.log(this.controls);
           submit("http://localhost:3000/submit", this.controls, null)
             .then((res) => {
               console.log(res.status === 200 ? "Hooray" : "Hmm....");

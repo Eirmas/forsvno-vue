@@ -6,7 +6,6 @@ export function submit(url, data, config) {
   return new Promise((resolve, reject) => {
     const fd = new FormData();
     data.forEach((control) => {
-      console.log(control);
       if (control.component === "Attachment") {
         console.log("isArray");
         control.value.forEach((fileList) => {
