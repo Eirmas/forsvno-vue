@@ -43,6 +43,7 @@ import Textarea from "./inputs/Textarea.vue";
 import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
+import MultiSelect from "./inputs/MultiSelect.vue";
 
 export default {
   name: "Form",
@@ -56,7 +57,8 @@ export default {
     Textarea,
     Checkbox,
     Attachment,
-    Radio
+    Radio,
+    MultiSelect
   },
   props: {
     id: {

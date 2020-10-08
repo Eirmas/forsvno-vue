@@ -177,6 +177,10 @@
     margin-top: .5rem;
     margin-bottom: -1px;
 }
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container .contact-form__select-seperator {
+    margin-top: 0 !important;
+    width: calc(100% - 1rem);
+}
 .hidden {
     visibility: hidden;
 }
@@ -301,9 +305,19 @@
     flex-direction: column;
     border: 2px solid transparent;
 }
+.contact-form__checkbox-wrapper-not-standalone {
+    background: #e2e6e9;
+    padding-left: 1rem;
+}
+
 .contact-form__checkbox-wrapper label {
     margin: 0 !important;
     padding: 1rem 0;
+}
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container {
+    padding: 0 0 0 36px !important;
+    height: 40px;
+    line-height: 40px;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container {
     position: relative;

@@ -24,12 +24,12 @@
                   <input
                     v-model="searchTerm"
                     v-if="optionsOpen"
-                    :placeholder="field.value ? field.value[0].text : field.placeholder"
+                    :placeholder="field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(', ') : field.placeholder"
                     type="text"
                     class="contact-form__select-search"
                     @click.stop
                   />
-                  <span v-if="!optionsOpen">{{ field.value ? field.value[0].text : field.placeholder }}</span>
+                  <span v-if="!optionsOpen">{{ field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(", ") : field.placeholder }}</span>
               </div>
               <div
                 v-if="field.form.icons.caret"
@@ -41,34 +41,17 @@
                     alt="Caret"
                   >
               </div>
+
           </button>
           <div
             ref="options"
             class="contact-form__select-menu"
           >
-              <ul
-                ref="list"
-                tabindex="-1"
-                role="listbox"
-                aria-labelledby="filter-Avdeling"
-                class="contact-form__select-options"
-              >
-                  <li
-                      v-for="(option, i) in options"
-                      :key="option.value"
-                      :id="i"
-                      :aria-selected="option.value === field.value"
-                      role="option"
-                      class="contact-form__select-item"
-                      tabindex="0"
-                      @mousedown="selectOption(option)"
-                      @keyup.enter.prevent="selectOption(option)"
-                      @keydown.enter.prevent
-                  >
-                      <span>{{ option.text }}</span>
-                      <div :class="`contact-form__select-seperator ${i >= options.length - 1 ? 'hidden' : ''}`"></div>
-                  </li>
-              </ul>
+            <Checkbox
+              :field="field"
+              :standalone="false"
+              :searchTerm="searchTerm"
+            />
           </div>
       </div>
     </div>
@@ -89,9 +72,13 @@
 import ClickOutside from "vue-click-outside";
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
+import Checkbox from "./Checkbox.vue";
 
 export default {
-  name: "Select",
+  name: "MultiSelect",
+  components: {
+    Checkbox
+  },
   mixins: [ControlMixin],
   data: () => ({
     optionsOpen: false,
@@ -107,15 +94,8 @@ export default {
       default: false
     }
   },
-  computed: {
-    options: function () {
-      if (this.searchTerm === null) {
-        return this.field.options;
-      }
-      return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
-    }
-  },
   created() {
+    console.log(this.field);
     if (this.field.isEmail && this.value) {
       this.field.value = [this.field.options[this.value.index]];
     }
@@ -137,6 +117,7 @@ export default {
   },
   watch: {
     optionsOpen: function () {
+      console.log(this.field);
       if (this.$refs.options && this.$refs.caret) {
         this.$refs.options.style.display = (this.optionsOpen) ? "block" : "none";
         this.$refs.caret.style.transform = (this.optionsOpen) ? "rotate(180deg)" : "rotate(0deg)";

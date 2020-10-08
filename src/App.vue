@@ -54,6 +54,37 @@ export default {
               label: "For- og mellomnavn"
             }),
             new FormControl({
+              component: "MultiSelect",
+              type: "text",
+              cols: 6,
+              placeholder: "Velg",
+              validations: [
+                new FormValidation(required, "Dette feltet er obligatorisk")
+              ],
+              settings: new FormSettings({
+                required: true
+              }),
+              options: [
+                {
+                  text: "Valg1",
+                  value: "valg1"
+                },
+                {
+                  text: "Valg2",
+                  value: "valg2"
+                },
+                {
+                  text: "Valg3",
+                  value: "valg3"
+                },
+                {
+                  text: "Valg4",
+                  value: "valg4"
+                }
+              ],
+              label: "Flervalg"
+            }),
+            new FormControl({
               component: "Input",
               type: "text",
               cols: 6,

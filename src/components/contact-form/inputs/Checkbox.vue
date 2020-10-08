@@ -2,12 +2,12 @@
     <div
       class="contact-form__form-element"
     >
-        <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
+        <label v-if="standalone">{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <div
-          :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__checkbox-wrapper']"
+          :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', !standalone ? 'contact-form__checkbox-wrapper-not-standalone' : '', 'contact-form__checkbox-wrapper']"
         >
           <label
-            v-for="(option, i) in field.options"
+            v-for="(option, i) in options"
             :key="i"
             :for="`${field.name}-checkbox-${i}`"
             class="contact-form__checkbox-container"
@@ -24,6 +24,7 @@
             <span
               class="contact-form__checkbox-checkmark"
             />
+            <div v-if="!standalone" :class="`contact-form__select-seperator ${i >= options.length - 1 ? 'hidden' : ''}`"></div>
           </label>
         </div>
         <template
@@ -50,15 +51,32 @@ export default {
     field: {
       type: Object,
       default: () => new FormControl({})
+    },
+    standalone: {
+      type: Boolean,
+      default: true
+    },
+    searchTerm: {
+      type: String,
+      default: null
     }
   },
   created() {
     this.updateValues();
     this.validate();
   },
+  computed: {
+    options: function () {
+      if (this.searchTerm === null) {
+        return this.field.options;
+      }
+      return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
+    }
+  },
   methods: {
     updateValues: function () {
-      this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
+      console.log(this.field);
+      this.field.value = this.field.options.filter((opt) => opt.picked); /* .map((opt) => opt.value) */
     }
   },
   watch: {
