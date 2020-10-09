@@ -10,18 +10,18 @@
           <label
             class="contact-form__attachment-file-input"
           >
-            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''" >Velg fil</span>
             <input
               :name="field.name"
               :multiple="field.settings.multiple"
               :accept="field.settings.accept"
               ref="input"
               type="file"
-              hidden
+              tabindex="0"
               @change="addFiles"
               @focus="setActive"
             >
-            <span v-if="field.value.length !== 0" class="input-info">Totalt: {{ totalSize }}</span>
+            <span :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''" >Velg fil</span>
+            <span v-if="field.value.length !== 0 && field.value.length > 1" class="input-info">Totalt: {{ totalSize }}</span>
           </label>
           <div
             class="contact-form__attachment-info"

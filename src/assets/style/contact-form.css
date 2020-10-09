@@ -87,8 +87,7 @@
     height: 8px;
     position: absolute;
     right: 1rem;
-    top: 20px;
-    opacity: 40%;
+    top: 18px;
 }
 .contact-form__error {
     border-color: #AD0B0B !important;
@@ -263,6 +262,18 @@
     position: relative;
     margin: 0;
 }
+.contact-form__attachment-wrapper .contact-form__attachment-file-input input{
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.contact-form__attachment-wrapper .contact-form__attachment-file-input input:focus ~ span{
+    text-decoration: underline;
+}
 .contact-form__attachment-wrapper .contact-form__attachment-file-input span {
     display: block;
     cursor: pointer;
@@ -292,8 +303,8 @@
     background: none;
 }
 .contact-form__attachment-wrapper .contact-form__attachment-info div button img {
-    width: .9125rem;
-    height: .85rem;
+    width: .75rem;
+    height: .75rem;
 }
 .contact-form__attachment-wrapper .contact-form__attachment-info div span {
     text-decoration: underline;
