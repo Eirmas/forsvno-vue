@@ -254,7 +254,7 @@ export default {
                 maxLength: null,
                 minLength: null
               },
-              cols: null
+              cols: 6
             }
           ]
         }

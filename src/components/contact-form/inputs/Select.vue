@@ -130,6 +130,7 @@ export default {
       return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
     },
     valueText: function () {
+      if (this.field.value) return this.field.value.text;
       if (this.field.options.filter((e) => e.picked).length !== 0) {
         return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
       }
@@ -138,7 +139,7 @@ export default {
   },
   created() {
     if (this.field.isEmail && this.value) {
-      this.field.value = [this.field.options[this.value.index]];
+      this.field.value = this.field.options[this.value.index];
     }
     this.validate();
   },
@@ -148,7 +149,7 @@ export default {
         this.value.index = option.value;
       }
       this.searchTerm = null;
-      this.field.value = [option];
+      this.field.value = option;
       this.$forceUpdate();
       this.hide();
     },
