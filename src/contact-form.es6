@@ -1,4 +1,4 @@
-import Form from "./components/contact-form/Form.vue";
+import Form from "./components/contact-form/Controller.vue";
 
 import setupVue from "./setup.es6";
 

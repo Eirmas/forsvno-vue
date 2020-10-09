@@ -6,11 +6,11 @@
         <input
           v-model="field.value"
           :name="field.name"
-          :type="field.type"
           :placeholder="field.placeholder"
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
           :autocomplete="field.settings.cc || false"
+          type="text"
           @focus="setActive"
         >
         <div

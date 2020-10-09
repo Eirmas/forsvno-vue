@@ -15,8 +15,11 @@
 </template>
 
 <script>
+import * as validators from "@/components/contact-form/utils/validators";
 import Select from "./inputs/Select.vue";
-import { FormControl, Form as Controller } from "./utils/formControl.es6";
+import {
+  FormControl, Form as Controller, FormOption, FormSettings, FormValidation
+} from "./utils/formControl.es6";
 import Form from "./Form.vue";
 
 export default {
@@ -46,6 +49,7 @@ export default {
     }
   },
   created() {
+    console.log(this.processedForms);
     this.mapController();
   },
   methods: {
@@ -57,9 +61,37 @@ export default {
     }
   },
   computed: {
+    processedForms: function () {
+      return this.forms.map((form) => ({
+        receiver: form.receiver,
+        fields: form.fields.map((field) => new FormControl({
+          component: field.component,
+          type: field.text,
+          label: field.label,
+          placeholder: field.placeholder,
+          cols: field.cols,
+          validations: field.validations.map((validation) => new FormValidation(validators[validation.name](validation.value), validation.text)),
+          settings: (field.settings) ? new FormSettings({
+            required: field.settings.required,
+            minLength: field.settings.minLength,
+            cc: field.settings.cc,
+            maxLength: field.settings.maxLength,
+            accept: field.settings.accept,
+            multiple: field.settings.multiple,
+            maxSize: field.settings.maxSize
+          }) : null,
+          options: (field.options) ? field.options.map((opt) => new FormOption({
+            text: opt.text,
+            value: opt.value,
+            picked: opt.picked
+          })) : null,
+          value: field.value
+        }))
+      }));
+    },
     form: function () {
-      if (this.forms[this.currentSchema.index]) {
-        return this.forms[this.currentSchema.index];
+      if (this.processedForms[this.currentSchema.index]) {
+        return this.processedForms[this.currentSchema.index];
       }
       return null;
     },
@@ -70,7 +102,7 @@ export default {
         form: this.controller,
         isEmail: true,
         label: "Hvem ønsker du å kontakte?",
-        options: this.forms.map((form, index) => ({
+        options: this.processedForms.map((form, index) => ({
           text: form.receiver.text,
           value: index
         }))
