@@ -8,6 +8,7 @@
       :key="currentSchema.index"
       :icons="icons"
       :fields="form.fields"
+      :form="controller"
       :reciever="((this.form) ? this.form.receiver.value : '')"
     />
   </div>
@@ -23,7 +24,8 @@ export default {
   data: () => ({
     currentSchema: {
       index: 1
-    }
+    },
+    controller: undefined
   }),
   components: {
     Select,
@@ -43,6 +45,17 @@ export default {
       default: false
     }
   },
+  created() {
+    this.mapController();
+  },
+  methods: {
+    mapController: function () {
+      this.controller = new Controller({
+        id: this.id,
+        icons: this.icons
+      });
+    }
+  },
   computed: {
     form: function () {
       if (this.forms[this.currentSchema.index]) {
@@ -53,10 +66,8 @@ export default {
     emailField: function () {
       return new FormControl({
         id: `contact-form__${this.id}`,
-        form: new Controller({
-          id: this.id,
-          icons: this.icons
-        }),
+        name: "email",
+        form: this.controller,
         isEmail: true,
         label: "Hvem ønsker du å kontakte?",
         options: this.forms.map((form, index) => ({
@@ -64,6 +75,13 @@ export default {
           value: index
         }))
       });
+    }
+  },
+  watch: {
+    "currentSchema.index": function () {
+      this.controller.displayErrors = false;
+      this.controller.disabled = false;
+      this.controller.activeElement = undefined;
     }
   }
 };

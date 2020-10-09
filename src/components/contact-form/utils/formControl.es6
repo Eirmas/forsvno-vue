@@ -64,12 +64,14 @@ export function Form({
   id,
   icons,
   displayErrors = false,
-  disabled = false
+  disabled = false,
+  activeElement = undefined
 }) {
   this.id = id;
   this.icons = icons;
   this.displayErrors = displayErrors;
   this.disabled = disabled;
+  this.activeElement = activeElement;
 }
 
 export function FormOption({

@@ -19,6 +19,7 @@
               :name="field.name"
               :disabled="field.disabled || field.form.disabled"
               type="radio"
+              @focus="setActive"
             >
             <span class="contact-form__radio-text">{{ option.text }}</span>
             <span

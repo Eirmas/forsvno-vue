@@ -55,8 +55,7 @@ import Radio from "./inputs/Radio.vue";
 export default {
   name: "Form",
   data: () => ({
-    controls: [],
-    form: undefined
+    controls: []
   }),
   components: {
     Select,
@@ -82,10 +81,13 @@ export default {
     reciever: {
       type: [String, Boolean],
       default: false
+    },
+    form: {
+      type: Object,
+      default: () => new Form()
     }
   },
   created() {
-    this.mapForm();
     this.mapControls();
   },
   methods: {
@@ -115,12 +117,6 @@ export default {
         ...field,
         form: this.form
       }));
-    },
-    mapForm() {
-      this.form = new Form({
-        id: this.id,
-        icons: this.icons
-      });
     },
     mapControls() {
       this.controls = this.fields

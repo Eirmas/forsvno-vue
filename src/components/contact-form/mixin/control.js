@@ -1,5 +1,11 @@
 export const ControlMixin = {
   methods: {
+    setActive() {
+      const control = this.field;
+      if (control.id && control.form) {
+        control.form.activeElement = control.id;
+      }
+    },
     validate() {
       const control = this.field;
       if (control.validations && control.validations.length > 0) {

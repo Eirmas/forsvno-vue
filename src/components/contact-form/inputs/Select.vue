@@ -16,6 +16,7 @@
             :style="(optionsOpen ? 'border-width: 2px;margin: 0;' : '')"
             aria-controls="dropdown-menu-options"
             type="button"
+            @focus="setActive"
             @click="optionsOpen = !optionsOpen"
           >
               <div
@@ -143,6 +144,9 @@ export default {
         this.$refs.options.style.display = (this.optionsOpen) ? "block" : "none";
         this.$refs.caret.style.transform = (this.optionsOpen) ? "rotate(180deg)" : "rotate(0deg)";
       }
+    },
+    "field.form.activeElement": function () {
+      if (this.field.form.activeElement !== this.field.id) this.hide();
     }
   },
   directives: {

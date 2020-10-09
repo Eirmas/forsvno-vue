@@ -19,6 +19,7 @@
               :value="option.value"
               :disabled="field.disabled || field.form.disabled"
               type="checkbox"
+              @focus="setActive"
             >
             <span class="contact-form__checkbox-text">{{ option.text }}</span>
             <span
@@ -58,6 +59,7 @@ export default {
   },
   methods: {
     updateValues: function () {
+
       this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
     }
   },

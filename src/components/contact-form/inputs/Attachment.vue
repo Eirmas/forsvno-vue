@@ -19,6 +19,7 @@
               type="file"
               hidden
               @change="addFiles"
+              @focus="setActive"
             >
             <span v-if="field.value.length !== 0" class="input-info">Totalt: {{ totalSize }}</span>
           </label>

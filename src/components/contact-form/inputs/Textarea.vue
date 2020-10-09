@@ -10,6 +10,7 @@
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
           rows="8"
+          @focus="setActive"
         />
         <div
           class="contact-form__input-info"
