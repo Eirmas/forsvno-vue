@@ -57,8 +57,8 @@
     </div>
 </template>
 <script>
-import { FormControl } from "@/components/contact-form/utils/formControl.es6";
-import { ControlMixin } from "@/components/contact-form/mixin/control";
+import { FormControl } from "../utils/formControl.es6";
+import { ControlMixin } from "../mixin/control";
 
 export default {
   name: "Attachment",

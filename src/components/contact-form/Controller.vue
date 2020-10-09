@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import * as validators from "@/components/contact-form/utils/validators";
+import * as validators from "./utils/validators";
 import Select from "./inputs/Select.vue";
 import {
   FormControl, Form as Controller, FormOption, FormSettings, FormValidation

@@ -236,14 +236,12 @@ export default {
                 }
               ],
               settings: {
-                maxSize: 20,
+                maxSize: 20971520,
                 required: true,
                 accept: ".pdf, .docx"
               },
               cols: 12,
-              value: [
-
-              ]
+              value: []
             }
           ]
         },
