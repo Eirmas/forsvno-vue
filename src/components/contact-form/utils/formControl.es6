@@ -31,7 +31,7 @@ export function FormControl({
   this.disabled = disabled;
   this.errors = errors;
   this.valid = valid;
-  this.cols = cols;
+  this.cols = cols || 12;
 }
 
 export function FormValidation(

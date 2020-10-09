@@ -26,7 +26,7 @@ export default {
   name: "Controller",
   data: () => ({
     currentSchema: {
-      index: 1
+      index: 0
     },
     controller: undefined
   }),

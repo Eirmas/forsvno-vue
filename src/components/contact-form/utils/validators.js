@@ -5,7 +5,7 @@ const URL_REGEXP = /^((?:(https?):\/\/)?((?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9
 const TLF_REGEXP = /^((0047)?|(\+47)?|(47)?)\d{8}$/;
 const PNUM_REGEXP = /^((0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])[0-9]{2}[0-9]{5})$/;
 
-export const required = (control) => (isEmptyInputValue(control.value) ? { required: true } : null);
+export const required = () => (control) => (isEmptyInputValue(control.value) ? { required: true } : null);
 
 export const min = (val) => (control) => {
   if (isEmptyInputValue(control.value) || isEmptyInputValue(val)) {
@@ -25,7 +25,7 @@ export const max = (val) => (control) => {
   return !isNaN(value) && value > val ? { max: { val, actual: control.value } } : null;
 };
 
-export const email = (control) => {
+export const email = () => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
@@ -43,21 +43,21 @@ export const maxSize = (val) => (control) => {
   return size > val ? { maxSize: { maxSize: val, actualSize: size } } : null;
 };
 
-export const url = (control) => {
+export const url = () => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
   return URL_REGEXP.test(control.value) ? null : { email: true };
 };
 
-export const phone = (control) => {
+export const phone = () => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
   return TLF_REGEXP.test(control.value) ? null : { email: true };
 };
 
-export const pnum = (control) => {
+export const pnum = () => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
