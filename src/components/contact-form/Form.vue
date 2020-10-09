@@ -97,10 +97,11 @@ export default {
         if (!this.isValid) {
           this.form.displayErrors = true;
         } else {
+          console.log(this.controls);
+          const submitButton = this.$refs.submit;
           submit("http://localhost:3000/submit", this.controls, null)
             .then((res) => {
               console.log(res.status === 200 ? "Hooray" : "Hmm....");
-              const submitButton = this.$refs.submit;
               submitButton.disabled = true;
               setTimeout(() => {
                 submitButton.innerHTML = "Sendt";
@@ -108,6 +109,7 @@ export default {
             })
             .catch((err) => {
               console.log("Oops...", err);
+              submitButton.disabled = false;
             });
         }
       });

@@ -117,7 +117,7 @@
     padding: 0;
     margin: 1px;
     border: 1px solid #191b21;
-    outline: none !important;
+    outline: none;
 }
 .contact-form__select-toggle:focus {
     outline: 1px solid #191b21;
@@ -176,6 +176,10 @@
     background: #cbcdcb;
     margin-top: .5rem;
     margin-bottom: -1px;
+}
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container .contact-form__select-seperator {
+    margin-top: 0 !important;
+    width: calc(100% - 1rem);
 }
 .hidden {
     visibility: hidden;
@@ -303,9 +307,23 @@
     flex-direction: column;
     border: 2px solid transparent;
 }
+.contact-form__checkbox-wrapper-not-standalone {
+    background: #e2e6e9;
+    border: none !important;
+}
+
 .contact-form__checkbox-wrapper label {
     margin: 0 !important;
     padding: 0.25rem 0;
+}
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container {
+    padding: 0 0 0 calc(36px + 1rem) !important;
+    height: 40px;
+    line-height: 40px;
+}
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transition: background .2s;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container {
     position: relative;
@@ -332,6 +350,9 @@
     border: 2px solid #191b21;
     transform: translateY(-50%);
 }
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container .contact-form__checkbox-checkmark {
+    left: 1rem !important;
+}
 .contact-form__checkbox-wrapper .contact-form__checkbox-container .contact-form__checkbox-checkmark:after {
     content: "";
     position: absolute;
@@ -356,6 +377,9 @@
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container:hover input:not(:checked) ~ .contact-form__checkbox-text {
     text-decoration: underline;
+}
+.contact-form__checkbox-wrapper-not-standalone .contact-form__checkbox-container:hover input:not(:checked) ~ .contact-form__checkbox-text {
+    text-decoration: none !important;
 }
 .contact-form__checkbox-wrapper .contact-form__checkbox-container:hover input ~ .contact-form__checkbox-checkmark:after {
     display: block;

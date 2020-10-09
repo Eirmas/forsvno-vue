@@ -26,13 +26,14 @@
                   <input
                     v-model="searchTerm"
                     v-if="optionsOpen"
-                    :placeholder="field.value ? field.value[0].text : field.placeholder"
+                    :placeholder="field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(', ') : field.placeholder"
                     type="text"
                     class="contact-form__select-search"
                     @click.stop
                     @keyup.enter.prevent="options[0] && selectOption(options[0])"
                   />
-                  <span v-if="!optionsOpen">{{ field.value ? field.value[0].text : field.placeholder }}</span>
+                  <!-- keyup.enter needs to be changed -->
+                  <span v-if="!optionsOpen">{{ field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(", ") : field.placeholder }}</span>
               </div>
               <div
                 v-if="field.form.icons.caret"
@@ -49,29 +50,36 @@
             ref="options"
             class="contact-form__select-menu"
           >
-              <ul
-                ref="list"
-                tabindex="-1"
-                role="listbox"
-                aria-labelledby="filter-Avdeling"
-                class="contact-form__select-options"
-              >
-                  <li
-                      v-for="(option, i) in options"
-                      :key="option.value"
-                      :id="i"
-                      :aria-selected="option.value === field.value"
-                      role="option"
-                      class="contact-form__select-item"
-                      tabindex="0"
-                      @mousedown="selectOption(option)"
-                      @keyup.enter.prevent="selectOption(option)"
-                      @keydown.enter.prevent
-                  >
-                      <span>{{ option.text }}</span>
-                      <div :class="`contact-form__select-seperator ${i >= options.length - 1 ? 'hidden' : ''}`"></div>
-                  </li>
-              </ul>
+            <Checkbox
+              v-if="field.settings.multiple"
+              :field="field"
+              :standalone="false"
+              :searchTerm="searchTerm"
+            />
+            <ul
+              v-else
+              ref="list"
+              tabindex="-1"
+              role="listbox"
+              aria-labelledby="filter-Avdeling"
+              class="contact-form__select-options"
+            >
+                <li
+                    v-for="(option, i) in options"
+                    :key="option.value"
+                    :id="i"
+                    :aria-selected="option.value === field.value"
+                    role="option"
+                    class="contact-form__select-item"
+                    tabindex="0"
+                    @mousedown="selectOption(option)"
+                    @keyup.enter.prevent="selectOption(option)"
+                    @keydown.enter.prevent
+                >
+                    <span>{{ option.text }}</span>
+                    <div :class="`contact-form__select-seperator ${i >= options.length - 1 ? 'hidden' : ''}`"></div>
+                </li>
+            </ul>
           </div>
       </div>
     </div>
@@ -92,9 +100,13 @@
 import ClickOutside from "vue-click-outside";
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
+import Checkbox from "./Checkbox.vue";
 
 export default {
   name: "Select",
+  components: {
+    Checkbox
+  },
   mixins: [ControlMixin],
   data: () => ({
     optionsOpen: false,
