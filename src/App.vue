@@ -64,22 +64,22 @@ export default {
                 multiple: true
               }),
               options: [
-                {
+                new FormOption({
                   text: "Valg1",
                   value: "valg1"
-                },
-                {
+                }),
+                new FormOption({
                   text: "Valg2",
                   value: "valg2"
-                },
-                {
+                }),
+                new FormOption({
                   text: "Valg3",
                   value: "valg3"
-                },
-                {
+                }),
+                new FormOption({
                   text: "Valg4",
                   value: "valg4"
-                }
+                })
               ],
               label: "Flervalg"
             }),

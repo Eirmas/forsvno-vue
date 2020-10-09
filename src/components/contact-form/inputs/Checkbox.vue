@@ -41,50 +41,50 @@
           </div>
         </template>
     </div>
-  <script>
-    import { FormControl } from "../utils/formControl.es6";
-    import { ControlMixin } from "../mixin/control";
-
-    export default {
-      name: "Checkbox",
-      mixins: [ControlMixin],
-      props: {
-        field: {
-          type: Object,
-          default: () => new FormControl({})
-        },
-        standalone: {
-          type: Boolean,
-          default: true
-        },
-        searchTerm: {
-          type: String,
-          default: null
-        }
-      },
-      created() {
-        this.updateValues();
-        this.validate();
-      },
-      computed: {
-        options: function () {
-          if (this.searchTerm === null) {
-            return this.field.options;
-          }
-          return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
-        }
-      },
-      methods: {
-        updateValues: function () {
-          this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
-        }
-      },
-      watch: {
-        "field.options": {
-          handler: "updateValues",
-          deep: true
-        }
-      }
-    };
-  </script>
 </template>
+<script>
+import { FormControl } from "../utils/formControl.es6";
+import { ControlMixin } from "../mixin/control";
+
+export default {
+  name: "Checkbox",
+  mixins: [ControlMixin],
+  props: {
+    field: {
+      type: Object,
+      default: () => new FormControl({})
+    },
+    standalone: {
+      type: Boolean,
+      default: true
+    },
+    searchTerm: {
+      type: String,
+      default: null
+    }
+  },
+  created() {
+    this.updateValues();
+    this.validate();
+  },
+  computed: {
+    options: function () {
+      if (this.searchTerm === null) {
+        return this.field.options;
+      }
+      return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
+    }
+  },
+  methods: {
+    updateValues: function () {
+      this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
+    }
+  },
+  watch: {
+    "field.options": {
+      handler: "updateValues",
+      deep: true
+    }
+  }
+};
+</script>
