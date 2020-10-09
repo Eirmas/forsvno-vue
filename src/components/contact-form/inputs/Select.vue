@@ -133,12 +133,13 @@ export default {
       if (this.field.options.filter((e) => e.picked).length !== 0) {
         return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
       }
+      if (this.value) return this.field.options[this.value.index].text;
       return this.field.placeholder ? this.field.placeholder : "Velg";
     }
   },
   created() {
     if (this.field.isEmail && this.value) {
-      this.field.value = [this.field.options[this.value.index]];
+      this.field.value = this.field.options[this.value.index];
     }
     this.validate();
   },
@@ -148,7 +149,7 @@ export default {
         this.value.index = option.value;
       }
       this.searchTerm = null;
-      this.field.value = [option];
+      this.field.value = option;
       this.$forceUpdate();
       this.hide();
     },
