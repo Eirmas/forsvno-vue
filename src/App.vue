@@ -126,25 +126,35 @@ export default {
               cols: 12
             },
             {
-              component: "Select",
+              component: "Textarea",
               label: "Melding",
-              options: [
-
-              ],
+              placeholder: "Skriv en kort tekst",
               validations: [
                 {
                   name: "required",
                   text: "Dette feltet er obligatorisk",
                   value: 0
+                },
+                {
+                  name: "maxLength",
+                  text: "Lengden p├Ñ verdien er for lang",
+                  value: 2500
+                },
+                {
+                  name: "minLength",
+                  text: "Lengden p├Ñ verdien er for kort",
+                  value: 10
                 }
               ],
               settings: {
-                required: true
+                required: true,
+                maxLength: 2500,
+                minLength: 10
               },
               cols: 12
             },
             {
-              component: "Checkbox",
+              component: "Radio",
               label: "Hvor mange dyr har du",
               options: [
                 {
@@ -172,7 +182,7 @@ export default {
                 }
               ],
               settings: {
-                multiple: true,
+                multiple: false,
                 required: true
               },
               cols: 6
