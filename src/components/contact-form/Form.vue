@@ -97,7 +97,6 @@ export default {
         if (!this.isValid) {
           this.form.displayErrors = true;
         } else {
-          console.log(this.controls);
           const submitButton = this.$refs.submit;
           submit("http://localhost:3000/submit", this.controls, null)
             .then((res) => {
@@ -108,7 +107,7 @@ export default {
               }, 850);
             })
             .catch((err) => {
-              console.log("Oops...", err);
+              console.log(err);
               submitButton.disabled = false;
             });
         }

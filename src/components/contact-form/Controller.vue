@@ -49,7 +49,6 @@ export default {
     }
   },
   created() {
-    console.log(this.processedForms);
     this.mapController();
   },
   methods: {
