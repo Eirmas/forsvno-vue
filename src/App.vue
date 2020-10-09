@@ -23,7 +23,7 @@ export default {
       id: "1",
       icons: {
         caret: require("@/assets/images/caret.svg"),
-        close: require("@/assets/images/close.svg")
+        close: require("@/assets/images/close-small.svg")
       },
       forms: [
         {
