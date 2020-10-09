@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     updateValues: function () {
-      this.field.value = this.field.options.filter((opt) => opt.picked); /* .map((opt) => opt.value) */
+      this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
     }
   },
   watch: {

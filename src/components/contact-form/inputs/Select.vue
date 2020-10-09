@@ -25,14 +25,14 @@
                   <input
                     v-model="searchTerm"
                     v-if="optionsOpen"
-                    :placeholder="field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(', ') : field.placeholder"
+                    :placeholder="valueText"
                     type="text"
                     class="contact-form__select-search"
                     @click.stop
                     @keyup.enter.prevent="options[0] && selectOption(options[0])"
                   />
                   <!-- keyup.enter needs to be changed -->
-                  <span v-if="!optionsOpen">{{ field.value && field.value.length !== 0 ? field.value.map(e => e.text).join(", ") : field.placeholder }}</span>
+                  <span v-if="!optionsOpen">{{ valueText }}</span>
               </div>
               <div
                 v-if="field.form.icons.caret"
@@ -127,6 +127,12 @@ export default {
         return this.field.options;
       }
       return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
+    },
+    valueText: function () {
+      if (this.field.options.filter((e) => e.picked).length !== 0) {
+        return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
+      }
+      return this.field.placeholder ? this.field.placeholder : "Velg";
     }
   },
   created() {
