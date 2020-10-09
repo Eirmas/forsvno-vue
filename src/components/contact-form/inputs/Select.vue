@@ -130,10 +130,10 @@ export default {
       return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
     },
     valueText: function () {
-      if (this.field.value) return this.field.value.text;
       if (this.field.options.filter((e) => e.picked).length !== 0) {
         return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
       }
+      if (this.value) return this.field.options[this.value.index].text;
       return this.field.placeholder ? this.field.placeholder : "Velg";
     }
   },
