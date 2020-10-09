@@ -11,6 +11,7 @@ module.exports = {
     diagramVue: "./src/diagram.es6",
     storyVue: "./src/story.es6",
     promocardHorizontalVue: "./src/promocard-horizontal.es6",
+    contactFormVue: "./src/contact-form.es6",
     slangWordsVue: "./src/slang-words.es6"
   },
   plugins: [
@@ -26,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.es6?$/,
+        test: /\.(es6|js)?$/,
         use: "babel-loader",
         exclude: /node_modules/
       },

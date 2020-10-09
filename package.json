@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 3000",
     "lint": "vue-cli-service lint",
     "build": "webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch",
     "build-vue": "vue-cli-service build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "css-loader": "^3.6.0",
     "highcharts": "^8.1.2",
@@ -22,6 +24,7 @@
     "uuid": "^8.3.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-click-outside": "^1.1.0",
     "vue-loader": "^15.9.3",
     "vue-property-decorator": "^8.4.2",
     "vuetify": "^2.2.11",
