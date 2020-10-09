@@ -1,22 +1,39 @@
 <template>
   <div
-    :style="`width:${width}px;height:${height}px;background-image: url('${image}')`"
+    :style="`width:${width}px;height:${height}px;`"
     class="story__image"
-  />
+  >
+    <img
+      ref="image"
+      :src="image"
+    >
+    <div
+      v-if="displaySpinner"
+      style="width:100%;height:100%;"
+      class="story-video-player-icon-wrapper"
+    >
+      <LoadingIcon />
+    </div>
+  </div>
 </template>
 
 <script>
+import LoadingIcon from "./LoadingIcon.vue";
+
 /**
  * This component displays a story item in the form of an image.
  * It behaves in some ways like a video. It has a duration and can be played/paused.
  */
 export default {
   name: "StoryImage",
+  components: {
+    LoadingIcon
+  },
   data: () => ({
     /**
      * Duration in milliseconds.
      */
-    duration: 10000,
+    duration: 7000,
     /**
      * Represents the current time of the story item.
      * This is a number between 0 and the duration.
@@ -35,7 +52,15 @@ export default {
      * The throttle of the interval.
      * Determines how many milliseconds are between each interval.
      */
-    throttle: 125
+    throttle: 125,
+    /**
+     * Determine if image has loaded
+     */
+    isLoaded: false,
+    /**
+     * Display spinner
+     */
+    displaySpinner: false
   }),
   props: {
     /**
@@ -90,7 +115,22 @@ export default {
      * Plays the story item.
      */
     play: function () {
-      this.isPlaying = true;
+      if (this.$refs.image) {
+        if (!this.isLoaded) {
+          this.$refs.image.onload = () => {
+            this.isLoaded = true;
+            this.isPlaying = true;
+            this.displaySpinner = false;
+          };
+          setTimeout(() => {
+            if (!this.isLoaded) {
+              this.displaySpinner = true;
+            }
+          }, 1000);
+        } else {
+          this.isPlaying = true;
+        }
+      }
     },
     /**
      * Pauses the story item.
@@ -127,7 +167,6 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
     this.current = 0;
-    this.isPlaying = false;
     this.interval = false;
   }
 };

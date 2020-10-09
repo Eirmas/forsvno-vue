@@ -193,11 +193,17 @@ export default {
      * Starts playing the video from current time.
      */
     play: function () {
-      setTimeout(() => {
-        if (this.$refs.video && this.$refs.video.play) {
-          this.$refs.video.play();
+      if (this.$refs.video) {
+        const promise = this.$refs.video.play();
+        if (promise !== undefined) {
+          promise.catch(() => {
+            if (!this.isMuted) {
+              this.isMuted = true;
+              this.$nextTick(() => this.play());
+            }
+          });
         }
-      }, 500);
+      }
     },
     /**
      * Pauses the video.
@@ -218,21 +224,7 @@ export default {
   },
   mounted() {
     if (this.autoplay) {
-      try {
-        const videoPromise = this.$refs.video.play();
-        videoPromise.then(() => {
-          this.$refs.video.play();
-          this.$nextTick(() => {
-            if (this.$refs.video.paused) {
-              this.isMuted = false;
-              this.play();
-            }
-          });
-        });
-      } catch (err) {
-        this.isMuted = true;
-        this.play();
-      }
+      this.play();
     }
     /**
      * Created video event listeners
