@@ -1,10 +1,11 @@
 <template>
   <main>
-    <div>
+    <div class="contact-form__wrapper container">
       <ContactForm
         :id="contactForm.id"
         :icons="contactForm.icons"
         :forms="contactForm.forms"
+        :site-key="contactForm.siteKey"
       />
     </div>
   </main>
@@ -22,9 +23,10 @@ export default {
     contactForm: {
       id: "-main-0",
       icons: {
-        caret: "/admin/site/preview/default/draft/_/asset/forsvno:1602486029/images/caret.svg",
-        close: "/admin/site/preview/default/draft/_/asset/forsvno:1602486029/images/close-bold.svg"
+        caret: require("./assets/images/caret.svg"),
+        close: require("./assets/images/close-small.svg")
       },
+      siteKey: "6LfkaNYZAAAAAEESwj76Z2n1xxhqTycWo_kiq_5h",
       forms: [
         {
           receiver: {

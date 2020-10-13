@@ -24,12 +24,12 @@
             <p>Felt markert med * må fylles ut.</p>
             <button
               ref="submit"
-              :disabled="form.displayErrors && !isValid"
+              :disabled="(form.displayErrors && !isValid) || form.disabled"
               type="submit"
               class="btn-square negative"
               @click="handleSubmit"
             >
-              <span>Send inn</span>
+              <span>{{ buttonText }}</span>
             </button>
             <div
               v-if="form.displayErrors && !isValid"
@@ -43,6 +43,8 @@
     </form>
 </template>
 <script>
+import Vue from "vue";
+import { VueReCaptcha } from "vue-recaptcha-v3";
 import { FormControl, Form } from "./utils/formControl.es6";
 import { submit } from "./utils/submit";
 import Select from "./inputs/Select.vue";
@@ -55,7 +57,8 @@ import Radio from "./inputs/Radio.vue";
 export default {
   name: "Form",
   data: () => ({
-    controls: []
+    controls: [],
+    buttonText: "Send inn"
   }),
   components: {
     Select,
@@ -84,32 +87,44 @@ export default {
     },
     form: {
       type: Object,
-      default: () => new Form()
+      default: () => new Form({})
+    },
+    siteKey: {
+      type: String,
+      default: ""
+    },
+    server: {
+      type: String,
+      default: ""
     }
   },
   created() {
+    Vue.use(VueReCaptcha, { siteKey: this.siteKey });
+    this.$recaptchaLoaded().then(() => this.$recaptchaInstance.hideBadge());
     this.mapControls();
   },
   methods: {
     handleSubmit() {
       this.updateControls();
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
         if (!this.isValid) {
           this.form.displayErrors = true;
         } else {
-          const submitButton = this.$refs.submit;
-          submit("http://localhost:3000/submit", this.controls, null)
-            .then((res) => {
-              console.log(res.status === 200 ? "Hooray" : "Hmm....");
-              submitButton.disabled = true;
-              setTimeout(() => {
-                submitButton.innerHTML = "Sendt";
-              }, 850);
-            })
-            .catch((err) => {
-              console.log(err);
-              submitButton.disabled = false;
-            });
+          const token = await this.$recaptcha("login");
+          if (token && this.server) {
+            submit(this.server, { controls: this.controls, token: token })
+              .then(() => {
+                this.form.disabled = true;
+                this.buttonText = "Takk! Ditt skjema er nå sendt";
+              })
+              .catch(() => {
+                this.form.disabled = true;
+                this.buttonText = "En feil har oppstått. Prøv igjen senere";
+              });
+          } else {
+            this.form.disabled = true;
+            this.buttonText = "En feil har oppstått. Prøv igjen senere";
+          }
         }
       });
     },
@@ -120,15 +135,14 @@ export default {
       }));
     },
     mapControls() {
-      this.controls = this.fields
-        && this.fields.map(
-          (field, index) => new FormControl({
-            ...field,
-            id: this.form.id,
-            name: index,
-            form: this.form
-          })
-        );
+      this.controls = this.fields && this.fields.map(
+        (field, index) => new FormControl({
+          ...field,
+          id: this.form.id,
+          name: index,
+          form: this.form
+        })
+      );
     }
   },
   computed: {
