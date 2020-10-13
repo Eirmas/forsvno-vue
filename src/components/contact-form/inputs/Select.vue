@@ -73,7 +73,7 @@
                     role="option"
                     class="contact-form__select-item"
                     tabindex="0"
-                    @mousedown="selectOption(option)"
+                    @mousedown.stop="selectOption(option)"
                     @keyup.enter.prevent="selectOption(option)"
                     @keydown.enter.prevent
                 >
@@ -146,6 +146,9 @@ export default {
   },
   methods: {
     selectOption(option) {
+      this.field.options.forEach((opt) => {
+        this.field.options[this.field.options.indexOf(opt)].picked = opt === option;
+      });
       if (this.field.isEmail && this.value) {
         this.value.index = option.value;
       }

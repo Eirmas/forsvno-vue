@@ -54,6 +54,8 @@ import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
 
+Vue.use(VueReCaptcha, { siteKey: "6LdRatYZAAAAACbuXhlBG_UST_WBTeN1w9k1r_dh" });
+
 export default {
   name: "Form",
   data: () => ({

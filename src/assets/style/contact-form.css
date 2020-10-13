@@ -299,7 +299,10 @@
     border: none;
     background: none;
 }
-.contact-form__attachment-wrapper .contact-form__attachment-info div button img {
+.contact-form__attachment-wrapper .contact-form__attachment-info div button:focus {
+    outline: 1px solid #191B21;
+}
+.contact-form__attachment-wrapper .contact-form__attachment-info div button .contact-form__attachment-remove-file {
     width: .75rem;
     height: .75rem;
 }

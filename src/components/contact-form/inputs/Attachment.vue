@@ -37,6 +37,7 @@
                 <img
                   v-if="field.form.icons.close"
                   :src="field.form.icons.close"
+                  class="contact-form__attachment-remove-file"
                   alt="Fjern vedlagt fil(er)"
                 >
               </button>
