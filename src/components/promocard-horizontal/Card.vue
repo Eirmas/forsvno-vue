@@ -19,7 +19,7 @@
         >
           <img
             :src="card.decoration.icon.src"
-            alt="ikon"
+            alt="Ikon"
           >
           <div
             v-if="card.decoration.caption"
