@@ -14,6 +14,7 @@
               :name="field.name"
               :multiple="field.settings.multiple"
               :accept="field.settings.accept"
+              :disabled="field.disabled || field.form.disabled"
               ref="input"
               type="file"
               tabindex="0"
@@ -31,7 +32,7 @@
               :key="i"
             >
               <button
-                @click="removeFile(file.name)"
+                @click="!(field.disabled || field.form.disabled) ? removeFile(file.name) : null"
               >
                 <img
                   v-if="field.form.icons.close"
