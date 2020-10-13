@@ -43,6 +43,8 @@
     </form>
 </template>
 <script>
+import Vue from "vue";
+import { VueReCaptcha } from "vue-recaptcha-v3";
 import { FormControl, Form } from "./utils/formControl.es6";
 import { submit } from "./utils/submit";
 import Select from "./inputs/Select.vue";
@@ -51,6 +53,8 @@ import Textarea from "./inputs/Textarea.vue";
 import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
+
+Vue.use(VueReCaptcha, { siteKey: "6LdRatYZAAAAACbuXhlBG_UST_WBTeN1w9k1r_dh" });
 
 export default {
   name: "Form",
@@ -89,6 +93,9 @@ export default {
   },
   created() {
     this.mapControls();
+    const recaptcha = this.$recaptchaInstance;
+    // Hide reCAPTCHA badge:
+    recaptcha.hideBadge();
   },
   methods: {
     handleSubmit() {
@@ -98,13 +105,24 @@ export default {
           this.form.displayErrors = true;
         } else {
           const submitButton = this.$refs.submit;
-          submit("http://localhost:3000/submit", this.controls, null)
-            .then((res) => {
-              console.log(res.status === 200 ? "Hooray" : "Hmm....");
-              submitButton.disabled = true;
-              setTimeout(() => {
-                submitButton.innerHTML = "Sendt";
-              }, 850);
+
+          this.$recaptchaLoaded()
+            .then(() => {
+              this.$recaptcha("submit")
+                .then((token) => {
+                  const data = {
+                    controls: this.controls,
+                    token: token
+                  };
+                  submit("http://localhost:5000/submit", data, null)
+                    .then((res) => {
+                      console.log(res.status === 200 ? "Hooray" : "Hmm....");
+                      submitButton.disabled = true;
+                      setTimeout(() => {
+                        submitButton.innerHTML = "Sendt";
+                      }, 850);
+                    });
+                });
             })
             .catch((err) => {
               console.log(err);

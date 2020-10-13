@@ -125,16 +125,11 @@ export default {
   computed: {
     options: function () {
       if (this.searchTerm === null) {
-        console.log("searchterm is null");
-        console.log("options", this.field.options);
         return this.field.options;
       }
-      console.log("searchterm", this.searchTerm);
       return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
     },
     valueText: function () {
-      console.log("options", this.field.options);
-      console.log("value", this.value);
       if (this.field.options.filter((e) => e.picked).length !== 0) {
         return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
       }
@@ -150,7 +145,9 @@ export default {
   },
   methods: {
     selectOption(option) {
-      console.log(option);
+      this.field.options.forEach((opt) => {
+        this.field.options[this.field.options.indexOf(opt)].picked = opt === option;
+      });
       if (this.field.isEmail && this.value) {
         this.value.index = option.value;
       }

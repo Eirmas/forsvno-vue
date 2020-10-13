@@ -5,7 +5,7 @@ export function submit(url, data, config) {
   // This needs some work, just used for testing
   return new Promise((resolve, reject) => {
     const fd = new FormData();
-    data.forEach((control) => {
+    data.controls.forEach((control) => {
       if (control.component === "Attachment") {
         console.log("isArray");
         control.value.forEach((fileList) => {
@@ -18,6 +18,7 @@ export function submit(url, data, config) {
         fd.append(control.component, control.value);
       }
     });
+    fd.append("token", data.token);
     axios.post(url, fd, {
       headers: {
         "Content-Type": "multipart/form-data"
