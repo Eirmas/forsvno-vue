@@ -1,5 +1,6 @@
 <template>
   <div>
+<<<<<<< HEAD
     <div
       v-if="forms.length > 1"
       class="contact-form__form-inner col-md-12"
@@ -8,6 +9,10 @@
         :field="emailField"
         :value="currentSchema"
       />
+=======
+    <div class="contact-form__form-inner col-md-12">
+      <Select :field="emailField" :value="currentSchema"/>
+>>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     </div>
     <Form
       :id="id"
@@ -16,8 +21,11 @@
       :fields="form.fields"
       :form="controller"
       :reciever="((this.form) ? this.form.receiver.value : '')"
+<<<<<<< HEAD
       :site-key="siteKey"
       :server="server"
+=======
+>>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     />
   </div>
 </template>
@@ -45,7 +53,11 @@ export default {
   props: {
     id: {
       type: String,
+<<<<<<< HEAD
       default: "1"
+=======
+      default: "0"
+>>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     },
     icons: {
       type: [Object, Boolean],
@@ -54,6 +66,7 @@ export default {
     forms: {
       type: [Array, Boolean],
       default: false
+<<<<<<< HEAD
     },
     siteKey: {
       type: String,
@@ -62,6 +75,8 @@ export default {
     server: {
       type: String,
       default: ""
+=======
+>>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     }
   },
   created() {

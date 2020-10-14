@@ -9,7 +9,10 @@
           :placeholder="field.placeholder"
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
+<<<<<<< HEAD
           :maxlength="field.settings.maxLength || false"
+=======
+>>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
           rows="8"
           @focus="setActive"
         />
