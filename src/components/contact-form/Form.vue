@@ -24,20 +24,12 @@
             <p>Felt markert med * må fylles ut.</p>
             <button
               ref="submit"
-<<<<<<< HEAD
               :disabled="(form.displayErrors && !isValid) || form.disabled"
-=======
-              :disabled="form.displayErrors && !isValid"
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
               type="submit"
               class="btn-square negative"
               @click="handleSubmit"
             >
-<<<<<<< HEAD
               <span>{{ buttonText }}</span>
-=======
-              <span>Send inn</span>
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
             </button>
             <div
               v-if="form.displayErrors && !isValid"
@@ -51,11 +43,8 @@
     </form>
 </template>
 <script>
-<<<<<<< HEAD
 import Vue from "vue";
 import { VueReCaptcha } from "vue-recaptcha-v3";
-=======
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
 import { FormControl, Form } from "./utils/formControl.es6";
 import { submit } from "./utils/submit";
 import Select from "./inputs/Select.vue";
@@ -68,12 +57,8 @@ import Radio from "./inputs/Radio.vue";
 export default {
   name: "Form",
   data: () => ({
-<<<<<<< HEAD
     controls: [],
     buttonText: "Send inn"
-=======
-    controls: []
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
   }),
   components: {
     Select,
@@ -102,7 +87,6 @@ export default {
     },
     form: {
       type: Object,
-<<<<<<< HEAD
       default: () => new Form({})
     },
     siteKey: {
@@ -117,18 +101,11 @@ export default {
   created() {
     Vue.use(VueReCaptcha, { siteKey: this.siteKey });
     this.$recaptchaLoaded().then(() => this.$recaptchaInstance.hideBadge());
-=======
-      default: () => new Form()
-    }
-  },
-  created() {
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     this.mapControls();
   },
   methods: {
     handleSubmit() {
       this.updateControls();
-<<<<<<< HEAD
       this.$nextTick(async () => {
         if (!this.isValid) {
           this.form.displayErrors = true;
@@ -148,25 +125,6 @@ export default {
             this.form.disabled = true;
             this.buttonText = "En feil har oppstått. Prøv igjen senere";
           }
-=======
-      this.$nextTick(() => {
-        if (!this.isValid) {
-          this.form.displayErrors = true;
-        } else {
-          const submitButton = this.$refs.submit;
-          submit("http://localhost:3000/submit", this.controls, null)
-            .then((res) => {
-              console.log(res.status === 200 ? "Hooray" : "Hmm....");
-              submitButton.disabled = true;
-              setTimeout(() => {
-                submitButton.innerHTML = "Sendt";
-              }, 850);
-            })
-            .catch((err) => {
-              console.log(err);
-              submitButton.disabled = false;
-            });
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
         }
       });
     },
@@ -177,7 +135,6 @@ export default {
       }));
     },
     mapControls() {
-<<<<<<< HEAD
       this.controls = this.fields && this.fields.map(
         (field, index) => new FormControl({
           ...field,
@@ -186,17 +143,6 @@ export default {
           form: this.form
         })
       );
-=======
-      this.controls = this.fields
-        && this.fields.map(
-          (field, index) => new FormControl({
-            ...field,
-            id: this.form.id,
-            name: index,
-            form: this.form
-          })
-        );
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
     }
   },
   computed: {

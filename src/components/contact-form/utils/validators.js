@@ -77,11 +77,8 @@ export const maxLength = (val) => (control) => {
   return length > val ? { maxlength: { requiredLength: val, actualLength: length } } : null;
 };
 
-<<<<<<< HEAD
 export const isValid = () => (form) => form.controls.find((ctrl) => !ctrl.valid) === undefined;
 
-=======
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
 export const pattern = (pat) => {
   if (!pat) return null;
   let regex;
@@ -116,10 +113,6 @@ export default {
   url,
   phone,
   pnum,
-<<<<<<< HEAD
-  maxSize,
-  isValid
-=======
+  isValid,
   maxSize
->>>>>>> 65b6c87a8a2c6b9e9fad20c31c029684be7b3d25
 };
