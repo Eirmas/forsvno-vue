@@ -13,7 +13,7 @@
           <button
             :name="field.name"
             :class="[(!field.valid && field.form.displayErrors) ? 'contact-form__error': '', 'contact-form__select-toggle']"
-            :style="(optionsOpen ? 'border-width: 2px;margin: 0;' : '')"
+            :style="(optionsOpen ? 'outline: 1px solid #191B21' : '')"
             :disabled="field.disabled || field.form.disabled"
             aria-controls="dropdown-menu-options"
             type="button"

@@ -39,7 +39,7 @@ export default {
               label: "Hvilke avdelinger liker du?",
               options: [
                 {
-                  text: "H├ªren",
+                  text: "Hæren",
                   value: "army"
                 },
                 {
@@ -47,7 +47,7 @@ export default {
                   value: "airforce"
                 },
                 {
-                  text: "Sj├╕forsvaret",
+                  text: "Sjøforsvaret",
                   value: "marine"
                 }
               ],
@@ -75,12 +75,12 @@ export default {
                 },
                 {
                   name: "maxLength",
-                  text: "Lengden p├Ñ verdien er for lang",
+                  text: "Lengden på verdien er for lang",
                   value: 100
                 },
                 {
                   name: "minLength",
-                  text: "Lengden p├Ñ verdien er for kort",
+                  text: "Lengden på verdien er for kort",
                   value: 2
                 }
               ],
@@ -103,12 +103,12 @@ export default {
                 },
                 {
                   name: "maxLength",
-                  text: "Lengden p├Ñ verdien er for lang",
+                  text: "Lengden på verdien er for lang",
                   value: 100
                 },
                 {
                   name: "minLength",
-                  text: "Lengden p├Ñ verdien er for kort",
+                  text: "Lengden på verdien er for kort",
                   value: 2
                 }
               ],
@@ -128,6 +128,21 @@ export default {
                   name: "required",
                   text: "Dette feltet er obligatorisk",
                   value: 0
+                },
+                {
+                  name: "pnum",
+                  text: "Personnummeret er feil",
+                  value: 0
+                },
+                {
+                  name: "maxLength",
+                  text: "Lengden på verdien er for lang",
+                  value: 11
+                },
+                {
+                  name: "minLength",
+                  text: "Lengden på verdien er for kort",
+                  value: 11
                 }
               ],
               settings: {
@@ -139,7 +154,7 @@ export default {
             {
               component: "Textarea",
               label: "Melding",
-              placeholder: "Skriv om din erfaring s├Ñ langt i forsvaret",
+              placeholder: "Skriv om din erfaring så langt i forsvaret",
               validations: [
                 {
                   name: "required",
@@ -148,7 +163,7 @@ export default {
                 },
                 {
                   name: "maxLength",
-                  text: "Lengden p├Ñ verdien er for lang",
+                  text: "Lengden på verdien er for lang",
                   value: 25
                 }
               ],
@@ -160,26 +175,26 @@ export default {
             },
             {
               component: "Radio",
-              label: "Hvor lenge har du vert her?",
+              label: "Hvor lenge har du vært her?",
               options: [
                 {
-                  text: "Mindre enn 1 ├Ñr",
+                  text: "Mindre enn 1 år",
                   value: "0"
                 },
                 {
-                  text: "1-3 ├Ñr",
+                  text: "1-3 år",
                   value: "1"
                 },
                 {
-                  text: "4-6 ├Ñr",
+                  text: "4-6 år",
                   value: "2"
                 },
                 {
-                  text: "7-10 ├Ñr",
+                  text: "7-10 år",
                   value: "3"
                 },
                 {
-                  text: "Mer enn 10 ├Ñr",
+                  text: "Mer enn 10 år",
                   value: "4"
                 }
               ],
@@ -240,12 +255,12 @@ export default {
                 },
                 {
                   name: "maxLength",
-                  text: "Lengden p├Ñ verdien er for lang",
+                  text: "Lengden på verdien er for lang",
                   value: 1
                 },
                 {
                   name: "maxSize",
-                  text: "St├╕rrelsen er for stor",
+                  text: "Størrelsen er for stor",
                   value: 104857600
                 }
               ],
@@ -269,15 +284,15 @@ export default {
           fields: [
             {
               component: "Select",
-              label: "Hvilken tjeneste ├╕nsker du?",
+              label: "Hvilken tjeneste ønsker du?",
               options: [
                 {
                   text: "Kundeservice",
                   value: "Kundeservice"
                 },
                 {
-                  text: "R├Ñdgiver",
-                  value: "R├Ñdgiver"
+                  text: "Rådgiver",
+                  value: "Rådgiver"
                 },
                 {
                   text: "Presse og informasjon",
@@ -307,7 +322,7 @@ export default {
                 },
                 {
                   name: "minLength",
-                  text: "Lengden p├Ñ verdien er for kort",
+                  text: "Lengden på verdien er for kort",
                   value: 2
                 }
               ],
@@ -330,7 +345,7 @@ export default {
                 },
                 {
                   name: "maxLength",
-                  text: "Lengden p├Ñ verdien er for lang",
+                  text: "Lengden på verdien er for lang",
                   value: 2500
                 }
               ],

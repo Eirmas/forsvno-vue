@@ -33,6 +33,7 @@
             >
               <button
                 @click="!(field.disabled || field.form.disabled) ? removeFile(file.name) : null"
+                :disabled="field.disabled || field.form.disabled"
               >
                 <img
                   v-if="field.form.icons.close"

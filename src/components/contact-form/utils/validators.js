@@ -3,7 +3,7 @@ export const isEmptyInputValue = (value) => value == null || value === "" || val
 const EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const URL_REGEXP = /^((?:(https?):\/\/)?((?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9]))|(?:(?:(?:\w+\.){1,2}[\w]{2,3})))(?::(\d+))?((?:\/[\w]+)*)(?:\/|(\/[\w]+\.[\w]{3,4})|(\?(?:([\w]+=[\w]+)&)*([\w]+=[\w]+))?|\?(?:(wsdl|wadl))))$/;
 const TLF_REGEXP = /^((0047)?|(\+47)?|(47)?)\d{8}$/;
-const PNUM_REGEXP = /^((0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])[0-9]{2}[0-9]{5})$/;
+/* const PNUM_REGEXP = /^((0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])[0-9]{2}[0-9]{5})$/; */
 
 export const required = () => (control) => (isEmptyInputValue(control.value) ? { required: true } : null);
 
@@ -61,7 +61,13 @@ export const pnum = () => (control) => {
   if (isEmptyInputValue(control.value)) {
     return null;
   }
-  return PNUM_REGEXP.test(control.value) ? null : { email: true };
+  const i = control.value.toString().split("").map(Number);
+  if (i.length !== 11) {
+    return { pnum: true };
+  }
+  const k1 = 11 - ((3 * i[0] + 7 * i[1] + 6 * i[2] + 1 * i[3] + 8 * i[4] + 9 * i[5] + 4 * i[6] + 5 * i[7] + 2 * i[8]) % 11);
+  const k2 = 11 - ((5 * i[0] + 4 * i[1] + 3 * i[2] + 2 * i[3] + 7 * i[4] + 6 * i[5] + 5 * i[6] + 4 * i[7] + 3 * i[8] + 2 * k1) % 11);
+  return k1 === i[9] && k2 === i[10] ? null : { pnum: true };
 };
 
 export const minLength = (val) => (control) => {
