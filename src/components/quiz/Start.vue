@@ -13,6 +13,7 @@
     <QBrick
       v-else-if="media.selected === 'video'"
       :qbrick="media.video"
+      :id="id"
       class="quiz__image"
     />
     <h2
