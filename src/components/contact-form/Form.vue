@@ -53,6 +53,7 @@ import Textarea from "./inputs/Textarea.vue";
 import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
+import Datepicker from "./inputs/Datepicker.vue";
 
 export default {
   name: "Form",
@@ -66,7 +67,8 @@ export default {
     Textarea,
     Checkbox,
     Attachment,
-    Radio
+    Radio,
+    Datepicker
   },
   props: {
     id: {

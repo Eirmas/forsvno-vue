@@ -356,6 +356,59 @@ export default {
               cols: 12
             }
           ]
+        },
+        {
+          receiver: {
+            text: "Test",
+            value: "test@mil.no"
+          },
+          fields: [
+            {
+              component: "Input",
+              label: "Personnummer",
+              placeholder: "Eks. 00000000",
+              validations: [
+                {
+                  name: "minLength",
+                  text: "Lengden på verdien er for kort",
+                  value: 11
+                },
+                {
+                  name: "maxLength",
+                  text: "Lengden på verdien er for lang",
+                  value: 11
+                },
+                {
+                  name: "pnum",
+                  text: "Personnummeret er ikke korrekt",
+                  value: 0
+                }
+              ],
+              settings: {
+                cc: "pnum",
+                required: false,
+                minLength: 11,
+                maxLength: 11
+              },
+              cols: 12
+            },
+            {
+              component: "Datepicker",
+              label: "Dato",
+              validations: [
+                {
+                  name: "required",
+                  text: "Dette feltet er obligatorisk",
+                  value: 0
+                }
+              ],
+              settings: {
+                cc: "date",
+                required: true
+              },
+              cols: 12
+            }
+          ]
         }
       ]
     }

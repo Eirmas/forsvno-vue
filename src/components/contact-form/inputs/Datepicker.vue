@@ -6,12 +6,10 @@
         <input
           v-model="field.value"
           :name="field.name"
-          :placeholder="field.placeholder"
           :disabled="field.disabled || field.form.disabled"
           :class="(!field.valid && field.form.displayErrors) ? 'contact-form__error': ''"
           :autocomplete="field.settings.cc || false"
-          :maxlength="field.settings.maxLength || false"
-          type="text"
+          type="date"
           @focus="setActive"
         >
         <div
@@ -28,12 +26,6 @@
               <span>{{ error.text }}</span>
             </div>
           </template>
-          <span
-            v-if="field.settings.maxLength && field.value"
-            class="contact-form__letter-counter"
-          >
-            {{ field.value.length }} / {{ field.settings.maxLength }}
-          </span>
         </div>
     </div>
 </template>
@@ -42,7 +34,7 @@ import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
 
 export default {
-  name: "Input",
+  name: "Datepicker",
   mixins: [ControlMixin],
   props: {
     field: {
