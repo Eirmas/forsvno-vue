@@ -14,36 +14,22 @@
           class="promocard-horizontal__navigation-left"
           @click="prevCard"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 27 18"
-            fill="none"
+          <img
+            v-if="icons.arrow"
+            :src="icons.arrow"
           >
-            <path
-              d="M0 9.34351H24.5111M17.1553 1.98254L24.7888 9.3435 17.1553 16.7044"
-              stroke="#191B21"
-              stroke-width="2"
-              stroke-miterlimit="10"
-            />
-          </svg>
+          <p v-else>Forrige</p>
         </button>
         <button
           class="promocard-horizontal__navigation-right"
           data-target="1"
           @click="nextCard"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 27 18"
-            fill="none"
+          <img
+            v-if="icons.arrow"
+            :src="icons.arrow"
           >
-            <path
-              d="M0 9.34351H24.5111M17.1553 1.98254L24.7888 9.3435 17.1553 16.7044"
-              stroke="#191B21"
-              stroke-width="2"
-              stroke-miterlimit="10"
-            />
-          </svg>
+          <p v-else>Neste</p>
         </button>
       </div>
     </div>
@@ -63,9 +49,9 @@
         @touchend="onMouseUp"
       >
         <Card :card="items[items.length - 2]" aria-hidden="true"/>
-        <Card :card="items[items.length - 1]" aria-hidden="true"/>
+        <Card :card="items[items.length - 1]" aria-hidden="false"/>
         <Card v-for="(item, i) in items" :card="item" :key="i" aria-hidden="false"/>
-        <Card :card="items[0]" aria-hidden="true"/>
+        <Card :card="items[0]" aria-hidden="false"/>
         <Card :card="items[1]" aria-hidden="true"/>
       </ol>
     </div>
@@ -149,6 +135,10 @@ export default {
     title: {
       type: String,
       default: ""
+    },
+    icons: {
+      type: [Object, Boolean],
+      default: false
     }
   },
   methods: {

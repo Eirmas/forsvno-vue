@@ -224,7 +224,12 @@ export default {
   },
   mounted() {
     if (this.autoplay) {
-      this.play();
+      try {
+        this.$refs.video.play();
+      } catch (err) {
+        this.isMuted = true;
+        this.play();
+      }
     }
     /**
      * Created video event listeners

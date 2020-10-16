@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div class="contact-form__form-inner col-md-12">
-      <Select :field="emailField" :value="currentSchema"/>
+    <div
+      v-if="forms.length > 1"
+      class="contact-form__form-inner col-md-12"
+    >
+      <Select
+        :field="emailField"
+        :value="currentSchema"
+      />
     </div>
     <Form
       :id="id"
@@ -10,6 +16,8 @@
       :fields="form.fields"
       :form="controller"
       :reciever="((this.form) ? this.form.receiver.value : '')"
+      :site-key="siteKey"
+      :server="server"
     />
   </div>
 </template>
@@ -46,6 +54,14 @@ export default {
     forms: {
       type: [Array, Boolean],
       default: false
+    },
+    siteKey: {
+      type: String,
+      default: ""
+    },
+    server: {
+      type: String,
+      default: ""
     }
   },
   created() {

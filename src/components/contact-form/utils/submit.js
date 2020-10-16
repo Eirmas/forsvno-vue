@@ -1,22 +1,10 @@
 import axios from "axios";
 
-export function submit(url, data, config) {
-  console.log(data);
-  // This needs some work, just used for testing
+export function submit(url, data, config = {}) {
   return new Promise((resolve, reject) => {
-    const fd = new FormData();
-    data.forEach((control) => {
-      if (control.component === "Attachment") {
-        console.log("isArray");
-        control.value.forEach((fileList) => {
-          fileList.forEach((file) => {
-            console.log(file);
-            fd.append(control.component, file);
-          });
-        });
-      } else {
-        fd.append(control.component, control.value);
-      }
+    const fd = new FormData([...data]);
+    data.forEach((control, i) => {
+      fd.append(`Input-${i}`, JSON.stringify(control));
     });
     axios.post(url, fd, {
       headers: {
