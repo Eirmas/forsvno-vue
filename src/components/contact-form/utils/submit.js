@@ -7,6 +7,7 @@ export function submit(url, data, config = {}) {
       fd.append(`Input-${i}`, JSON.stringify(control));
     });
     console.log(fd); */
+    console.log(data);
     const fd = new FormData();
     data.controls.forEach((control) => {
       if (control.component === "Attachment") {
@@ -21,11 +22,12 @@ export function submit(url, data, config = {}) {
         fd.append(control.component, control.value);
       }
     });
+    fd.append("receiver", data.receiver);
     fd.append("token", data.token);
     axios.post(url, fd, {
-      headers: {
+      /* headers: {
         "Content-Type": "multipart/form-data"
-      },
+      }, */
       ...config
     })
       .then((response) => {

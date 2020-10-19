@@ -83,7 +83,7 @@ export default {
       type: [Array, Boolean],
       default: false
     },
-    reciever: {
+    receiver: {
       type: [String, Boolean],
       default: false
     },
@@ -114,7 +114,7 @@ export default {
         } else {
           const token = await this.$recaptcha("login");
           if (token && this.server) {
-            submit(this.server, { controls: this.controls, token: token })
+            submit(this.server, { receiver: this.receiver, controls: this.controls, token: token })
               .then(() => {
                 this.form.disabled = true;
                 this.buttonText = "Takk! Ditt skjema er nå sendt";
