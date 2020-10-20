@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Datepicker.vue
+ *
+-->
 <template>
     <div
       class="contact-form__form-element"
@@ -32,11 +42,43 @@
 <script>
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
-
+/**
+ * Input - type datepicker
+ */
+/**
+ *
+ *
+ *   Experimental class
+ *   Not production ready
+ *
+ *
+ *
+ *
+ *
+ */
 export default {
   name: "Datepicker",
   mixins: [ControlMixin],
   props: {
+    /**
+     * This field
+     *
+     * @values {
+     *     component: "Datepicker",
+     *     label: string,
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     */
     field: {
       type: Object,
       default: () => new FormControl({})

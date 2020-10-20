@@ -1,13 +1,19 @@
+/**
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * This file contains the submit function used in Form.vue
+ *
+ * */
+
 import axios from "axios";
 
 export function submit(url, data, config = {}) {
   return new Promise((resolve, reject) => {
-    /* const fd = new FormData([...data]);
-    data.forEach((control, i) => {
-      fd.append(`Input-${i}`, JSON.stringify(control));
-    });
-    console.log(fd); */
     const fd = new FormData();
+
     data.controls.forEach((control) => {
       if (control.component === "Attachment") {
         control.value.forEach((file) => {
@@ -19,8 +25,10 @@ export function submit(url, data, config = {}) {
         fd.append(control.component, control.value);
       }
     });
+
     fd.append("receiver", data.receiver);
     fd.append("token", data.token);
+
     axios.post(url, fd, {
       headers: {
         "Content-Type": "multipart/form-data"

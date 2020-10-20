@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Controller.vue
+ *
+-->
 <template>
   <div>
     <div
@@ -150,6 +160,8 @@ export default {
   computed: {
     /**
      * Recreates the form data
+     *
+     * @returns array
      */
     processedForms: function () {
       return this.forms.map((form) => ({
@@ -179,12 +191,22 @@ export default {
         }))
       }));
     },
+    /**
+     * Controls the current visible form
+     *
+     * @returns object
+     */
     form: function () {
       if (this.processedForms[this.currentSchema.index]) {
         return this.processedForms[this.currentSchema.index];
       }
       return null;
     },
+    /**
+     * Main select field - user can select desired form/receiver
+     *
+     * @returns object - FormControl
+     */
     emailField: function () {
       return new FormControl({
         id: `contact-form__${this.id}`,

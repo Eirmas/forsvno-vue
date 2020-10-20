@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Checkbox.vue
+ *
+-->
 <template>
     <div
       class="contact-form__form-element"
@@ -45,19 +55,57 @@
 <script>
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
-
+/**
+ * Input - type checkboxes
+ */
 export default {
   name: "Checkbox",
   mixins: [ControlMixin],
   props: {
+    /**
+     * This field
+     *
+     * @values {
+     *     component: "Checkbox",
+     *     label: string,
+     *     options: [
+     *       {
+     *         text: string,
+     *         value: string
+     *       }
+     *     ],
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       multiple: true, if this is false, then Radio component is selected
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     */
     field: {
       type: Object,
       default: () => new FormControl({})
     },
+    /**
+     * Determines if this component is dependant in other components
+     * Ex. The Select component includes this component if "multiple" setting
+     * is selected
+     *
+     * @values boolean
+     */
     standalone: {
       type: Boolean,
       default: true
     },
+    /**
+     * Search string used when not standalone
+     */
     searchTerm: {
       type: String,
       default: null
@@ -68,6 +116,11 @@ export default {
     this.validate();
   },
   computed: {
+    /**
+     * Filters options based on searchTerm
+     *
+     * @returns array
+     */
     options: function () {
       if (this.searchTerm === null) {
         return this.field.options;
@@ -76,6 +129,10 @@ export default {
     }
   },
   methods: {
+    /**
+     * Updates checked status of boxes when picked status changes in FormControl class.
+     * Is triggered by the change in field.options.
+     */
     updateValues: function () {
       this.field.value = this.field.options.filter((opt) => opt.picked).map((opt) => opt.value);
     }

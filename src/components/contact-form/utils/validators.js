@@ -1,3 +1,13 @@
+/**
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * This file contains the all available validators for inputs
+ *
+ * */
+
 export const isEmptyInputValue = (value) => value == null || value === "" || value.length === 0;
 
 const EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

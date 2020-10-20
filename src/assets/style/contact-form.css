@@ -36,7 +36,6 @@
 .contact-form__form-element input:disabled, .contact-form__form-element textarea:disabled {
     background: #F5F7F8;
     color: #191B21;
-    
 }
 .contact-form__form-element button {
     width: 100%;
@@ -293,6 +292,7 @@
 }
 .contact-form__attachment-wrapper .contact-form__attachment-file-input input:disabled ~ span{
     background: #F5F7F8;
+    cursor: default;
 }
 .contact-form__attachment-wrapper .contact-form__attachment-file-input span {
     display: block;

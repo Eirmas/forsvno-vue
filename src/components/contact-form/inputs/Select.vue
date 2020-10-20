@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Select.vue
+ *
+-->
 <template>
   <div
     class="contact-form__form-element"
@@ -102,7 +112,9 @@ import ClickOutside from "vue-click-outside";
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
 import Checkbox from "./Checkbox.vue";
-
+/**
+ * Input - type dropdown select
+ */
 export default {
   name: "Select",
   components: {
@@ -114,22 +126,66 @@ export default {
     searchTerm: null
   }),
   props: {
+    /**
+     * This field
+     *
+     * @values {
+     *     component: "Select",
+     *     label: string,
+     *     options: [
+     *       {
+     *         text: string,
+     *         value: string
+     *       }
+     *     ],
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       multiple: boolean
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     */
     field: {
       type: Object,
       default: () => new FormControl({})
     },
+    /**
+     * Current value of field if "multiple" setting is not set
+     *
+     * @values {
+     *  index: integer
+     * } | boolean
+     */
     value: {
       type: [Object, Boolean],
       default: false
     }
   },
   computed: {
+    /**
+     * Computes the available options if searching is enabled
+     *
+     * @returns array
+     */
     options: function () {
       if (this.searchTerm === null) {
         return this.field.options;
       }
       return this.field.options.filter((option) => option.text.includes(this.searchTerm) || option.text.includes(this.searchTerm));
     },
+    /**
+     * Computes the text heading for selected element(s)
+     * Can be either "text, text, text", "single text", placeholder or "Velg"
+     *
+     * @returns string
+     */
     valueText: function () {
       if (this.field.options.filter((e) => e.picked).length !== 0) {
         return this.field.options.filter((e) => e.picked).map((e) => e.text).join(", ");
@@ -145,6 +201,14 @@ export default {
     this.validate();
   },
   methods: {
+    /**
+     * Handles select event
+     *
+     * @param option: object {
+     *      text: string,
+     *      value: string
+     * }
+     */
     selectOption(option) {
       this.field.options.forEach((opt) => {
         this.field.options[this.field.options.indexOf(opt)].picked = opt === option;
@@ -157,6 +221,9 @@ export default {
       this.$forceUpdate();
       this.hide();
     },
+    /**
+     * Hides dropdown menu
+     */
     hide() {
       this.optionsOpen = false;
     }

@@ -1,3 +1,12 @@
+/* *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * This file contains all data classes used in the contact-form component
+ *
+ * */
 export function FormControl({
   id,
   form,

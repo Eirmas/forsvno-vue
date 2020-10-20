@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Radio.vue
+ *
+-->
 <template>
     <div
       class="contact-form__form-element"
@@ -43,11 +53,39 @@
 <script>
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
-
+/**
+ * Input - type radio buttons
+ */
 export default {
   name: "Radio",
   mixins: [ControlMixin],
   props: {
+    /**
+     * This field
+     *
+     * @values {
+     *     component: "Radio",
+     *     label: string,
+     *     options: [
+     *       {
+     *         text: string,
+     *         value: string
+     *       }
+     *     ],
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       multiple: false, if this is true, then Checkbox component is selected
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     */
     field: {
       type: Object,
       default: () => new FormControl({})

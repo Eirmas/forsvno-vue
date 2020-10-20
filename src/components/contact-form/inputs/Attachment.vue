@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Attachment.vue
+ *
+-->
 <template>
     <div
       class="contact-form__form-element"
@@ -30,6 +40,7 @@
             <div
               v-for="(file, i) in field.value"
               :key="i"
+              class="contact-form__attachment-list"
             >
               <button
                 @click="!(field.disabled || field.form.disabled) ? removeFile(file.name) : null"
@@ -62,11 +73,34 @@
 <script>
 import { FormControl } from "../utils/formControl.es6";
 import { ControlMixin } from "../mixin/control";
-
+/**
+ * Input - type file/attachment
+ */
 export default {
   name: "Attachment",
   mixins: [ControlMixin],
   props: {
+    /**
+     * This field
+     *
+     * @values {
+     *     component: "Attachment",
+     *     label: string,
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       multiple: boolean,
+     *       accept: string,
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     */
     field: {
       type: Object,
       default: () => new FormControl({})
@@ -76,11 +110,19 @@ export default {
     this.validate();
   },
   computed: {
+    /**
+     * Computes the size of all selected files
+     */
     totalSize: function () {
       return this.formatBytes(this.field.value.reduce((a, b) => a + b.size, 0));
     }
   },
   methods: {
+    /**
+     * Adds file to value
+     *
+     * @param e: Event
+     */
     addFiles(e) {
       if (e.target.files) {
         e.target.files.forEach((file) => {
@@ -90,12 +132,24 @@ export default {
         });
       }
     },
+    /**
+     * Removes file from value
+     *
+     * @param name: string
+     */
     removeFile(name) {
       const file = this.field.value.find((x) => x.name === name);
       if (file) {
         this.field.value.splice(this.field.value.indexOf(file), 1);
       }
     },
+    /**
+     * Formats bytes to more readable format
+     *
+     * @param bytes: integer
+     * @param digits: integer = 2
+     * @returns string
+     */
     formatBytes(bytes, digits = 2) {
       if (bytes === 0) return "0 Bytes";
       const k = 1024;

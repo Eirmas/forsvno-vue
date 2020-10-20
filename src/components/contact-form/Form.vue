@@ -1,3 +1,13 @@
+<!--
+ *
+ * Created:   01.10.2020
+ *
+ * (c) Copyright Forsvaret / Norwegian Armed Forces
+ *
+ *
+ * Form.vue
+ *
+-->
 <template>
     <form
       name="contact-form"
@@ -54,7 +64,9 @@ import Checkbox from "./inputs/Checkbox.vue";
 import Attachment from "./inputs/Attachment.vue";
 import Radio from "./inputs/Radio.vue";
 import Datepicker from "./inputs/Datepicker.vue";
-
+/**
+ * Form component - child of controller
+ */
 export default {
   name: "Form",
   data: () => ({
@@ -71,41 +83,106 @@ export default {
     Datepicker
   },
   props: {
+    /**
+     * id for the component
+     *
+     * @values string
+     */
     id: {
       type: [String, Boolean],
       default: false
     },
+    /**
+     * Object that contains all icons for the forms
+     *
+     * @values {
+     *  caret: string,
+     *  close: string
+     * }
+     */
     icons: {
       type: [Object, Boolean],
       default: false
     },
+    /**
+     * Fields in form
+     *
+     * @values [
+     *   {
+     *     component: string,
+     *     label: string,
+     *     options: [
+     *       {
+     *         text: string,
+     *         value: string
+     *       }
+     *     ],
+     *     validations: [
+     *       {
+     *         name: string,
+     *         text: string,
+     *         value: number
+     *       }
+     *     ],
+     *     settings: {
+     *       multiple: boolean,
+     *       required: boolean
+     *     },
+     *     cols: string
+     *   }
+     * ] | boolean
+     */
     fields: {
       type: [Array, Boolean],
       default: false
     },
+    /**
+     * Selected receiver
+     *
+     * @values string | boolean
+     */
     receiver: {
       type: [String, Boolean],
       default: false
     },
+    /**
+     * Current form
+     *
+     * @values Object - Form()
+     */
     form: {
       type: Object,
       default: () => new Form({})
     },
+    /**
+     * Recaptcha Site Key
+     *
+     * @values string
+     */
     siteKey: {
       type: String,
       default: ""
     },
+    /**
+     * Server url for form submittal
+     *
+     * @values string
+     */
     server: {
       type: String,
       default: ""
     }
   },
   created() {
+    // Initialize recaptcha library and hide the badge
     Vue.use(VueReCaptcha, { siteKey: this.siteKey });
     this.$recaptchaLoaded().then(() => this.$recaptchaInstance.hideBadge());
     this.mapControls();
   },
   methods: {
+    /**
+     * Handles the process for submitting the form
+     */
     handleSubmit() {
       this.updateControls();
       this.$nextTick(async () => {
@@ -130,12 +207,18 @@ export default {
         }
       });
     },
+    /**
+     * Updates all fields when receiver is changed
+     */
     updateControls() {
       this.controls = this.controls.map((field) => new FormControl({
         ...field,
         form: this.form
       }));
     },
+    /**
+     * Maps field data objects into FormControl objects
+     */
     mapControls() {
       this.controls = this.fields && this.fields.map(
         (field, index) => new FormControl({
