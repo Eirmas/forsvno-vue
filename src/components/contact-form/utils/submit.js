@@ -7,16 +7,13 @@ export function submit(url, data, config = {}) {
       fd.append(`Input-${i}`, JSON.stringify(control));
     });
     console.log(fd); */
-    console.log(data);
     const fd = new FormData();
     data.controls.forEach((control) => {
       if (control.component === "Attachment") {
-        console.log("isArray");
-        control.value.forEach((fileList) => {
-          fileList.forEach((file) => {
-            console.log(file);
-            fd.append(control.component, file);
-          });
+        control.value.forEach((file) => {
+          const name = file.name.replace(".", "@");
+          fd.append(`Attachment-${name}-stream`, file);
+          fd.append(`Attachment-${name}`, file.type);
         });
       } else {
         fd.append(control.component, control.value);
@@ -25,9 +22,9 @@ export function submit(url, data, config = {}) {
     fd.append("receiver", data.receiver);
     fd.append("token", data.token);
     axios.post(url, fd, {
-      /* headers: {
+      headers: {
         "Content-Type": "multipart/form-data"
-      }, */
+      },
       ...config
     })
       .then((response) => {
