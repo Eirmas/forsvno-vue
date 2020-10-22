@@ -13,6 +13,7 @@
 
 <script>
 import ContactForm from "./components/contact-form/Controller.vue";
+import { minLength } from "./components/contact-form/utils/validators";
 
 export default {
   name: "App",
@@ -93,24 +94,19 @@ export default {
               cols: 12
             },
             {
-              component: "Textarea",
-              label: "Kommentar",
-              placeholder: "Skriv om saken din her",
+              component: "Datepicker",
+              label: "Dato",
               validations: [
                 {
                   name: "required",
                   text: "Dette feltet er obligatorisk",
                   value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 2500
                 }
               ],
               settings: {
                 required: true,
-                maxLength: 2500
+                minLength: 2020,
+                maxLength: 2050
               },
               cols: 12
             }
@@ -130,11 +126,18 @@ export default {
                   name: "required",
                   text: "Dette feltet er obligatorisk",
                   value: 0
+                },
+                {
+                  name: "date",
+                  text: "Datoen er feil",
+                  value: 0
                 }
               ],
               settings: {
                 cc: "date",
-                required: true
+                required: true,
+                minLength: 2000,
+                maxLength: 2050
               },
               cols: 12
             }

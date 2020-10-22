@@ -190,7 +190,7 @@ export default {
           this.form.displayErrors = true;
         } else {
           const token = await this.$recaptcha("login");
-          if (/* token && this.server */ true) {
+          if (token && this.server) {
             submit(this.server, { receiver: this.receiver, controls: this.controls, token: token })
               .then(() => {
                 this.form.disabled = true;

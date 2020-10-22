@@ -15,7 +15,7 @@
         <label>{{ field.label }} {{ field.settings.required ? "*" : "" }}</label>
         <div class="contact-form__datepicker">
           <input
-            v-model="day"
+            v-model="date.day"
             :id="`${field.id}-day`"
             :aria-next="`${field.id}-month`"
             :disabled="field.disabled || field.form.disabled"
@@ -28,10 +28,11 @@
             placeholder="dd"
             min="1"
             max="31"
+            aria-maxlength="2"
           >
           <p>.</p>
           <input
-            v-model="month"
+            v-model="date.month"
             :id="`${field.id}-month`"
             :aria-next="`${field.id}-year`"
             :aria-prev="`${field.id}-day`"
@@ -45,10 +46,11 @@
             placeholder="mm"
             min="1"
             max="12"
+            aria-maxlength="2"
           >
           <p>.</p>
           <input
-            v-model="year"
+            v-model="date.year"
             :id="`${field.id}-year`"
             :aria-prev="`${field.id}-month`"
             :disabled="field.disabled || field.form.disabled"
@@ -59,8 +61,7 @@
             @keyup="keyup"
             class="contact-form__datepicker-year"
             placeholder="yyyy"
-            min="1"
-            max="2100"
+            aria-maxlength="4"
           >
           <input
             v-model="field.value"
@@ -109,9 +110,11 @@ export default {
   name: "Datepicker",
   mixins: [ControlMixin],
   data: () => ({
-    day: null,
-    month: null,
-    year: null
+    date: {
+      day: null,
+      month: null,
+      year: null
+    }
   }),
   props: {
     /**
@@ -148,53 +151,64 @@ export default {
     }
   },
   created() {
+    if (this.field.value && typeof this.field.value.split === "function") {
+      const [year, month, day] = this.field.value.split("/");
+      this.date = {
+        day: day,
+        month: month,
+        year: year
+      };
+    }
     this.validate();
   },
   methods: {
     keyup(e) {
       const value = e.target.value.toString().length;
-      const max = e.target.max.toString().length;
-      const min = e.target.min.toString().length;
+      const max = parseInt(e.target.getAttribute("aria-maxlength"));
       if (value === max) {
-        document.getElementById(e.target.getAttribute("aria-next")).focus();
-      } else if (value < min && e.code === "Backspace") {
-        document.getElementById(e.target.getAttribute("aria-prev")).focus();
+        this.focus(e.target.getAttribute("aria-next"));
+      } else if (value === 0 && e.code === "Backspace") {
+        this.focus(e.target.getAttribute("aria-prev"));
       }
     },
     sanitizeDate(value, min, max, year = false) {
-      let newValue = value.toString();
+      let string = (value || "").toString();
       const maxlength = max.toString().length;
 
-      if (year && newValue.length < maxlength) {
-        return newValue;
+      if (year && string.length < maxlength) {
+        return string;
       }
 
-      newValue = newValue.slice(0, maxlength);
+      string = string.slice(0, maxlength);
 
-      if (newValue > max) {
-        newValue = year ? max : newValue.slice(0, maxlength - 1);
-      } else if (newValue < min - 1) {
-        newValue = min;
+      if (value > max) {
+        string = year ? max : string.slice(0, maxlength - 1);
+      } else if (value < min - 1) {
+        string = min;
       }
-      return newValue;
+      return string;
+    },
+    getDaysInMonth(month, year) {
+      return new Date(year, month, 0).getDate();
+    },
+    focus(id) {
+      const e = document.getElementById(id);
+      if (e) e.focus();
     }
   },
   watch: {
-    day: function () {
-      this.day = this.sanitizeDate(this.day, 1, 31);
+    date: {
+      handler() {
+        const { day, month, year } = this.date;
+        this.date.month = this.sanitizeDate(month, 1, 12);
+        this.date.year = this.sanitizeDate(year, this.field.settings.minLength || 1800, this.field.settings.maxLength || 2100, true);
+        this.date.day = this.sanitizeDate(day, 1, 31);
 
-      this.field.value = `${this.year}/${this.month}/${this.day}`;
-    },
-    month: function () {
-      this.month = this.sanitizeDate(this.month, 1, 12);
-      this.field.value = `${this.year}/${this.month}/${this.day}`;
-    },
-    year: function () {
-      this.year = this.sanitizeDate(this.year, 1800, 2100, true);
-      this.field.value = `${this.year}/${this.month}/${this.day}`;
-    },
-    "field.value": function () {
-      console.log(this.field.value);
+        const days = this.getDaysInMonth(month, year);
+        if (day > days && year.toString().length >= 4) this.date.day = days;
+        this.field.value = `${year}/${month}/${day}`;
+      },
+      deep: true
     }
   }
 };

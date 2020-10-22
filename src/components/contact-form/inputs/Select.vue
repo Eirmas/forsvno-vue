@@ -219,15 +219,15 @@ export default {
      * }
      */
     selectOption(option) {
-      this.field.options.forEach((opt) => {
-        this.field.options[this.field.options.indexOf(opt)].picked = opt === option;
-      });
       if (this.field.isEmail && this.value) {
         this.value.index = option.value;
+      } else {
+        this.field.options.forEach((opt) => {
+          this.field.options[this.field.options.indexOf(opt)].picked = opt === option;
+        });
       }
       this.searchTerm = null;
       this.field.value = option;
-      this.$forceUpdate();
       this.hide();
     },
     /**

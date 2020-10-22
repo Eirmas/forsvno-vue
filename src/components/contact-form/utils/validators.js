@@ -118,6 +118,12 @@ export const pattern = (pat) => {
   };
 };
 
+export const date = () => (control) => {
+  const d = new Date(control.value);
+  // eslint-disable-next-line no-restricted-globals
+  return isNaN(d.getTime()) ? { date: control.value } : null;
+};
+
 export default {
   required,
   min,
