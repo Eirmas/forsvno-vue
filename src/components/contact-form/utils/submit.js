@@ -18,17 +18,17 @@ export function submit(url, data, config = {}) {
       if (control.component === "Attachment") {
         control.value.forEach((file) => {
           const name = file.name.replace(".", "@");
-          fd.append(`Attachment-${name}-stream`, file);
-          fd.append(`Attachment-${name}`, file.type);
+          fd.append(`attachment-${name}-stream`, file);
+          fd.append(`attachment-${name}`, file.type);
         });
       } else {
-        fd.append(control.component, control.value);
+        fd.append(control.id, JSON.stringify({ value: control.value, text: control.label }));
       }
     });
 
     fd.append("receiver", data.receiver);
     fd.append("token", data.token);
-
+    console.log(data);
     axios.post(url, fd, {
       headers: {
         "Content-Type": "multipart/form-data"

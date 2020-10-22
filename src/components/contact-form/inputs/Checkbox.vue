@@ -63,11 +63,20 @@ export default {
   mixins: [ControlMixin],
   props: {
     /**
-     * This field
+     * Object that contains all data for the current field
      *
      * @values {
      *     component: "Checkbox",
+     *     form: object,                          // Form()
+     *     id: string,                            // `contact-form__${id}-${name}`
+     *     name: string,                          // `contact-form__input-${id}-${name}`;
      *     label: string,
+     *     isEmail: boolean,
+     *     value: string,
+     *     placeholder: string,
+     *     disabled: boolean,
+     *     errors: array,
+     *     valid: boolean,
      *     options: [
      *       {
      *         text: string,
@@ -85,7 +94,7 @@ export default {
      *       multiple: true, if this is false, then Radio component is selected
      *       required: boolean
      *     },
-     *     cols: string
+     *     cols: integer default 12
      *   }
      */
     field: {

@@ -57,11 +57,20 @@ export default {
   mixins: [ControlMixin],
   props: {
     /**
-     * This field
+     * Object that contains all data for the current field
      *
      * @values {
      *     component: "Textarea",
+     *     form: object,                          // Form()
+     *     id: string,                            // `contact-form__${id}-${name}`
+     *     name: string,                          // `contact-form__input-${id}-${name}`;
      *     label: string,
+     *     isEmail: boolean,
+     *     value: string,
+     *     placeholder: string,
+     *     disabled: boolean,
+     *     errors: array,
+     *     valid: boolean,
      *     validations: [
      *       {
      *         name: string,
@@ -72,7 +81,7 @@ export default {
      *     settings: {
      *       required: boolean
      *     },
-     *     cols: string
+     *     cols: integer default 12
      *   }
      */
     field: {

@@ -33,248 +33,7 @@ export default {
             text: "FMS",
             value: "desk@fms.mil.no"
           },
-          fields: [
-            {
-              component: "Select",
-              label: "Hvilke avdelinger liker du?",
-              options: [
-                {
-                  text: "Hæren",
-                  value: "army"
-                },
-                {
-                  text: "Luftforsvaret",
-                  value: "airforce"
-                },
-                {
-                  text: "Sjøforsvaret",
-                  value: "marine"
-                }
-              ],
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                }
-              ],
-              settings: {
-                multiple: true,
-                required: true
-              },
-              cols: "12"
-            },
-            {
-              component: "Input",
-              label: "For- og etternavn",
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 100
-                },
-                {
-                  name: "minLength",
-                  text: "Lengden på verdien er for kort",
-                  value: 2
-                }
-              ],
-              settings: {
-                cc: "given-name",
-                required: true,
-                maxLength: 100,
-                minLength: 2
-              },
-              cols: "6"
-            },
-            {
-              component: "Input",
-              label: "Etternavn",
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 100
-                },
-                {
-                  name: "minLength",
-                  text: "Lengden på verdien er for kort",
-                  value: 2
-                }
-              ],
-              settings: {
-                cc: "family-name",
-                required: true,
-                maxLength: 100,
-                minLength: 2
-              },
-              cols: "6"
-            },
-            {
-              component: "Input",
-              label: "Personnummer",
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                },
-                {
-                  name: "pnum",
-                  text: "Personnummeret er feil",
-                  value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 11
-                },
-                {
-                  name: "minLength",
-                  text: "Lengden på verdien er for kort",
-                  value: 11
-                }
-              ],
-              settings: {
-                cc: "off",
-                required: true
-              },
-              cols: "12"
-            },
-            {
-              component: "Textarea",
-              label: "Melding",
-              placeholder: "Skriv om din erfaring så langt i forsvaret",
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 25
-                }
-              ],
-              settings: {
-                required: true,
-                maxLength: 25
-              },
-              cols: "12"
-            },
-            {
-              component: "Radio",
-              label: "Hvor lenge har du vært her?",
-              options: [
-                {
-                  text: "Mindre enn 1 år",
-                  value: "0"
-                },
-                {
-                  text: "1-3 år",
-                  value: "1"
-                },
-                {
-                  text: "4-6 år",
-                  value: "2"
-                },
-                {
-                  text: "7-10 år",
-                  value: "3"
-                },
-                {
-                  text: "Mer enn 10 år",
-                  value: "4"
-                }
-              ],
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                }
-              ],
-              settings: {
-                multiple: false,
-                required: true
-              },
-              cols: "6"
-            },
-            {
-              component: "Checkbox",
-              label: "Hvem var sjef mens du var her?",
-              options: [
-                {
-                  text: "Michael Bruteig",
-                  value: "Michael Bruteig"
-                },
-                {
-                  text: "Anne Hilde Hagen",
-                  value: "Anne Hilde Hagen"
-                },
-                {
-                  text: "Andre",
-                  value: "Andre"
-                }
-              ],
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                }
-              ],
-              settings: {
-                multiple: true,
-                required: true
-              },
-              cols: "6"
-            },
-            {
-              component: "Attachment",
-              label: "Legg til et fint bilde fra din tid hos oss",
-              options: [
-
-              ],
-              validations: [
-                {
-                  name: "required",
-                  text: "Dette feltet er obligatorisk",
-                  value: 0
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 1
-                },
-                {
-                  name: "maxSize",
-                  text: "Størrelsen er for stor",
-                  value: 104857600
-                }
-              ],
-              settings: {
-                maxSize: 104857600,
-                required: true,
-                accept: "image/*"
-              },
-              cols: "12",
-              value: [
-
-              ]
-            }
-          ]
+          fields: []
         },
         {
           receiver: {
@@ -364,35 +123,6 @@ export default {
           },
           fields: [
             {
-              component: "Input",
-              label: "Personnummer",
-              placeholder: "Eks. 00000000",
-              validations: [
-                {
-                  name: "minLength",
-                  text: "Lengden på verdien er for kort",
-                  value: 11
-                },
-                {
-                  name: "maxLength",
-                  text: "Lengden på verdien er for lang",
-                  value: 11
-                },
-                {
-                  name: "pnum",
-                  text: "Personnummeret er ikke korrekt",
-                  value: 0
-                }
-              ],
-              settings: {
-                cc: "pnum",
-                required: false,
-                minLength: 11,
-                maxLength: 11
-              },
-              cols: 12
-            },
-            {
               component: "Datepicker",
               label: "Dato",
               validations: [
@@ -412,6 +142,46 @@ export default {
         }
       ]
     }
-  })
+  }),
+  created() {
+    const components = ["Input", "Attachment", "Checkbox", "Datepicker", "Radio", "Select", "Textarea"];
+    for (let i = 0; i < 5; i++) {
+      const c = components[parseInt(Math.floor(Math.random() * components.length))];
+      console.log(c);
+      this.contactForm.forms[0].fields.push({
+        component: c,
+        label: `${c}?`,
+        options: [
+          {
+            text: "Hæren",
+            value: "army"
+          },
+          {
+            text: "Luftforsvaret",
+            value: "airforce"
+          },
+          {
+            text: "Sjøforsvaret",
+            value: "marine"
+          }
+        ],
+        validations: [
+          {
+            name: "required",
+            text: "Dette feltet er obligatorisk",
+            value: 0
+          }
+        ],
+        settings: {
+          multiple: true,
+          required: true
+        },
+        cols: (Math.ceil(Math.random() * 2) * 6).toString(),
+        value: []
+
+      });
+    }
+  }
 };
+
 </script>

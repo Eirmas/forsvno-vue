@@ -24,7 +24,7 @@
 
             <input
               v-model="field.value"
-              :id="option.value"
+              :id="`${field.name}-radio-${i}`"
               :value="option.value"
               :name="field.name"
               :disabled="field.disabled || field.form.disabled"
@@ -61,11 +61,20 @@ export default {
   mixins: [ControlMixin],
   props: {
     /**
-     * This field
+     * Object that contains all data for the current field
      *
      * @values {
      *     component: "Radio",
+     *     form: object,                          // Form()
+     *     id: string,                            // `contact-form__${id}-${name}`
+     *     name: string,                          // `contact-form__input-${id}-${name}`;
      *     label: string,
+     *     isEmail: boolean,
+     *     value: string,
+     *     placeholder: string,
+     *     disabled: boolean,
+     *     errors: array,
+     *     valid: boolean,
      *     options: [
      *       {
      *         text: string,
@@ -83,7 +92,7 @@ export default {
      *       multiple: false, if this is true, then Checkbox component is selected
      *       required: boolean
      *     },
-     *     cols: string
+     *     cols: integer default 12
      *   }
      */
     field: {

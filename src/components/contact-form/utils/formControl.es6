@@ -11,7 +11,6 @@ export function FormControl({
   id,
   form,
   isEmail = false,
-  type = null,
   component = null,
   value = null,
   validations = [],
@@ -29,7 +28,6 @@ export function FormControl({
   this.id = `contact-form__${id}-${name}`;
   this.isEmail = isEmail;
   this.component = component;
-  this.type = type;
   this.value = value;
   this.validations = validations;
   this.settings = settings;
