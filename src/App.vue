@@ -1,5 +1,10 @@
 <template>
   <main>
+    <div class="podcast__wrapper">
+      <Podcast
+        title="Podcast"
+      />
+    </div>
     <div class="promocard-horizontal__wrapper">
       <Promocard
         title="Promocard Horizontal"
@@ -75,6 +80,7 @@ import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
+import Podcast from "./components/podcast/Player.vue";
 
 export default {
   name: "App",
@@ -83,7 +89,8 @@ export default {
     Quiz,
     Stepper,
     Diagram,
-    Promocard
+    Promocard,
+    Podcast
   },
   data: () => ({
     promocards: [
