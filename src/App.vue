@@ -80,7 +80,7 @@ import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
-import Podcast from "./components/podcast/Player.vue";
+import Podcast from "./components/podcast/Podcast.vue";
 
 export default {
   name: "App",
@@ -93,6 +93,33 @@ export default {
     Podcast
   },
   data: () => ({
+    quiz: {
+      questions: [
+        {
+          text: "Hvem blir USAs neste president?",
+          desc: "Hvem",
+          isImageLeft: false,
+          options: [
+            {
+              text: "Donald Trump",
+              isCorrect: false
+            },
+            {
+              text: "Joe Biden",
+              isCorrect: false
+            },
+            {
+              text: "Usikkert",
+              isCorrect: true
+            }
+          ]
+        }
+      ],
+      endText: "You did it!",
+      title: "Amerikanske presidenter",
+      subTitle: "Kan du mer enn den gjennomsnittlige amerikaner",
+      startText: "Ready?"
+    },
     promocards: [
       {
         title: "2011",
