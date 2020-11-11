@@ -11,65 +11,65 @@
       >
         {{ `Spørsmål ${currentQuestionIndex} av ${questions.length}` }}
       </div>
-      <v-stepper
-        v-model="currentQuestionIndex"
+      <carousel
+        :model="currentQuestionIndex"
       >
-        <v-stepper-items>
-          <v-stepper-content
-            :step="0"
-          >
-            <Start
-              :title="title"
-              :subTitle="subTitle"
-              :startText="startText"
-              :id="id"
-              :media="media"
-            />
-          </v-stepper-content>
-          <v-stepper-content
-            v-for="(question, i) in questions"
-            :key="i"
-            :step="i + 1"
-          >
-            <Question
-              :question="question"
-              :index="i"
-              :total="questions.length"
-              :id="id"
-            />
-          </v-stepper-content>
-          <v-stepper-content
-            :step="questions.length + 1"
-          >
-            <Results
-              :points="points"
-              :total="questions.length"
-              :endText="endText"
-              :id="id"
-              :feedback="feedback"
-            />
-          </v-stepper-content>
-        </v-stepper-items>
-      </v-stepper>
+        <carousel-content
+          :step="0"
+        >
+          <Start
+            :title="title"
+            :subTitle="subTitle"
+            :startText="startText"
+            :id="id"
+            :media="media"
+          />
+        </carousel-content>
+        <carousel-content
+          v-for="(question, i) in questions"
+          :key="i"
+          :step="i + 1"
+        >
+          <Question
+            :question="question"
+            :index="i"
+            :total="questions.length"
+            :id="id"
+          />
+        </carousel-content>
+        <carousel-content
+          :step="questions.length + 1"
+        >
+          <Results
+            :points="points"
+            :total="questions.length"
+            :endText="endText"
+            :id="id"
+            :feedback="feedback"
+          />
+        </carousel-content>
+      </carousel>
     </div>
   </div>
 </template>
 
 <script>
 import { v1 } from "uuid";
-import vuetify from "../../plugins/vuetify-quiz.es6";
 import Question from "./Question.vue";
 import EventBus from "../../event-bus.es6";
 import Results from "./Results.vue";
 import Start from "./Start.vue";
+import Carousel from "./carousel/Carousel.vue";
+import CarouselContent from "./carousel/CarouselContent.vue";
 
 export default {
   name: "Quiz",
-  vuetify: vuetify,
   components: {
     Question,
     Results,
-    Start
+    Start,
+    Carousel,
+    CarouselContent
   },
   data: () => ({
     /**

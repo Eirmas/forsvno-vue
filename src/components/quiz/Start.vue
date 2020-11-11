@@ -5,7 +5,7 @@
     >
       {{ title }}
     </h1>
-    <v-img
+    <img
       v-if="media.selected === 'image'"
       :src="media.image.src"
       class="quiz__image"
