@@ -3,7 +3,7 @@
     <a href="#">
       <img :src="spotifyIcon" alt="">
       <div>
-        <h6>Når liver blir forandret</h6>
+        <h6>Når livet blir forandret</h6>
         <p>Lytt til epiosde 1 i Spotify</p>
       </div>
       <img :src="arrowRightIcon" alt="">
@@ -11,7 +11,7 @@
     <a href="#">
       <img :src="appleIcon" alt="">
       <div>
-        <h6>Når liver blir forandret</h6>
+        <h6>Når livet blir forandret</h6>
         <p>Lytt til epiosde 1 i Podkaster (itunes)</p>
       </div>
       <img :src="arrowRightIcon" alt="">
@@ -19,7 +19,7 @@
     <a href="#">
       <img :src="castboxIcon" alt="">
       <div>
-        <h6>Når liver blir forandret</h6>
+        <h6>Når livet blir forandret</h6>
         <p>Lytt til epiosde 1 i Castbox</p>
       </div>
       <img :src="arrowRightIcon" alt="">

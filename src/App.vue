@@ -11,15 +11,6 @@
         :items="promocards"
       />
     </div>
-    <div
-      class="stories__wrapper"
-    >
-      <Story
-        title="Instagram Story"
-        :stories="stories"
-        :sound-icons="soundIcons"
-      />
-    </div>
     <div class="container">
       <div class="row layout-2-col">
         <div class="col-lg-6">
@@ -75,7 +66,6 @@
 </template>
 
 <script>
-import Story from "./components/story/Story.vue";
 import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
@@ -85,7 +75,6 @@ import Podcast from "./components/podcast/Podcast.vue";
 export default {
   name: "App",
   components: {
-    Story,
     Quiz,
     Stepper,
     Diagram,
