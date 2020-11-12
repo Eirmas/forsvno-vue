@@ -25,7 +25,7 @@
 
     <div class="podcast__element">
       <div class="podcast__inner-container">
-        <h4>VÅRE HISTORIER - EN PODKAST FRA FORSVARET</h4>
+        <h4 class="podcast__player-header">VÅRE HISTORIER - EN PODKAST FRA FORSVARET</h4>
         <Player />
       </div>
       <div class="podcast__inner-container">
@@ -63,28 +63,39 @@ export default {
 <style lang="scss">
 .podcast__wrapper-inner {
   background: #F5F7F8;
+  padding-bottom: 4rem;
   h1 {
     text-align: center;
     font-size: 42px;
-    padding: 2rem;
-    font-weight: bold;
+    padding: 4rem 0 6rem 0;
+    font-weight: 500;
   }
   .podcast__element {
+    padding-bottom: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
     .podcast__inner-container{
-      width: 400px;
+      width: 480px;
       margin: 1rem 4rem;
       .podcast__article {
          h4 {
           font-size: 24px;
+          font-weight: 500;
+          letter-spacing: normal;
+          line-height: 26px;
+        }
+        p {
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 30.5px;
         }
         a{
           font-size: 18px;
+          line-height: 30px;
           img{
-            width: 20px;
-            margin-right: .5rem;
+            width: 25px;
+            margin-right: 1.5rem;
           }
         }
       }
@@ -96,6 +107,11 @@ export default {
       h4 {
         font-size: 13px;
         font-weight: bold;
+        margin-bottom: 1rem;
+        letter-spacing: 0.24em;
+      }
+      .podcast__player-header {
+        margin-left: 1.5rem;
       }
     }
   }

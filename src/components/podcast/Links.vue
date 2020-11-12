@@ -12,7 +12,7 @@
       <img :src="appleIcon" alt="">
       <div>
         <h6>Når livet blir forandret</h6>
-        <p>Lytt til epiosde 1 i Podkaster (itunes)</p>
+        <p>Lytt til epiosde 1 i Apple Podcasts</p>
       </div>
       <img :src="arrowRightIcon" alt="">
     </a>
@@ -36,9 +36,9 @@ export default {
 
   },
   data: () => ({
-    spotifyIcon: require("@/assets/images/facebook.svg"),
-    appleIcon: require("@/assets/images/instagram.svg"),
-    castboxIcon: require("@/assets/images/twitter.svg"),
+    spotifyIcon: require("@/assets/images/spotify.svg"),
+    appleIcon: require("@/assets/images/apple-podcasts.svg"),
+    castboxIcon: require("@/assets/images/castbox.svg"),
     arrowRightIcon: require("@/assets/images/arrow-right.svg")
   }),
   watch: {
@@ -50,6 +50,10 @@ export default {
 </script>
 <style lang="scss">
 .podcast__links {
+  display: flex;
+  justify-content: stretch;
+  height: calc(100% - 3.375rem);
+  flex-direction: column;
   a {
     display: flex;
     justify-content: space-between;
@@ -58,10 +62,12 @@ export default {
     border-bottom: 1px solid gray;
     text-decoration: none;
     img {
-      height: 30px;
+      min-width: 40px;
+      max-width: 40px;
     }
     img:last-child{
-      width: 20px;
+      min-width: 25px;
+      max-width: 25px;
     }
     div {
       margin-left: 1rem;
@@ -70,10 +76,21 @@ export default {
         margin: 0
       }
       h6 {
-        font-size: large;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 169.2%;
       }
       p {
-        font-size: smaller;
+        font-size: 16px;
+        line-height: 169.2%;
+      }
+    }
+  }
+  a:hover {
+    text-decoration: none;
+    div {
+      h6 {
+        text-decoration: underline;
       }
     }
   }

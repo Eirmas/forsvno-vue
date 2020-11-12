@@ -1,6 +1,6 @@
 function filterData(audioBuffer) {
   const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
-  const samples = 30; // Number of samples we want to have in our final data set
+  const samples = 40; // Number of samples we want to have in our final data set
   const blockSize = Math.floor(rawData.length / samples); // the number of samples in each subdivision
   const filteredData = [];
   for (let i = 0; i < samples; i++) {
@@ -16,6 +16,7 @@ function filterData(audioBuffer) {
 
 function normalizeData(filteredData) {
   const multiplier = Math.max(...filteredData) ** -1;
+  console.log(multiplier);
   console.timeEnd("Function #1");
 
   return filteredData.map((n) => n * multiplier);
