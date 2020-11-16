@@ -2,7 +2,15 @@
   <main>
     <div class="podcast__wrapper">
       <Podcast
-        title="Podcast"
+        :title="podcast.title"
+        :image="podcast.image"
+        :subtitle="podcast.subtitle"
+        :ingress="podcast.ingress"
+        :link="podcast.link"
+        :audio="podcast.audio"
+        :linksHeader="podcast.linksHeader"
+        :links="podcast.links"
+        :icons="podcast.icons"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -82,6 +90,53 @@ export default {
     Podcast
   },
   data: () => ({
+    podcast: {
+      title: "Episode 1",
+      image: "https://thumborcdn.acast.com/qvuqJgOCsWGpyd1FNBslwMbSpQQ=/500x500/https%3A%2F%2Fmediacdn.acast.com%2Fassets%2F875f5680-6bf6-46ad-8689-44aeb78b4b86%2F-jz2ldxt6-pod_f5_3.jpeg",
+      subtitle: "Der ingen andre vil fly",
+      ingress: "På bakken i Gao dukker det opp en uanmeldt passasjer. Geir må ta en avgjørelse. Og Tom står like ved når det smeller. Fram til november 2019 er norske soldater på oppdrag i Mali. Der deltar de i det som omtales som verdens farligste FN-oppdrag. Del 2 av 2.",
+      link: {
+        link: "https://google.com/",
+        text: "Les mer"
+      },
+      icons: {
+        arrowRight: require("@/assets/images/arrow-right.svg"),
+        play: require("@/assets/images/play.svg"),
+        pause: require("@/assets/images/pause.svg"),
+        volume: require("@/assets/images/volume.svg")
+      },
+      audio: {
+        title: "Der ingen andre vil fly",
+        header: "Våre historier - en podkast fra forsvaret",
+        subheader: "Teaser: Epsiode 1",
+        description: "På bakken i Gao dukker det opp en uanmeldt passasjer. Geir må ta en avgjørelse. Og Tom står like ved når det smeller.",
+        cover: "https://thumborcdn.acast.com/qvuqJgOCsWGpyd1FNBslwMbSpQQ=/500x500/https%3A%2F%2Fmediacdn.acast.com%2Fassets%2F875f5680-6bf6-46ad-8689-44aeb78b4b86%2F-jz2ldxt6-pod_f5_3.jpeg",
+        service: {
+          link: ""
+        }
+      },
+      linksHeader: "Strømming",
+      links: [
+        {
+          title: "Der ingen andre vil fly",
+          subtitle: "Lytt til episode 1 i Spotify",
+          link: "https://spotify.com",
+          icon: ""
+        },
+        {
+          title: "Der ingen andre vil fly",
+          subtitle: "Lytt til episode 1 i Apple Podcasts",
+          link: "https://apple.com",
+          icon: ""
+        },
+        {
+          title: "Der ingen andre vil fly",
+          subtitle: "Lytt til episode 1 i Acast",
+          link: "https://acast.com",
+          icon: ""
+        }
+      ]
+    },
     quiz: {
       questions: [
         {

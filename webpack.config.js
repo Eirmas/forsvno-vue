@@ -6,11 +6,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    quizVue: "./src/quiz.es6",
     stepperVue: "./src/stepper.es6",
     diagramVue: "./src/diagram.es6",
     // storyVue: "./src/story.es6",
-    promocardHorizontalVue: "./src/promocard-horizontal.es6"
+    promocardHorizontalVue: "./src/promocard-horizontal.es6",
+    mediaPlayerVue: "./src/media-player.es6"
   },
   plugins: [
     new VueLoaderPlugin(),

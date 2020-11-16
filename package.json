@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "build": "webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch",
     "build-vue": "vue-cli-service build"
   },
   "dependencies": {
