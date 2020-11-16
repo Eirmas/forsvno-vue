@@ -38,6 +38,11 @@ module.exports = {
         ]
       },
       {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
@@ -51,7 +56,7 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js"
     },
-    extensions: [".es6", ".js", ".vue"]
+    extensions: [".es6", ".js", ".vue", ".ts", ".tsx"]
   },
   output: {
     publicPath: "/_/asset/forsvno:[hash]/",
