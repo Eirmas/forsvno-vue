@@ -4,7 +4,6 @@
     :min-length="225"
     :num-steps="steps.length"
     :arrow-right="arrowRight"
-    :id="id"
   >
     <div
       class="stepper__content"
@@ -24,6 +23,8 @@
           <a
             v-if="step.link"
             :href="step.link.href"
+            :target="step.link.newTab ? '_blank' : '_self'"
+            rel="noreferrer noopener"
           >
             <div
               :class="[
@@ -49,34 +50,28 @@
   </casket>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import { Step } from "./types";
+<script>
 import Casket from "./Casket.vue";
 
-@Component({
+export default {
   name: "Stepper",
   components: {
     Casket
+  },
+  props: {
+    steps: Array,
+    arrowRight: String
+  },
+  methods: {
+    lastActivePoint: function () {
+      let i = 0;
+      this.steps.forEach((step, index) => {
+        if (step.active) {
+          i = index;
+        }
+      });
+      return i;
+    }
   }
-})
-export default class Stepper extends Vue {
-  @Prop() private steps!: Step[]
-
-  @Prop() private arrowRight!: string
-
-  @Prop() private id!: string
-
-  lastActivePoint = (): number => {
-    let i = 0;
-    this.steps.forEach((step, index) => {
-      if (step.active) {
-        i = index;
-      }
-    });
-    return i;
-  }
-}
+};
 </script>

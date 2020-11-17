@@ -3,7 +3,6 @@
     <div class="stepper__wrapper">
       <Stepper
         :steps="steps"
-        :id="'id-1'"
         :arrow-right="require('./assets/images/arrow-right.svg')"
       />
     </div>
