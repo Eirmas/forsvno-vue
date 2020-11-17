@@ -23,8 +23,6 @@
           <a
             v-if="step.link"
             :href="step.link.href"
-            :target="step.link.newTab ? '_blank' : '_self'"
-            rel="noreferrer noopener"
           >
             <div
               :class="[
