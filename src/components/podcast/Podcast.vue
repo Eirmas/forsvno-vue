@@ -14,7 +14,7 @@
           <h4>{{ subtitle }}</h4>
           <p>{{ ingress }}</p>
           <a
-            :href="link.link"
+            :href="link.url"
           >
             <img
               :src="icons.arrowRight"
@@ -29,7 +29,7 @@
     </div>
 
     <div class="podcast__element">
-      <div class="podcast__inner-container">
+      <div class="podcast__inner-container podcast__sm-player">
         <h4 class="podcast__player-header">{{ audio.header }}</h4>
         <Player
           :title="audio.title"

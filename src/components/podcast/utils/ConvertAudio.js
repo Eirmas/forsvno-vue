@@ -31,7 +31,11 @@ function visualizeAudio(url, audioContext, audioElement) {
         const blob = new Blob([arrayBuffer], { type: "audio/mp3" });
         // eslint-disable-next-line no-param-reassign
         audioElement.src = window.URL.createObjectURL(blob);
-        return audioContext.decodeAudioData(arrayBuffer);
+        return new Promise((res, rej) => {
+          audioContext.decodeAudioData(arrayBuffer, (buffer) => {
+            res(buffer);
+          }, (e) => { rej(e); });
+        });
       })
       .then((audioBuffer) => {
         resolve(normalizeData(filterData(audioBuffer)));

@@ -41,16 +41,6 @@
         </div>
       </div>
     </div>
-    <div class="quiz__wrapper">
-      <Quiz
-        title="Er du klar for sesjon?"
-        sub-title="Sesjon består ikke bare av fysisk testing"
-        :media="media"
-        startText="<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>"
-        endText="<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>"
-        :questions="questions"
-      />
-    </div>
     <div class="diagram__wrapper">
       <Diagram
         title="Personell 2015 - 2019"
@@ -74,7 +64,6 @@
 </template>
 
 <script>
-import Quiz from "./components/quiz/Quiz.vue";
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
@@ -83,7 +72,6 @@ import Podcast from "./components/podcast/Podcast.vue";
 export default {
   name: "App",
   components: {
-    Quiz,
     Stepper,
     Diagram,
     Promocard,
@@ -103,7 +91,10 @@ export default {
         arrowRight: require("@/assets/images/arrow-right.svg"),
         play: require("@/assets/images/play.svg"),
         pause: require("@/assets/images/pause.svg"),
-        volume: require("@/assets/images/volume.svg")
+        volume0: require("@/assets/images/Volume-0.svg"),
+        volume33: require("@/assets/images/Volume-33.svg"),
+        volume66: require("@/assets/images/Volume-66.svg"),
+        volume100: require("@/assets/images/Volume-100.svg")
       },
       audio: {
         title: "Der ingen andre vil fly",
@@ -111,9 +102,7 @@ export default {
         subheader: "Teaser: Epsiode 1",
         description: "På bakken i Gao dukker det opp en uanmeldt passasjer. Geir må ta en avgjørelse. Og Tom står like ved når det smeller.",
         cover: "https://thumborcdn.acast.com/qvuqJgOCsWGpyd1FNBslwMbSpQQ=/500x500/https%3A%2F%2Fmediacdn.acast.com%2Fassets%2F875f5680-6bf6-46ad-8689-44aeb78b4b86%2F-jz2ldxt6-pod_f5_3.jpeg",
-        service: {
-          link: ""
-        }
+        service: "https://media.acast.com/forsvaret/deringenandrevilfly-2-2-/media.mp3"
       },
       linksHeader: "Strømming",
       links: [
@@ -121,48 +110,21 @@ export default {
           title: "Der ingen andre vil fly",
           subtitle: "Lytt til episode 1 i Spotify",
           link: "https://spotify.com",
-          icon: ""
+          icon: require("@/assets/images/spotify.svg")
         },
         {
           title: "Der ingen andre vil fly",
           subtitle: "Lytt til episode 1 i Apple Podcasts",
           link: "https://apple.com",
-          icon: ""
+          icon: require("@/assets/images/apple-podcasts.svg")
         },
         {
           title: "Der ingen andre vil fly",
           subtitle: "Lytt til episode 1 i Acast",
           link: "https://acast.com",
-          icon: ""
+          icon: require("@/assets/images/castbox.svg")
         }
       ]
-    },
-    quiz: {
-      questions: [
-        {
-          text: "Hvem blir USAs neste president?",
-          desc: "Hvem",
-          isImageLeft: false,
-          options: [
-            {
-              text: "Donald Trump",
-              isCorrect: false
-            },
-            {
-              text: "Joe Biden",
-              isCorrect: false
-            },
-            {
-              text: "Usikkert",
-              isCorrect: true
-            }
-          ]
-        }
-      ],
-      endText: "You did it!",
-      title: "Amerikanske presidenter",
-      subTitle: "Kan du mer enn den gjennomsnittlige amerikaner",
-      startText: "Ready?"
     },
     promocards: [
       {

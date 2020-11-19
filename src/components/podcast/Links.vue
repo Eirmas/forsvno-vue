@@ -1,7 +1,7 @@
 <template>
   <div class="podcast__links">
     <template v-for="link in links">
-      <a :href="link.link" v-bind:key="link.link">
+      <a :href="link.url" v-bind:key="link.url">
         <img :src="link.icon" :alt="link.caption">
         <div>
           <h6>{{ link.title }}</h6>
