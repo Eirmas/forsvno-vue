@@ -17,6 +17,7 @@
         :thumbnail-override="story.thumbnailOverride"
         :profile-pic="story.profilePic"
         :story-items="story.storyItems"
+        :sound-icons="soundIcons"
       />
     </div>
     <div
@@ -143,7 +144,11 @@ export default {
      * Makes sure components re-render properly. Is bound to a component key. When modified; components with their keys bound
      * will re-render. It does not really matter what the value of this number is.
      */
-    renderKey: 1000
+    renderKey: 1000,
+    /**
+     * Used to prevent user from being redirected to the top when opening the mobile fullscreen modal
+     */
+    scrollY: 0
   }),
   watch: {
     /**
@@ -197,9 +202,16 @@ export default {
      * Without this functionality it is harder to navigate the mobile modal.
      */
     updateOverflow: function () {
+      if (this.isOpen) {
+        this.scrollY = window.scrollY;
+      }
       document.body.style.overflow = (this.isOpen) ? "hidden" : "unset";
+      document.body.style.width = (this.isOpen) ? "100%" : "initial";
+      document.body.style.marginTop = (this.isOpen) ? `-${window.scrollY}px` : "0";
       document.body.style.position = (this.isOpen) ? "fixed" : "unset";
-      document.body.style.width = (this.isOpen) ? "100%" : "unset";
+      if (!this.isOpen) {
+        this.$nextTick(() => window.scrollTo({ top: this.scrollY }));
+      }
     },
     /**
      * Updates the clientWidth variable.

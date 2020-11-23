@@ -12,6 +12,7 @@
       v-if="!showThumbnail"
       ref="sound"
       class="story__video-player-sound"
+      @click="isMuted = !isMuted"
     >
       <img :src="isMuted ? soundIcons.off : soundIcons.on">
     </div>
@@ -114,16 +115,9 @@ export default {
   },
   data: () => ({
     /**
-     * Sound icons
-     */
-    sound: {
-      off: require("../../assets/images/sound-off.svg"),
-      on: require("../../assets/images/sound-on.svg")
-    },
-    /**
      * Determines weather to mute video audio or not
      */
-    isMuted: true,
+    isMuted: false,
     /**
      * Holds an interval function when playing.
      * We store it here to be able to clear it.
@@ -223,6 +217,23 @@ export default {
     }
   },
   mounted() {
+    if (this.autoplay) {
+      try {
+        const videoPromise = this.$refs.video.play();
+        videoPromise.then(() => {
+          this.$refs.video.play();
+          this.$nextTick(() => {
+            if (this.$refs.video.paused) {
+              this.isMuted = false;
+              this.play();
+            }
+          });
+        });
+      } catch (err) {
+        this.isMuted = true;
+        this.play();
+      }
+    }
     /**
      * Created video event listeners
      */

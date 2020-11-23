@@ -155,6 +155,7 @@ export default {
     onMouseDown: function (e) {
       if (this.$refs.carousel) {
         this.isMouseDown = true;
+        this.isHorizontal = undefined;
         this.startPosition = { x: e.clientX, y: e.clientY };
       }
     },
