@@ -1,9 +1,9 @@
 <template>
     <div
-      class="slang-words__wrapper"
+      class="slang-words__wrapper article__top"
     >
         <div
-          class="page-top__wrapper hug-top bg bg-beige-light"
+          class="page-top__wrapper hug-top bg beige-light"
         >
             <h1>
               {{ header }}
@@ -33,8 +33,8 @@
               <thead
                 v-if="paginatedResults.length !== 0"
               >
-                <th>{{ table1Header }}</th>
-                <th>{{ table2Header }}</th>
+                <th>Forkortelse</th>
+                <th>Beskrivelse</th>
               </thead>
               <tbody
                 v-if="items">
@@ -49,7 +49,8 @@
           </table>
             <p
               v-if="paginatedResults.length === 0"
-            >Ingen resultater
+            >
+              Ingen resultater
             </p>
             <div
               v-if="searchResults.length > index"
@@ -67,7 +68,8 @@
               <button
                 @click="index += paginationLimit"
                 class="btn-square border-draw search__more"
-              >Vis flere
+              >
+                Vis flere
               </button>
             </div>
         </div>
@@ -121,24 +123,6 @@ export default {
       default: ""
     },
     /**
-     * Header of column 1
-     *
-     * @value string
-     */
-    table1Header: {
-      type: String,
-      default: ""
-    },
-    /**
-     * Header of column 2
-     *
-     * @value string
-     */
-    table2Header: {
-      type: String,
-      default: ""
-    },
-    /**
      * Number of visible elements before pagination
      *
      * @value number
@@ -168,6 +152,12 @@ export default {
       word: String,
       description: String
     }
+  },
+  mounted() {
+    /* const articleTop = document.getElementsByClassName("article__top")[0];
+    if (this.removeTop && articleTop) {
+      articleTop.parentNode.removeChild(articleTop);
+    } */
   },
   computed: {
     /*
