@@ -14,7 +14,7 @@
             <div>
                 <input
                   :placeholder="inputPlaceholder"
-                  v-model="searchTerm"
+                  v-model="searchString"
                   type="text"
                   name="search-words"
                 >
@@ -23,7 +23,7 @@
                 />
             </div>
             <p>
-              Antall forkortelser: {{ searchResults.length }}
+              Antall forkortelser: {{ numberEntriesInSearch }}
             </p>
         </div>
         <div
@@ -31,7 +31,7 @@
         >
           <table>
               <thead
-                v-if="paginatedResults.length !== 0"
+                v-if="numberEntriesInSearch !== 0"
               >
                 <th>Forkortelse</th>
                 <th>Beskrivelse</th>
@@ -39,7 +39,7 @@
               <tbody
                 v-if="items">
                 <tr
-                  v-for="item in paginatedResults"
+                  v-for="item in updateSlangWords"
                   :key="item.word+item.description.slice(0, 10)"
                 >
                   <td>{{ item.word }}</td>
@@ -48,25 +48,25 @@
               </tbody>
           </table>
             <p
-              v-if="paginatedResults.length === 0"
+              v-if="numberEntriesInSearch === 0"
             >
               Ingen resultater
             </p>
             <div
-              v-if="searchResults.length > index"
+              v-if="numberEntriesInSearch > index"
               class="slang-words__pagination"
             >
-              <p>Viser {{ paginatedResults.length }} av {{ items.length }} resultater</p>
+              <p>Viser {{ index }} av {{ items.length }} resultater</p>
                   <div
                     class="slang-words__progress-bar"
                   >
                       <div
-                          :style="`width: calc(${paginatedResults.length} / ${items.length} * 100%);`"
+                          :style="`width: calc(${index} / ${items.length} * 100%);`"
                           class="slang-words__progress-bar-inner"
                       />
                   </div>
               <button
-                @click="index += paginationLimit"
+                @click="index += maxEntries"
                 class="btn-square border-draw search__more"
               >
                 Vis flere
@@ -88,7 +88,7 @@ export default {
     /*
      * String containing the current search term
      */
-    searchTerm: "",
+    searchString: "",
     /*
      * A changable version of paginationIndex
      */
@@ -127,7 +127,7 @@ export default {
      *
      * @value number
      */
-    paginationIndex: {
+    maxEntries: {
       type: Number,
       default: 30
     },
@@ -136,7 +136,7 @@ export default {
      *
      * @value number
      */
-    paginationLimit: {
+    entriesStep: {
       type: Number,
       default: 15
     },
@@ -153,28 +153,40 @@ export default {
       description: String
     }
   },
-  mounted() {
-    /* const articleTop = document.getElementsByClassName("article__top")[0];
-    if (this.removeTop && articleTop) {
-      articleTop.parentNode.removeChild(articleTop);
-    } */
-  },
-  computed: {
+  methods: {
     /*
      * Returns a filtered list with all elements containing search word
      */
-    searchResults() {
-      return this.items.filter((item) => item.word.includes(this.searchTerm) || item.description.includes(this.searchTerm));
+    filterWords: function () {
+      const result = this.items.map((v) => ({
+        prioritised: v.word.toLowerCase().search(this.searchString.toLowerCase()),
+        secondary: v.description.toLowerCase().search(this.searchString.toLowerCase()),
+        slang: v
+      }));
+      const prioritisedSorted = result.filter((v) => v.prioritised !== -1).sort((a, b) => (a.prioritised > b.prioritised ? 1 : -1));
+      const secondarySorted = result.filter((v) => v.secondary !== -1).sort((a, b) => (a.secondary > b.secondary ? 1 : -1));
+      return [...prioritisedSorted, ...secondarySorted.filter((v) => !prioritisedSorted.includes(v))].map((v) => v.slang);
+    }
+  },
+  computed: {
+    updateSlangWords: function () {
+      if (!this.searchString) {
+        return [...this.items].sort((a, b) => (a.word > b.word ? 1 : -1)).slice(0, this.index);
+      }
+      return this.filterWords().slice(0, this.index);
     },
     /*
      * Returns a list of the first nth number of elements in the search results array
      */
-    paginatedResults() {
-      return this.searchResults.slice(0, this.index);
+    numberEntriesInSearch: function () {
+      if (this.searchString === "") {
+        return this.items.length;
+      }
+      return this.filterWords().length;
     }
   },
   created() {
-    this.index = this.paginationIndex;
+    this.index = this.maxEntries;
   }
 };
 </script>

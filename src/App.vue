@@ -2,14 +2,12 @@
   <main>
     <div class="slang-words__wrapper">
       <Words
-        :paginationIndex="30"
-        :paginationLimit="15"
+        :maxEntries="30"
+        :entriesStep="15"
         :items="words"
         header="Militære forkortelser"
         subheader="Søk på en forkortelse<br>eller en beskrivelse."
         inputPlaceholder="For eksempel HV, KV eller patruljefører"
-        table1Header="Forkortelse"
-        table2Header="Beskrivelse"
       />
     </div>
     <div class="promocard-horizontal__wrapper">

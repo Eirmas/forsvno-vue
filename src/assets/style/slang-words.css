@@ -54,7 +54,7 @@
   .slang-words__wrapper .slang-words__pagination {
     margin-top: 4rem;
   }
-  .slang-words__wrapper .slang-words__pagination * {
+  .slang-words__wrapper .slang-words__pagination p {
     text-align: center;
     font-size: small;
     margin-top: 2rem;
@@ -63,16 +63,19 @@
   .slang-words__wrapper .slang-words__pagination .slang-words__progress-bar {
     width: 10rem;
     margin: 0 auto 2rem auto;
-    height: 1px;
-    background: rgba(25, 27, 33, 0.4);
+    height: 2px;
+    background: rgba(25, 27, 33, .4);
     display: flex;
     align-items: center;
   }
   .slang-words__wrapper .slang-words__pagination .slang-words__progress-bar .slang-words__progress-bar-inner {
-    height: 2px;
-    margin-top: 0;
+    height: 4px;
     background: #191b21;
     width: 0;
+    transition: left 0.2s ease-in-out;
+    -webkit-transition: left 0.2s ease-in-out;
+    -o-transition: left 0.2s ease-in-out;
+    -moz-transition: left 0.2s ease-in-out;
     position: relative;
   }
   @media (min-width: 900px) {
