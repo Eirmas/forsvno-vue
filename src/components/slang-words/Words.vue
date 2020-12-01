@@ -23,7 +23,7 @@
                 />
             </div>
             <p>
-              Antall forkortelser: {{ numberEntriesInSearch }}
+              {{ `${localize["slang_words.number_of_entries"]}: ${numberEntriesInSearch}` }}
             </p>
         </div>
         <div
@@ -33,14 +33,14 @@
               <thead
                 v-if="numberEntriesInSearch !== 0"
               >
-                <th>Forkortelse</th>
-                <th>Beskrivelse</th>
+                <th>{{ localize["slang_words.abbreviation"] }}</th>
+                <th>{{ localize["slang_words.description"] }}</th>
               </thead>
               <tbody
                 v-if="items">
                 <tr
                   v-for="item in updateSlangWords"
-                  :key="item.word+item.description.slice(0, 10)"
+                  :key="item.word+item.description.replace(' ', '_')"
                 >
                   <td>{{ item.word }}</td>
                   <td>{{ item.description }}</td>
@@ -50,13 +50,13 @@
             <p
               v-if="numberEntriesInSearch === 0"
             >
-              Ingen resultater
+              {{ localize["slang_words.no_results"] }}
             </p>
             <div
               v-if="numberEntriesInSearch > index"
               class="slang-words__pagination"
             >
-              <p>Viser {{ index }} av {{ items.length }} resultater</p>
+              <p>{{ localize["slang_words.pagination_text"].replace("{0}", index).replace("{1}", items.length) }}</p>
                   <div
                     class="slang-words__progress-bar"
                   >
@@ -69,7 +69,7 @@
                 @click="index += maxEntries"
                 class="btn-square border-draw search__more"
               >
-                Vis flere
+                {{ localize["slang_words.show_more"] }}
               </button>
             </div>
         </div>
@@ -151,6 +151,16 @@ export default {
     items: {
       word: String,
       description: String
+    },
+    /**
+     * Localization
+     *
+     * @values {
+     *   key: string,
+     * }
+     */
+    localize: {
+      type: Object
     }
   },
   methods: {
