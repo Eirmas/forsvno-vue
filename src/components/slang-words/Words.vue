@@ -85,34 +85,6 @@ export default {
     MagGlassIcon
   },
   data: () => ({
-<<<<<<< HEAD
-    searchTerm: "",
-    index: 0
-  }),
-  props: {
-    header: { type: String, default: "" },
-    subheader: { type: String, default: "" },
-    inputPlaceholder: { type: String, default: "" },
-    table1Header: { type: String, default: "" },
-    table2Header: { type: String, default: "" },
-    paginationIndex: { type: Number, default: 30 },
-    paginationLimit: { type: Number, default: 15 },
-    items: {
-      word: String,
-      description: String
-    }
-  },
-  computed: {
-    searchResults() {
-      return this.items.filter((item) => item.word.includes(this.searchTerm) || item.description.includes(this.searchTerm));
-    },
-    paginatedResults() {
-      return this.searchResults.slice(0, this.index);
-    }
-  },
-  created() {
-    this.index = this.paginationIndex;
-=======
     /*
      * String containing the current search term
      */
@@ -225,7 +197,6 @@ export default {
   },
   created() {
     this.index = this.maxEntries;
->>>>>>> slang-words
   }
 };
 </script>

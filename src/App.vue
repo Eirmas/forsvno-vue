@@ -82,8 +82,6 @@ import Words from "./components/slang-words/Words.vue";
 export default {
   name: "App",
   components: {
-    Story,
-    Quiz,
     Stepper,
     Diagram,
     Promocard,
