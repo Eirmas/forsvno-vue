@@ -7,7 +7,7 @@
         v-if="question.media"
         class="quiz__question-header-media col-lg-6"
       >
-        <v-img
+        <img
           v-if="question.media.selected === 'image'"
           :src="question.media.image.src"
           :lazy-src="question.media.image.src"
@@ -93,13 +93,11 @@
 </template>
 
 <script>
-import vuetify from "../../plugins/vuetify-quiz.es6";
 import EventBus from "../../event-bus.es6";
 import QBrick from "./QBrick.vue";
 
 export default {
   name: "Question",
-  vuetify: vuetify,
   components: {
     QBrick
   },

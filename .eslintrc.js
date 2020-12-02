@@ -19,10 +19,7 @@ module.exports = {
         SwitchCase: 1
       }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "linebreak-style": "off",
     quotes: [
       "error",
       "double"
@@ -39,6 +36,7 @@ module.exports = {
       "error",
       "always"
     ],
+    "no-multi-assign": "off",
     "no-console": "off",
     "global-require": "off",
     "import/no-unresolved": "off",

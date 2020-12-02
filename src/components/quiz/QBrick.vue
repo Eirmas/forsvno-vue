@@ -4,7 +4,7 @@
       class="quiz__video video-responsive"
     >
       <div
-        :data-gobrain-widgetId="`${getId()}-player`"
+        :data-gobrain-widgetId="`${id}-player`"
         :data-gobrain-config="this.qbrick.data.qbrick.html['data-gobrain-config']"
         :data-gobrain-data="this.qbrick.data.qbrick.html['data-gobrain-data']"
         data-gobrain-autoplay="false"
@@ -14,26 +14,22 @@
 </template>
 
 <script>
-import { v1 } from "uuid";
-
 export default {
   name: "QBrick",
   props: {
+    /**
+     * ID of the part
+     */
+    id: {
+      type: String,
+      default: "1"
+    },
     /**
      * QBrick object
      */
     qbrick: {
       type: [Object, Boolean],
       default: false
-    }
-  },
-  methods: {
-    /**
-     * Returns uuid for the GoBrain widget.
-     * @returns {*}
-     */
-    getId: function () {
-      return v1();
     }
   }
 };

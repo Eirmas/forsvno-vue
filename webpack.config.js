@@ -9,8 +9,10 @@ module.exports = {
     quizVue: "./src/quiz.es6",
     stepperVue: "./src/stepper.es6",
     diagramVue: "./src/diagram.es6",
-    // storyVue: "./src/story.es6",
-    promocardHorizontalVue: "./src/promocard-horizontal.es6"
+    storyVue: "./src/story.es6",
+    promocardHorizontalVue: "./src/promocard-horizontal.es6",
+    contactFormVue: "./src/contact-form.es6",
+    slangWordsVue: "./src/slang-words.es6"
   },
   plugins: [
     new VueLoaderPlugin(),
@@ -25,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.es6?$/,
+        test: /\.(es6|js)?$/,
         use: "babel-loader",
         exclude: /node_modules/
       },
@@ -49,7 +51,7 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js"
     },
-    extensions: [".es6", ".js", ".vue"]
+    extensions: [".es6", ".js", ".vue", ".ts"]
   },
   output: {
     publicPath: "/_/asset/forsvno:[hash]/",

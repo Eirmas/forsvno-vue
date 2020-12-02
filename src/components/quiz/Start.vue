@@ -5,7 +5,7 @@
     >
       {{ title }}
     </h1>
-    <v-img
+    <img
       v-if="media.selected === 'image'"
       :src="media.image.src"
       class="quiz__image"
@@ -13,6 +13,7 @@
     <QBrick
       v-else-if="media.selected === 'video'"
       :qbrick="media.video"
+      :id="id"
       class="quiz__image"
     />
     <h2
