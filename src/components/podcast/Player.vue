@@ -11,14 +11,14 @@
         alt=""
         class="podcast__player-cover"
       >
-      <audio
+      <!-- <audio
         @canplay="updatePaused"
         @playing="updatePaused"
         @pause="updatePaused"
         @timeupdate="updateTime"
         ref="audio"
         crossorigin="anonymous"
-      />
+      /> -->
       <div class="podcast__player-info">
          <h3>
           {{ title }}
@@ -34,7 +34,7 @@
           class="podcast__player-btn-container"
         >
           <button
-            v-show="paused"
+            v-show="!playing"
             v-on:click="play()"
             class="podcast__player-btn"
           >
@@ -80,15 +80,24 @@
         </div>
       </div>
     </div>
+    <Acast
+        @playing="updatePlayState"
+        @duration="updateDuration"
+      />
   </div>
 </template>
 
 <script>
+import EventBus from "../../event-bus.es6";
 import CA from "./utils/ConvertAudio";
 import Wave from "./utils/Wave";
+import Acast from "./AcastIframe.vue";
 
 export default {
   name: "PodcastPlayer",
+  components: {
+    Acast
+  },
   props: {
     /**
      * Title of the podcast.
@@ -143,9 +152,16 @@ export default {
   },
   created() {
     this.icon = this.playIcon;
+    EventBus.$on("podcast__playing", this.updatePlayState);
+    EventBus.$on("podcast__duration", this.updateDuration);
+    EventBus.$on("podcast__progress", this.updateTime);
+  },
+  beforeDestroy() {
+    EventBus.$off("podcast__playing");
+    EventBus.$off("podcast__progress");
   },
   mounted() {
-    this.audio = this.$refs.audio;
+    /* this.audio = this.$refs.audio;
     const _AudioContext = window.AudioContext // Default
     || window.webkitAudioContext // Safari and old versions of Chrome
     || false;
@@ -170,13 +186,13 @@ export default {
       this.wave.update(data);
       this.duration = this.secondsToHms(this.audio.duration);
       console.log("Audiocontext not available");
-    }
+    } */
   },
   data: () => ({
     ctx: null,
     audioContext: null,
     audio: null,
-    paused: null,
+    paused: true,
     volume: 100,
     volumeIcon: null,
     wave: null,
@@ -187,9 +203,6 @@ export default {
     dev: true
   }),
   watch: {
-    playing: function () {
-      if (!this.playing) cancelAnimationFrame(this.animationFrame);
-    },
     volume: function () {
       this.audio.volume = this.volume / 100;
       this.$refs.volumeSlider.style.background = `linear-gradient(to right, #191b21 0%, #191b21 ${this.volume}%, #fff ${this.volume}%, white 100%)`;
@@ -201,24 +214,25 @@ export default {
   },
   methods: {
     play() {
-      this.audio.play();
-      this.duration = this.secondsToHms(this.audio.duration);
+      EventBus.$emit("podcast__play");
+      /*
       function animate() {
         this.wave.draw();
         this.animationFrame = requestAnimationFrame(animate.bind(this));
       }
-      this.animationFrame = requestAnimationFrame(animate.bind(this));
+      this.animationFrame = requestAnimationFrame(animate.bind(this)); */
     },
     pause() {
-      cancelAnimationFrame(this.animationFrame);
-      this.audio.pause();
+      EventBus.$emit("podcast__pause");
     },
-    updatePaused(event) {
-      this.videoElement = event.target;
-      this.paused = event.target.paused;
+    updatePlayState(playing) {
+      this.paused = !playing;
     },
-    updateTime(event) {
-      this.currentTime = this.secondsToHms(event.target.currentTime);
+    updateTime(progress) {
+      this.currentTime = this.secondsToHms(progress);
+    },
+    updateDuration(duration) {
+      this.duration = this.secondsToHms(duration);
     },
     secondsToHms(n) {
       let d = Number(n);
