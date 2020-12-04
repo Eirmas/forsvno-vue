@@ -35,7 +35,7 @@
         <span
           class="underline-draw"
         >
-          {{ localize.quiz__start_quiz }}
+          {{ localize["quiz.start_quiz"] }}
         </span>
       </button>
     </div>
