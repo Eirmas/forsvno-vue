@@ -153,14 +153,14 @@ export default {
     /**
      * Object with all localized strings
      */
-     localize: {
-       type: Object
-     }
+    localize: {
+      type: Object
+    }
   },
   provide() {
     return {
       localize: this.localize
-    }
+    };
   },
   created() {
     EventBus.$on("quiz__next", (id) => (id && id === this.id && this.next()));

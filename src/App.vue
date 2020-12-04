@@ -55,6 +55,7 @@
         startText="<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>"
         endText="<p>En helt vanlig tekst, hvor man kan legge inn hvilken som helst informasjon eller fakta rundt spørsmålet.</p>"
         :questions="questions"
+        :localize="localize"
       />
     </div>
     <div class="diagram__wrapper">
@@ -78,6 +79,8 @@ import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
 import Words from "./components/slang-words/Words.vue";
+import Quiz from "./components/quiz/Quiz.vue";
+import Story from "./components/story/Story.vue";
 
 export default {
   name: "App",
@@ -85,9 +88,28 @@ export default {
     Stepper,
     Diagram,
     Promocard,
-    Words
+    Words,
+    Quiz,
+    Story
   },
   data: () => ({
+    localize: {
+      "quiz.start_quiz": "Start quiz",
+      "quiz.question_x_of_y": "Spørsmål {0} av {1}",
+      "quiz.try_again": "Prøv igjen",
+      "quiz.result_text": "Du hadde {0} av {1} spørsmål riktig",
+      "quiz.options": "Alternativer",
+      "quiz.check_answer": "Sjekk svar",
+      "quiz.result": "Resultat",
+      "quiz.next_question": "Neste spørsmål",
+      "quiz.feedback0": "En real skivebom!",
+      "quiz.feedback1": "Du prøvde i det minste!",
+      "quiz.feedback2": "Det kunne ha gått bedre!",
+      "quiz.feedback3": "Godt forsøk!",
+      "quiz.feedback4": "Veldig bra!",
+      "quiz.feedback5": "Nesten perfekt!",
+      "quiz.feedback6": "Perfekt!"
+    },
     words: [
       { word: "1. linje", description: "Angir hva slags bekledning og utstyr man skal ha. Kun uniform" },
       { word: "2. linje", description: "Angir hva slags bekledning og utstyr man skal ha. 1. linje + stridsvest og våpen" },
@@ -1235,39 +1257,19 @@ export default {
     ],
     questions: [
       {
-        text: "Egenerklæring",
-        active: false,
-        link: {
-          href: "https://google.no/"
-        }
-      },
-      {
-        text: "Sesjon",
-        active: false,
-        link: {
-          href: "https://google.no/"
-        }
-      },
-      {
-        text: "Rekruttskole",
-        active: true,
-        link: {
-          href: "https://google.no/"
-        }
-      },
-      {
-        text: "Førstegangstjeneste",
-        active: false,
-        link: {
-          href: "https://google.no/"
-        }
-      },
-      {
-        text: "Utdanning eller jobb",
-        active: false,
-        link: {
-          href: "https://google.no/"
-        }
+        text: "Test spørsmål",
+        desc: "Beskrivelse",
+        isImageLeft: false,
+        options: [
+          {
+            text: "Test1",
+            isCorrect: true
+          },
+          {
+            text: "Test2",
+            isCorrect: false
+          }
+        ]
       }
     ]
   })

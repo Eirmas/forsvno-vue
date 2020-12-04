@@ -67,7 +67,7 @@
       class="quiz__question-footer"
     >
       <button
-        :disabled="!isNextQuestionDisabled"
+        :disabled="!isNextQuestionDisabled || selected.length === 0"
         class="quiz__question-button"
         @click="checkAnswer"
       >
