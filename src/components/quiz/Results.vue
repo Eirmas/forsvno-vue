@@ -8,7 +8,7 @@
     <h2
       class="quiz__text"
     >
-      {{ localize.result_text.replace("{0}", points).replace("{1}", total) }}
+      {{ localize.quiz__result_text.replace("{0}", points).replace("{1}", total) }}
     </h2>
     <div
       class="quiz__text-area"
@@ -24,7 +24,7 @@
         <span
           class="underline-draw"
         >
-          {{ localize.try_again}}
+          {{ localize.quiz__try_again}}
         </span>
       </button>
     </div>

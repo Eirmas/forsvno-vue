@@ -36,7 +36,7 @@
       <div
         class="quiz__question-alternative-text"
       >
-        {{ localize.options }}
+        {{ localize.quiz__options }}
       </div>
       <div
         class="quiz__question-options"
@@ -74,7 +74,7 @@
         <span
           :class="[isNextQuestionDisabled ? 'underline-draw' : '']"
         >
-          {{ localize.check_answer }}
+          {{ localize.quiz__check_answer }}
         </span>
       </button>
       <button
@@ -85,7 +85,7 @@
         <span
           :class="[!isNextQuestionDisabled ? 'underline-draw' : '']"
         >
-          {{ (index + 1 === total) ? localize.result : localize.next_question }}
+          {{ (index + 1 === total) ? localize.quiz__result : localize.quiz__next_question }}
         </span>
       </button>
     </div>
