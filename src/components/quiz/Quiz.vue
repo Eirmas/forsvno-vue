@@ -9,7 +9,7 @@
         v-if="currentQuestionIndex !== 0 && currentQuestionIndex !== questions.length + 1"
         class="quiz__progress"
       >
-        {{ `Spørsmål ${currentQuestionIndex} av ${questions.length}` }}
+        {{ localize["quiz.question_x_of_y"].replace("{0}", currentQuestionIndex).replace("{1}", questions.length) }}
       </div>
       <carousel
         :model="currentQuestionIndex"
@@ -157,8 +157,10 @@ export default {
        type: Object
      }
   },
-  provide: {
-    localize: localize
+  provide() {
+    return {
+      localize: this.localize
+    }
   },
   created() {
     EventBus.$on("quiz__next", (id) => (id && id === this.id && this.next()));
