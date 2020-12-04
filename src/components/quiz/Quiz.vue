@@ -149,7 +149,16 @@ export default {
     feedback: {
       type: [Object, Boolean],
       default: false
-    }
+    },
+    /**
+     * Object with all localized strings
+     */
+     localize: {
+       type: Object
+     }
+  },
+  provide: {
+    localize: localize
   },
   created() {
     EventBus.$on("quiz__next", (id) => (id && id === this.id && this.next()));

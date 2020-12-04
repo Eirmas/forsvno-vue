@@ -36,7 +36,7 @@
       <div
         class="quiz__question-alternative-text"
       >
-        Alternativer
+        {{ localize.options }}
       </div>
       <div
         class="quiz__question-options"
@@ -74,7 +74,7 @@
         <span
           :class="[isNextQuestionDisabled ? 'underline-draw' : '']"
         >
-          Sjekk svaret
+          {{ localize.check_answer }}
         </span>
       </button>
       <button
@@ -85,7 +85,7 @@
         <span
           :class="[!isNextQuestionDisabled ? 'underline-draw' : '']"
         >
-          {{ (index + 1 === total) ? 'Resultat' : 'Neste oppgave' }}
+          {{ (index + 1 === total) ? localize.result : localize.next_question }}
         </span>
       </button>
     </div>
@@ -101,6 +101,7 @@ export default {
   components: {
     QBrick
   },
+  inject: ["localize"],
   data: () => ({
     /**
      * Array that holds users selected answers.

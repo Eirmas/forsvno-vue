@@ -8,7 +8,7 @@
     <h2
       class="quiz__text"
     >
-      {{ `Du hadde ${points} av ${total} spørsmål riktig.` }}
+      {{ localize.result_text.replace("{0}", points).replace("{1}", total) }}
     </h2>
     <div
       class="quiz__text-area"
@@ -24,7 +24,7 @@
         <span
           class="underline-draw"
         >
-          Prøv igjen
+          {{ localize.try_again}}
         </span>
       </button>
     </div>
@@ -36,6 +36,7 @@ import EventBus from "../../event-bus.es6";
 
 export default {
   name: "Results",
+  inject: ["localize"],
   props: {
     /**
      * Users result points.

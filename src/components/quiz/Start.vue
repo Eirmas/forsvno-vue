@@ -35,7 +35,7 @@
         <span
           class="underline-draw"
         >
-          Start quiz
+          {{ localize.start_quiz }}
         </span>
       </button>
     </div>
@@ -51,6 +51,7 @@ export default {
   components: {
     QBrick
   },
+  inject: ["localize"],
   props: {
     /**
      * ID of the quiz part.
