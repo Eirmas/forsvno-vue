@@ -57,6 +57,7 @@
           <div class="podcast__volume-controls">
             <button
               class="podcast__player-volume podcast__player-btn"
+              @click="mute"
             >
               <img
                 :src="volumeIcon || icons.volume100"
@@ -81,8 +82,7 @@
       </div>
     </div>
     <Acast
-        @playing="updatePlayState"
-        @duration="updateDuration"
+        :state="playerState"
       />
   </div>
 </template>
@@ -133,6 +133,13 @@ export default {
       type: String
     },
     /**
+     * wave data
+     */
+    waveData: {
+      type: Array,
+      default: function () { return []; }
+    },
+    /**
      * Object that contains all icons for the forms
      *
      * @values {
@@ -152,87 +159,80 @@ export default {
   },
   created() {
     this.icon = this.playIcon;
-    EventBus.$on("podcast__playing", this.updatePlayState);
-    EventBus.$on("podcast__duration", this.updateDuration);
-    EventBus.$on("podcast__progress", this.updateTime);
-  },
-  beforeDestroy() {
-    EventBus.$off("podcast__playing");
-    EventBus.$off("podcast__progress");
   },
   mounted() {
-    /* this.audio = this.$refs.audio;
     const _AudioContext = window.AudioContext // Default
     || window.webkitAudioContext // Safari and old versions of Chrome
     || false;
-    this.wave = new Wave(this.$refs.canvas, this.audio, this.data);
-    if (_AudioContext && !this.dev) {
+    if (_AudioContext) {
       this.audioContext = new _AudioContext();
 
       CA.visualizeAudio(this.service, this.audioContext, this.audio)
         .then((data) => {
           this.data = data;
           console.log(JSON.stringify(data));
-          this.wave.update(data);
-          this.duration = this.secondsToHms(this.audio.duration);
         })
         .catch((error) => {
           console.log(error);
         });
-    } else {
-      const data = [0.7950339623688347, 0.7735101534228098, 0.8023338613681238, 0.800327513572086, 0.7575221579194051, 0.7138260160723084, 0.8789328195016359, 0.7067035841758281, 0.8200720739970048, 0.8125347574505042, 0.7832031558760832, 0.7550733447289688, 0.5956163309340664, 0.7751828295398808, 0.6440484594945638, 0.5800707041875091, 0.7709498996451043, 0.6344287840456339, 0.4340267256787012, 0.5430619737809028, 0.789054670267082, 0.827270749635978, 1, 0.9934966293463097, 0.8024594252619602, 0.8264654818540976, 0.8567950164533356, 0.7748929687846495, 0.7831895879792339, 0.8362069514794179, 0.8266567424820626, 0.9064995931348614, 0.7138859724697868, 0.8954981442529084, 0.7451171974116526, 0.7001835987827117, 0.7043254431686997, 0.79752029586336, 0.8358629037026528, 0.8272590331957969];
-      this.data = data;
-      this.audio.src = this.service;
-      this.wave.update(data);
-      this.duration = this.secondsToHms(this.audio.duration);
-      console.log("Audiocontext not available");
-    } */
+    }
+    this.wave = new Wave(this.$refs.canvas, this.waveData);
+    this.wave.update(this.waveData, 0);
+    console.log("Audiocontext not available");
   },
   data: () => ({
-    ctx: null,
-    audioContext: null,
-    audio: null,
-    paused: true,
     volume: 100,
     volumeIcon: null,
     wave: null,
     animationFrame: null,
     currentTime: "00:00",
     duration: "00:00",
-    data: [],
-    dev: true
+    playerState: {
+      paused: true,
+      muted: false,
+      volume: 100,
+      duration: 0,
+      time: 0
+    }
   }),
   watch: {
     volume: function () {
-      this.audio.volume = this.volume / 100;
+      this.playerState.volume = this.volume;
       this.$refs.volumeSlider.style.background = `linear-gradient(to right, #191b21 0%, #191b21 ${this.volume}%, #fff ${this.volume}%, white 100%)`;
       this.volumeIcon = this.iconFor(this.volume);
+    },
+    "playerState.duration": function (value) {
+      this.duration = this.secondsToHms(value);
+      this.wave.update(this.waveData, value);
+    },
+    "playerState.time": function (value) {
+      this.currentTime = this.secondsToHms(value);
     }
   },
   computed: {
-    playing() { return !this.paused; }
+    playing() { return !this.playerState.paused; }
   },
   methods: {
     play() {
       EventBus.$emit("podcast__play");
-      /*
       function animate() {
-        this.wave.draw();
+        this.wave.draw(this.playerState.time);
         this.animationFrame = requestAnimationFrame(animate.bind(this));
       }
-      this.animationFrame = requestAnimationFrame(animate.bind(this)); */
+      this.animationFrame = requestAnimationFrame(animate.bind(this));
     },
     pause() {
+      cancelAnimationFrame(this.animationFrame);
       EventBus.$emit("podcast__pause");
     },
-    updatePlayState(playing) {
-      this.paused = !playing;
-    },
-    updateTime(progress) {
-      this.currentTime = this.secondsToHms(progress);
-    },
-    updateDuration(duration) {
-      this.duration = this.secondsToHms(duration);
+    mute() {
+      if (!this.playerState.muted) {
+        EventBus.$emit("podcast__mute");
+        this.volumeIcon = this.iconFor(this.volume, true);
+      } else {
+        EventBus.$emit("podcast__unmute");
+        this.volumeIcon = this.iconFor(this.volume, false);
+      }
     },
     secondsToHms(n) {
       let d = Number(n);
@@ -248,8 +248,8 @@ export default {
       const sDisplay = s < 10 ? `0${s}` : `${s}`;
       return hDisplay + mDisplay + sDisplay;
     },
-    iconFor(volume) {
-      if (volume < 1) return this.icons.volume0;
+    iconFor(volume, muted) {
+      if (volume < 1 || muted) return this.icons.volume0;
       if (volume === 100) return this.icons.volume100;
       if (volume <= 33) return this.icons.volume33;
       if (volume <= 66) return this.icons.volume66;

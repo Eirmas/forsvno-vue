@@ -37,6 +37,7 @@
           :description="audio.description"
           :cover="audio.cover"
           :service="audio.service"
+          :waveData="audio.waveData"
           :icons="icons"
         />
       </div>
