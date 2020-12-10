@@ -1,5 +1,5 @@
 <template>
-  <div class="podcast__links">
+  <div class="media-player__links">
     <template v-for="link in links">
       <a :href="link.url" v-bind:key="link.url">
         <img :src="link.icon" :alt="link.caption">

@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Vue2TouchEvents from "vue2-touch-events";
 import page from "./App.vue";
 import "./assets/style/diagram.css";
 import "./assets/style/main.css";
@@ -10,6 +11,7 @@ import "./assets/style/media-player.css";
 import "@babel/polyfill";
 
 Vue.config.productionTip = false;
+Vue.use(Vue2TouchEvents);
 
 new Vue({
   render: (h) => h(page)

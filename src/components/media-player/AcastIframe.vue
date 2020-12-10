@@ -1,12 +1,15 @@
 <template>
   <div
-    class="podcast__iframe"
+    class="media-player__iframe"
   >
     <iframe
       ref="iframe"
+      :src="src"
       width="0"
       height="0"
-      src="https://embed.acast.com/forsvaret/deringenandrevilfly-2-2-"
+      data-cookiescript="accepted"
+      alt=""
+      data-cookiecategory="functionality"
       scrolling="no"
       frameborder="0"
       style="border:none;overflow:hidden;"
@@ -22,6 +25,13 @@ import EventBus from "../../event-bus.es6";
 export default {
   name: "AcastIframe",
   props: {
+    /*
+     * Source of iframe
+     */
+    src: String,
+    /*
+     * State of player, for parent file
+     */
     state: {
       paused: Boolean,
       muted: Boolean,
@@ -31,15 +41,17 @@ export default {
     }
   },
   created() {
-    EventBus.$on("podcast__play", this.play);
-    EventBus.$on("podcast__pause", this.pause);
-    EventBus.$on("podcast__mute", this.mute);
-    EventBus.$on("podcast__unmute", this.unmute);
+    EventBus.$on("media-player__play", this.play);
+    EventBus.$on("media-player__pause", this.pause);
+    EventBus.$on("media-player__mute", this.mute);
+    EventBus.$on("media-player__unmute", this.unmute);
+    EventBus.$on("media-player__rewind", this.setCurrentTime);
   },
   mounted() {
     const iframe = this.$refs.iframe;
     this.player = new Player(iframe);
-    console.log(this.player);
+
+    // player.js watchers
     this.player.on("ready", () => {
       this.player.on("play", () => {
         this.state.paused = false;
@@ -62,6 +74,10 @@ export default {
     }
   },
   methods: {
+    /*
+     * Functions needed to operate player
+     * All are a part of player.js framework
+     */
     play() {
       this.player.play();
     },
@@ -88,18 +104,22 @@ export default {
       this.player.getCurrentTime((value) => {
         this.state.time = value;
       });
+    },
+    setCurrentTime(seconds) {
+      this.player.setCurrentTime(seconds);
     }
   },
   beforeDestroy() {
-    EventBus.$off("podcast__play");
-    EventBus.$off("podcast__pause");
-    EventBus.$off("podcast__mute");
-    EventBus.$off("podcast__unmute");
+    EventBus.$off("media-player__play");
+    EventBus.$off("media-player__pause");
+    EventBus.$off("media-player__mute");
+    EventBus.$off("media-player__unmute");
+    EventBus.$off("media-player__rewind");
   }
 };
 </script>
 <style lang="scss" scoped>
-  .podcast__iframe {
+  .media-player__iframe {
     display: none;
   }
 </style>

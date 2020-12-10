@@ -1,25 +1,19 @@
 <template>
   <div
-    class="podcast__player-inner"
+    class="media-player__player-inner"
   >
-    <h6>{{ subHeader }}</h6>
+    <h6>
+      {{ header }}
+    </h6>
     <div
-      class="podcast__player-container"
+      class="media-player__player-container"
     >
       <img
         :src="cover"
         alt=""
-        class="podcast__player-cover"
+        class="media-player__player-cover"
       >
-      <!-- <audio
-        @canplay="updatePaused"
-        @playing="updatePaused"
-        @pause="updatePaused"
-        @timeupdate="updateTime"
-        ref="audio"
-        crossorigin="anonymous"
-      /> -->
-      <div class="podcast__player-info">
+      <div class="media-player__player-info">
          <h3>
           {{ title }}
         </h3>
@@ -28,15 +22,15 @@
         </p>
       </div>
       <div
-        class="podcast__player-controls"
+        class="media-player__player-controls"
       >
         <div
-          class="podcast__player-btn-container"
+          class="media-player__player-btn-container"
         >
           <button
             v-show="!playing"
             v-on:click="play()"
-            class="podcast__player-btn"
+            class="media-player__player-btn"
           >
             <img
               :src="icons.play"
@@ -46,7 +40,7 @@
           <button
             v-show="playing"
             v-on:click="pause()"
-            class="podcast__player-btn"
+            class="media-player__player-btn"
           >
             <img
               :src="icons.pause"
@@ -54,9 +48,9 @@
             >
           </button>
 
-          <div class="podcast__volume-controls">
+          <div class="media-player__volume-controls">
             <button
-              class="podcast__player-volume podcast__player-btn"
+              class="media-player__player-volume media-player__player-btn"
               @click="mute"
             >
               <img
@@ -71,8 +65,14 @@
               min="0"
               max="100">
           </div>
-          <div class="podcast__progress-container">
+          <div class="media-player__progress-container">
             <canvas
+              @mousedown="rewind"
+              @mousemove="rewind"
+              @mouseup="rewind"
+              v-touch:start="rewind"
+              v-touch:moving="rewind"
+              v-touch:end="rewind"
               ref="canvas"
             >
             </canvas>
@@ -82,6 +82,7 @@
       </div>
     </div>
     <Acast
+        :src="src"
         :state="playerState"
       />
   </div>
@@ -89,7 +90,6 @@
 
 <script>
 import EventBus from "../../event-bus.es6";
-import CA from "./utils/ConvertAudio";
 import Wave from "./utils/Wave";
 import Acast from "./AcastIframe.vue";
 
@@ -100,21 +100,21 @@ export default {
   },
   props: {
     /**
-     * Title of the podcast.
+     * Title of the media-player.
      */
     title: {
       type: String,
       default: ""
     },
     /**
-     * Sub header.
+     * Header.
      */
-    subHeader: {
+    header: {
       type: String,
       default: ""
     },
     /**
-     * A descriptive text about the podcast
+     * A descriptive text about the media-player
      */
     description: {
       type: String,
@@ -127,9 +127,9 @@ export default {
       type: String
     },
     /**
-     * Audio service
+     * Audio src
      */
-    service: {
+    src: {
       type: String
     },
     /**
@@ -137,7 +137,13 @@ export default {
      */
     waveData: {
       type: Array,
-      default: function () { return []; }
+      default: function () {
+        return [49.5, 67.35, 50.23, 80, 75.75, 61.38, 87.89, 50.67, 42,
+          61.25, 98.32, 95.5, 39.56, 47.51, 24.40, 48, 57.09, 63.44,
+          73.4, 54.3, 78.9, 82.72, 40, 59.35, 60.25, 22.65, 65.68,
+          77.49, 98.32, 33.62, 52.66, 90.65, 71.38, 59.55, 74.5,
+          60.02, 70.43, 79.75, 63.58, 82.73];
+      }
     },
     /**
      * Object that contains all icons for the forms
@@ -161,24 +167,8 @@ export default {
     this.icon = this.playIcon;
   },
   mounted() {
-    const _AudioContext = window.AudioContext // Default
-    || window.webkitAudioContext // Safari and old versions of Chrome
-    || false;
-    if (_AudioContext) {
-      this.audioContext = new _AudioContext();
-
-      CA.visualizeAudio(this.service, this.audioContext, this.audio)
-        .then((data) => {
-          this.data = data;
-          console.log(JSON.stringify(data));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
     this.wave = new Wave(this.$refs.canvas, this.waveData);
     this.wave.update(this.waveData, 0);
-    console.log("Audiocontext not available");
   },
   data: () => ({
     volume: 100,
@@ -193,47 +183,91 @@ export default {
       volume: 100,
       duration: 0,
       time: 0
-    }
+    },
+    mousedown: false,
+    rewindTime: null
   }),
   watch: {
+    /*
+     * Setting volume from slider
+     */
     volume: function () {
       this.playerState.volume = this.volume;
       this.$refs.volumeSlider.style.background = `linear-gradient(to right, #191b21 0%, #191b21 ${this.volume}%, #fff ${this.volume}%, white 100%)`;
       this.volumeIcon = this.iconFor(this.volume);
     },
+    /*
+     * Formatting seconds to readable format
+     */
     "playerState.duration": function (value) {
       this.duration = this.secondsToHms(value);
       this.wave.update(this.waveData, value);
     },
+    /*
+     * Formatting seconds to readable format
+     */
     "playerState.time": function (value) {
-      this.currentTime = this.secondsToHms(value);
+      if (!this.mousedown) {
+        this.currentTime = this.secondsToHms(value);
+      }
     }
   },
   computed: {
     playing() { return !this.playerState.paused; }
   },
   methods: {
-    play() {
-      EventBus.$emit("podcast__play");
-      function animate() {
-        this.wave.draw(this.playerState.time);
-        this.animationFrame = requestAnimationFrame(animate.bind(this));
-      }
-      this.animationFrame = requestAnimationFrame(animate.bind(this));
+    /*
+     * Wave animation controller
+     */
+    animate() {
+      this.wave.draw(this.playerState.time);
+      if (!this.mousedown) this.animationFrame = requestAnimationFrame(this.animate);
     },
+    /*
+     * Start playing in Iframe
+     */
+    play() {
+      EventBus.$emit("media-player__play");
+      this.animationFrame = requestAnimationFrame(this.animate);
+    },
+    /*
+     * Pause in Iframe
+     */
     pause() {
       cancelAnimationFrame(this.animationFrame);
-      EventBus.$emit("podcast__pause");
+      EventBus.$emit("media-player__pause");
     },
     mute() {
       if (!this.playerState.muted) {
-        EventBus.$emit("podcast__mute");
+        EventBus.$emit("media-player__mute");
         this.volumeIcon = this.iconFor(this.volume, true);
       } else {
-        EventBus.$emit("podcast__unmute");
+        EventBus.$emit("media-player__unmute");
         this.volumeIcon = this.iconFor(this.volume, false);
       }
     },
+    /*
+     * Rewind, done by dragging on wave
+     */
+    rewind(event) {
+      if (event.type === "mousedown" || event.type === "touchstart") {
+        this.mousedown = true;
+      } else if (event.type === "mouseup" || event.type === "touchend") {
+        this.mousedown = false;
+        if (this.rewindTime != null) {
+          EventBus.$emit("media-player__rewind", this.rewindTime);
+          this.animationFrame = requestAnimationFrame(this.animate);
+        }
+        this.rewindTime = null;
+      } else if ((event.type === "mousemove" || event.type === "touchmove") && this.mousedown) {
+        this.rewindTime = this.playerState.duration * (event.offsetX / event.target.width);
+        this.currentTime = this.secondsToHms(this.rewindTime);
+        this.wave.draw(this.rewindTime);
+      }
+    },
+    /*
+     * Formatting seconds to hh:mm:ss
+     */
     secondsToHms(n) {
       let d = Number(n);
       if (Number.isNaN(n)) {
@@ -248,6 +282,9 @@ export default {
       const sDisplay = s < 10 ? `0${s}` : `${s}`;
       return hDisplay + mDisplay + sDisplay;
     },
+    /*
+     * Volume icon for volume level
+     */
     iconFor(volume, muted) {
       if (volume < 1 || muted) return this.icons.volume0;
       if (volume === 100) return this.icons.volume100;

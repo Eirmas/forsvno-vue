@@ -1,48 +1,78 @@
 <template>
   <div
-    class="podcast__wrapper-inner"
+    class="media-player__wrapper-inner"
   >
     <h1>{{ title }}</h1>
-    <div class="podcast__element">
-      <div class="podcast__inner-container">
-        <div class="podcast__article-img">
-          <img :src="image" alt=""> <!-- Husk alt -->
+    <div
+      class="media-player__element"
+    >
+      <div
+        class="media-player__inner-container"
+      >
+        <div
+          class="media-player__article-img"
+        >
+          <img
+            :src="image"
+          >
         </div>
       </div>
-      <div class="podcast__inner-container">
-        <div class="podcast__article underline-draw__root underline-reverse">
-          <h4>{{ subtitle }}</h4>
-          <p>{{ ingress }}</p>
+      <div
+        class="media-player__inner-container"
+      >
+        <div
+          class="media-player__article underline-draw__root underline-reverse"
+        >
+          <h4>
+            {{ subtitle }}
+          </h4>
+          <p>
+            {{ ingress }}
+          </p>
           <a
             :href="link.url"
           >
             <img
               :src="icons.arrowRight"
               alt="Pil høyre"
-            ><span
+            >
+            <span
               class="underline-draw__target"
-            >{{ link.text }}
+            >
+              {{ link.text }}
             </span>
           </a>
         </div>
       </div>
     </div>
 
-    <div class="podcast__element">
-      <div class="podcast__inner-container podcast__sm-player">
-        <h4 class="podcast__player-header">{{ audio.header }}</h4>
+    <div
+      class="media-player__element"
+    >
+      <div
+        class="media-player__inner-container media-player__sm-player"
+      >
+        <h4
+          class="media-player__player-header"
+        >
+          {{ mediaHeader }}
+        </h4>
         <Player
           :title="audio.title"
-          :subHeader="audio.subheader"
+          :header="audio.header"
           :description="audio.description"
           :cover="audio.cover"
-          :service="audio.service"
+          :src="audio.src"
           :waveData="audio.waveData"
           :icons="icons"
         />
       </div>
-      <div class="podcast__inner-container">
-        <h4>{{ linksHeader }}</h4>
+      <div
+        class="media-player__inner-container"
+      >
+        <h4>
+          {{ linksHeader }}
+        </h4>
         <Links
           :links="links"
           :icons="icons"
@@ -100,6 +130,14 @@ export default {
       type: Object
     },
     /**
+     * Media header
+     *
+     * @values string
+     */
+    mediaHeader: {
+      type: String
+    },
+    /**
      * Audio content
      *
      * @values object
@@ -143,7 +181,8 @@ export default {
     icons: {
       type: [Object, Boolean],
       default: false
-    }
+    },
+    server: String
   },
   components: {
     Player,

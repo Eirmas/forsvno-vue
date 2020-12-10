@@ -1,16 +1,17 @@
 <template>
   <main>
-    <div class="podcast__wrapper">
-      <Podcast
-        :title="podcast.title"
-        :image="podcast.image"
-        :subtitle="podcast.subtitle"
-        :ingress="podcast.ingress"
-        :link="podcast.link"
-        :audio="podcast.audio"
-        :linksHeader="podcast.linksHeader"
-        :links="podcast.links"
-        :icons="podcast.icons"
+    <div class="media-player__wrapper">
+      <MediaPlayer
+        :title="mediaplayer.title"
+        :image="mediaplayer.image"
+        :imageAlt="mediaplayer.imageAlt"
+        :subtitle="mediaplayer.subtitle"
+        :ingress="mediaplayer.ingress"
+        :link="mediaplayer.link"
+        :audio="mediaplayer.audio"
+        :linksHeader="mediaplayer.linksHeader"
+        :links="mediaplayer.links"
+        :icons="mediaplayer.icons"
       />
     </div>
     <div class="promocard-horizontal__wrapper">
@@ -67,7 +68,7 @@
 import Stepper from "./components/stepper/Stepper.vue";
 import Diagram from "./components/diagram/Diagram.vue";
 import Promocard from "./components/promocard-horizontal/Promocard.vue";
-import Podcast from "./components/podcast/Podcast.vue";
+import MediaPlayer from "./components/media-player/MediaPlayer.vue";
 
 export default {
   name: "App",
@@ -75,12 +76,13 @@ export default {
     Stepper,
     Diagram,
     Promocard,
-    Podcast
+    MediaPlayer
   },
   data: () => ({
-    podcast: {
+    mediaplayer: {
       title: "Episode 1",
       image: "https://thumborcdn.acast.com/qvuqJgOCsWGpyd1FNBslwMbSpQQ=/500x500/https%3A%2F%2Fmediacdn.acast.com%2Fassets%2F875f5680-6bf6-46ad-8689-44aeb78b4b86%2F-jz2ldxt6-pod_f5_3.jpeg",
+      imageAlt: "Test",
       subtitle: "Der ingen andre vil fly",
       ingress: "På bakken i Gao dukker det opp en uanmeldt passasjer. Geir må ta en avgjørelse. Og Tom står like ved når det smeller. Fram til november 2019 er norske soldater på oppdrag i Mali. Der deltar de i det som omtales som verdens farligste FN-oppdrag. Del 2 av 2.",
       link: {
@@ -102,8 +104,7 @@ export default {
         subheader: "Teaser: Epsiode 1",
         description: "På bakken i Gao dukker det opp en uanmeldt passasjer. Geir må ta en avgjørelse. Og Tom står like ved når det smeller.",
         cover: "https://thumborcdn.acast.com/qvuqJgOCsWGpyd1FNBslwMbSpQQ=/500x500/https%3A%2F%2Fmediacdn.acast.com%2Fassets%2F875f5680-6bf6-46ad-8689-44aeb78b4b86%2F-jz2ldxt6-pod_f5_3.jpeg",
-        service: "https://media.acast.com/forsvaret/deringenandrevilfly-2-2-/media.mp3",
-        waveData: [0.7950339623688347, 0.7735101534228098, 0.8023338613681238, 0.800327513572086, 0.7575221579194051, 0.7138260160723084, 0.8789328195016359, 0.7067035841758281, 0.8200720739970048, 0.8125347574505042, 0.7832031558760832, 0.7550733447289688, 0.5956163309340664, 0.7751828295398808, 0.6440484594945638, 0.5800707041875091, 0.7709498996451043, 0.6344287840456339, 0.4340267256787012, 0.5430619737809028, 0.789054670267082, 0.827270749635978, 1, 0.9934966293463097, 0.8024594252619602, 0.8264654818540976, 0.8567950164533356, 0.7748929687846495, 0.7831895879792339, 0.8362069514794179, 0.8266567424820626, 0.9064995931348614, 0.7138859724697868, 0.8954981442529084, 0.7451171974116526, 0.7001835987827117, 0.7043254431686997, 0.79752029586336, 0.8358629037026528, 0.8272590331957969]
+        src: "https://embed.acast.com/forsvaret/deringenandrevilfly-2-2-"
       },
       linksHeader: "Strømming",
       links: [
