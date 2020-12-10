@@ -6424,6 +6424,11 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
+player.js@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/player.js/-/player.js-0.1.0.tgz#38a2647f022dbbccf2e97e85e1fddccc9ef498e8"
+  integrity sha1-OKJkfwItu8zy6X6F4f3czJ70mOg=
+
 pnp-webpack-plugin@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/pnp-webpack-plugin/-/pnp-webpack-plugin-1.6.4.tgz#c9711ac4dc48a685dabafc86f8b6dd9f8df84149"
@@ -8611,6 +8616,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
+<<<<<<< HEAD
 vue-ts-loader@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/vue-ts-loader/-/vue-ts-loader-0.0.3.tgz#db217f6c1c564e7d82a294d9ffc020b9f5f26555"
@@ -8621,6 +8627,12 @@ vue-ts-loader@^0.0.3:
     loader-utils "^0.2.6"
     object-assign "^2.0.0"
     semver "^5.0.1"
+=======
+vue2-touch-events@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue2-touch-events/-/vue2-touch-events-3.0.0.tgz#20ce18cbe7438f5a8d8ad0e955207327c37279da"
+  integrity sha512-0n5Nc88PL3L4/qOKpQkF0ggjNFjdnVkf+50Nc8SrOpKgYMRrjrEngDadWF8lzLZNKPgDupXfPbSdtzYfbyXO1Q==
+>>>>>>> podcast-player.js
 
 vue@^2.6.11:
   version "2.6.11"

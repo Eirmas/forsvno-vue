@@ -1,4 +1,4 @@
-import MediaPlayer from "./components/podcast/Podcast.vue";
+import MediaPlayer from "./components/media-player/MediaPlayer.vue";
 
 import setupVue from "./setup.es6";
 
