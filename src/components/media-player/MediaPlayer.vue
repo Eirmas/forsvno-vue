@@ -187,9 +187,6 @@ export default {
   components: {
     Player,
     Links
-  },
-  created() {
-    console.log(this.mediaHeader);
   }
 };
 </script>
